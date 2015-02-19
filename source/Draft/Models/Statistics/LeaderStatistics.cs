@@ -1,0 +1,24 @@
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace Draft.Models
+{
+    /// <summary>
+    /// Statistics about communication with cluster members
+    /// </summary>
+    [DataContract]
+    public class LeaderStatistics
+    {
+        /// <summary>
+        /// Id for the currently elected cluster leader
+        /// </summary>
+        [DataMember(Name = "leader")]
+        public string Leader { get; private set; }
+        
+        /// <summary>
+        /// Map of cluster member id's to cluster member statistics
+        /// </summary>
+        [DataMember(Name = "followers")]
+        public IDictionary<string, FollowerStatistics> Followers { get; private set; }
+    }
+}

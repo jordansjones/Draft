@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>Draft</id>
+        <title>Draft</title>
+        <version>@version@</version>
+        <authors>Jordan S. Jones</authors>
+        <licenseUrl>https://raw.githubusercontent.com/jordansjones/Draft/master/LICENSE.txt</licenseUrl>
+        <projectUrl>https://github.com/jordansjones/Draft</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>An etcd client library for .Net</description>
+        <releaseNotes>@releaseNotes@</releaseNotes>
+        <tags>etcd</tags>
+        <copyright>Copyright 2015 Jordan S. Jones</copyright>
+    </metadata>
+    <files>
+        <file src="lib\net45\Draft.*" target="lib\net45" />
+        <file src="*.*" exclude="lib\**\*.*" />
+    </files>
+</package>
