@@ -1,0 +1,44 @@
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+namespace Draft
+{
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    internal static class EtcdConstants
+    {
+
+        public const string Parameter_Directory = "dir";
+
+        public const string Parameter_PrevExist = "prevExist";
+
+        public const string Parameter_PrevIndex = "prevIndex";
+
+        public const string Parameter_PrevValue = "prevValue";
+
+        public const string Parameter_Quorum = "quorum";
+
+        public const string Parameter_Recursive = "recursive";
+
+        public const string Parameter_Sorted = "sorted";
+
+        public const string Parameter_Ttl = "ttl";
+
+        public const string Parameter_Value = "value";
+
+        public const string Parameter_Wait = "wait";
+
+        public const string Parameter_WaitIndex = "waitIndex";
+
+        public const string Path_Health = "/health";
+
+        public const string Path_Keys = "/v2/keys";
+
+        public const string Path_Members = "/v2/keys";
+
+        public const string Path_Stats = "/v2/stats";
+
+        public const string Path_Version = "/version";
+
+    }
+}
