@@ -24,6 +24,8 @@ namespace Draft
 
         IWatchRequest Watch(string keyPath);
 
+        IWatchRequest WatchOnce(string keyPath);
+
     }
 
     public interface IAtomicEtcdClient

@@ -34,7 +34,7 @@ namespace Draft
 
         public const string Path_Keys = "/v2/keys";
 
-        public const string Path_Members = "/v2/keys";
+        public const string Path_Members = "/v2/members";
 
         public const string Path_Stats = "/v2/stats";
 

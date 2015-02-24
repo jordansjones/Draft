@@ -73,7 +73,12 @@ namespace Draft
 
         public IWatchRequest Watch(string keyPath)
         {
-            throw new NotImplementedException();
+            return new WatchRequest(KeysUrl, keyPath);
+        }
+
+        public IWatchRequest WatchOnce(string keyPath)
+        {
+            return new WatchRequest(KeysUrl, keyPath, true);
         }
 
     }
