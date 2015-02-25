@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Flurl;
 
 namespace Draft.Tests
 {
+    [ExcludeFromCodeCoverage]
     public static class ToUriExtensions
     {
 

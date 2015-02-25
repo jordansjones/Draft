@@ -113,6 +113,27 @@ namespace Draft.Tests
             }
         }
 
+        [Fact]
+        public async Task DeleteDirectory_ShouldCallTheCorrectUrlByAwaitingImmediately()
+        {
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Directory.DefaultResponse);
+
+                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .DeleteDirectory(Fixtures.Directory.Path);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                    )
+                    .WithVerb(HttpMethod.Delete)
+                    .Times(1);
+            }
+        }
+
 
     }
 }

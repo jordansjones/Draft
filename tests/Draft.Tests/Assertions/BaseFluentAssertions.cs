@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,7 @@ using Flurl.Http;
 
 namespace Draft.Tests.Assertions
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BaseFluentAssertions
     {
 

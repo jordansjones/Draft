@@ -33,7 +33,7 @@ namespace Draft.Requests
         {
             return await EndpointUrl
                 .AppendPathSegment(Path)
-                .Conditionally(IsDirectory, x => x.SetQueryParam(EtcdConstants.Parameter_Directory, true))
+                .Conditionally(IsDirectory, x => x.SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True))
                 .DeleteAsync(CancellationToken)
                 .ReceiveJson();
         }

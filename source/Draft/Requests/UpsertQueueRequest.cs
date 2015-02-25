@@ -85,7 +85,7 @@ namespace Draft.Requests
             {
                 {
                     // Key
-                    IsDirectory ? EtcdConstants.Parameter_Directory : EtcdConstants.Parameter_Value, 
+                    IsDirectory ? EtcdConstants.Parameter_Directory : EtcdConstants.Parameter_Value,
                     // Value
                     IsDirectory ? EtcdConstants.Parameter_True : Value
                 }
