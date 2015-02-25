@@ -22,6 +22,8 @@ namespace Draft
 
         public const string Parameter_Sorted = "sorted";
 
+        public const string Parameter_True = "true";
+
         public const string Parameter_Ttl = "ttl";
 
         public const string Parameter_Value = "value";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Draft.Requests
@@ -11,6 +12,8 @@ namespace Draft.Requests
         Task<object> Execute();
 
         TaskAwaiter<object> GetAwaiter();
+
+        IGetRequest WithCancellationToken(CancellationToken token);
 
         IGetRequest WithQuorum(bool quorum = true);
 

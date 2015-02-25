@@ -62,11 +62,16 @@
   <ItemGroup>
     <Compile Include="Etcd.cs" />
     <Compile Include="EtcdConstants.cs" />
-    <Compile Include="Extensions\FlurlExtensions.cs" />
-    <Compile Include="Internal\EtcdClient.cs" />
-    <Compile Include="Internal\Requests\DeleteRequest.cs" />
-    <Compile Include="Internal\Requests\UpsertQueueRequest.cs" />
-    <Compile Include="Internal\Requests\WatchRequest.cs" />
+    <Compile Include="Extensions\Flurl.DeleteExtensions.cs" />
+    <Compile Include="Extensions\Flurl.Extensions.cs" />
+    <Compile Include="Extensions\Flurl.GetExtensions.cs" />
+    <Compile Include="Extensions\Flurl.PostExtensions.cs" />
+    <Compile Include="Extensions\Flurl.PutExtensions.cs" />
+    <Compile Include="EtcdClient.cs" />
+    <Compile Include="Requests\DeleteRequest.cs" />
+    <Compile Include="Requests\UpsertQueueRequest.cs" />
+    <Compile Include="Requests\WatchRequest.cs" />
+    <Compile Include="Models\ResponseHeaders.cs" />
     <Compile Include="Requests\ICompareAndDeleteRequest.cs" />
     <Compile Include="Requests\ICompareAndSwapRequest.cs" />
     <Compile Include="Requests\ICreateDirectoryRequest.cs" />
@@ -97,6 +102,8 @@
     <Compile Include="Requests\IQueueRequest.cs" />
     <Compile Include="Requests\IUpsertKeyRequest.cs" />
     <Compile Include="Requests\IWatchRequest.cs" />
+    <Compile Include="Extensions\GetEtcdResponseExtensions.cs" />
+    <Compile Include="Responses\RawEtcdResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.Draft-Net45.config" />

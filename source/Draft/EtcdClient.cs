@@ -10,15 +10,17 @@ namespace Draft
     internal class EtcdClient : IEtcdClient, IAtomicEtcdClient
     {
 
+        private readonly Url _keysUrl;
+
         public EtcdClient(Url endpointUrl)
         {
             EndpointUrl = endpointUrl;
-            KeysUrl = EndpointUrl.AppendPathSegment(EtcdConstants.Path_Keys);
+            _keysUrl = EndpointUrl.AppendPathSegment(EtcdConstants.Path_Keys);
         }
 
         public Url EndpointUrl { get; private set; }
 
-        public Url KeysUrl { get; private set; }
+        public Url KeysUrl { get { return new Url(_keysUrl); } }
 
         public ICompareAndDeleteRequest CompareAndDelete(string keyPath)
         {
