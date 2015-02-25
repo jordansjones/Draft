@@ -27,12 +27,12 @@ namespace Draft
 
         public ICompareAndDeleteRequest CompareAndDelete(string keyPath)
         {
-            throw new NotImplementedException();
+            return new CompareAndDeleteRequest(KeysUrl, keyPath);
         }
 
         public ICompareAndSwapRequest CompareAndSwap(string keyPath)
         {
-            throw new NotImplementedException();
+            return new CompareAndSwapRequest(KeysUrl, keyPath);
         }
 
         public IAtomicEtcdClient Atomic

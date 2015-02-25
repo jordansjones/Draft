@@ -79,11 +79,15 @@
     <Compile Include="Assertions\BaseFluentAssertions.cs" />
     <Compile Include="Assertions\HttpCallFluentAssertions.cs" />
     <Compile Include="Assertions\HttpTestFluentAssertions.cs" />
+    <Compile Include="CompareAndDeleteTests.cs" />
+    <Compile Include="CompareAndSwapTests.cs" />
     <Compile Include="DirectoryRequestTests.cs" />
     <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\FormUrlEncodedExtensions.cs" />
     <Compile Include="Assertions\HttpTestExtensions.cs" />
     <Compile Include="Extensions\ToUriExtensions.cs" />
+    <Compile Include="Fixtures\Fixtures.CompareAndDelete.cs" />
+    <Compile Include="Fixtures\Fixtures.CompareAndSwap.cs" />
     <Compile Include="Fixtures\Fixtures.cs" />
     <Compile Include="Fixtures\Fixtures.Key.cs" />
     <Compile Include="Fixtures\Fixtures.Watch.cs" />

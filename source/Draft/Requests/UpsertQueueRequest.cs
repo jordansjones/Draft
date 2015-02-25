@@ -11,26 +11,18 @@ using Flurl;
 
 namespace Draft.Requests
 {
-    internal class UpsertQueueRequest : IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
+    internal class UpsertQueueRequest : BaseRequest, IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
     {
 
         public UpsertQueueRequest(Url endpointUrl, string path)
-        {
-            EndpointUrl = endpointUrl;
-            Path = path;
-        }
-
-        public CancellationToken? CancellationToken { get; private set; }
-
-        public Url EndpointUrl { get; private set; }
+            : base(endpointUrl, path)
+        {}
 
         public bool? Existing { get; private set; }
 
         public bool IsDirectory { get; set; }
 
         public bool IsQueue { get; set; }
-
-        public string Path { get; private set; }
 
         public long? Ttl { get; private set; }
 
@@ -101,8 +93,7 @@ namespace Draft.Requests
                 values.Add(EtcdConstants.Parameter_Ttl, Ttl.Value);
             }
 
-            return await EndpointUrl
-                .AppendPathSegment(Path)
+            return await TargetUrl
                 .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v, CancellationToken), (x, v) => x.PutUrlEncodedAsync(v, CancellationToken))
                 .ReceiveJson();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Draft.Requests
@@ -8,9 +9,9 @@ namespace Draft.Requests
     public interface ICompareAndSwapRequest
     {
 
-        ICompareAndSwapByIndexRequest WithModifiedIndexOf(long modifiedIndex);
+        ICompareAndSwapByIndexRequest WithExpectedIndex(long modifiedIndex);
 
-        ICompareAndSwapByValueRequest WithValueOf(string value);
+        ICompareAndSwapByValueRequest WithExpectedValue(string value);
 
     }
 
@@ -20,6 +21,8 @@ namespace Draft.Requests
         Task<object> Execute();
 
         TaskAwaiter<object> GetAwaiter();
+
+        ICompareAndSwapByIndexRequest WithCancellationToken(CancellationToken token);
 
         ICompareAndSwapByIndexRequest WithNewValue(string value);
 
@@ -33,6 +36,8 @@ namespace Draft.Requests
         Task<object> Execute();
 
         TaskAwaiter<object> GetAwaiter();
+
+        ICompareAndSwapByValueRequest WithCancellationToken(CancellationToken token);
 
         ICompareAndSwapByValueRequest WithNewValue(string value);
 

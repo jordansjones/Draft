@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Draft.Requests
@@ -8,9 +9,9 @@ namespace Draft.Requests
     public interface ICompareAndDeleteRequest
     {
 
-        ICompareAndDeleteByIndexRequest WithModifiedIndexOf(long modifiedIndex);
+        ICompareAndDeleteByIndexRequest WithExpectedIndex(long modifiedIndex);
 
-        ICompareAndDeleteByValueRequest WithValueOf(string value);
+        ICompareAndDeleteByValueRequest WithExpectedValue(string value);
 
     }
 
@@ -21,6 +22,8 @@ namespace Draft.Requests
 
         TaskAwaiter<object> GetAwaiter();
 
+        ICompareAndDeleteByIndexRequest WithCancellationToken(CancellationToken token);
+
     }
 
     public interface ICompareAndDeleteByValueRequest
@@ -29,6 +32,8 @@ namespace Draft.Requests
         Task<object> Execute();
 
         TaskAwaiter<object> GetAwaiter();
+
+        ICompareAndDeleteByValueRequest WithCancellationToken(CancellationToken token);
 
     }
 }

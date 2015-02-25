@@ -68,6 +68,9 @@
     <Compile Include="Extensions\Flurl.PostExtensions.cs" />
     <Compile Include="Extensions\Flurl.PutExtensions.cs" />
     <Compile Include="EtcdClient.cs" />
+    <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Requests\CompareAndDeleteRequest.cs" />
+    <Compile Include="Requests\CompareAndSwapRequest.cs" />
     <Compile Include="Requests\DeleteRequest.cs" />
     <Compile Include="Requests\GetRequest.cs" />
     <Compile Include="Requests\IUpdateDirectoryRequest.cs" />
