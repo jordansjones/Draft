@@ -69,6 +69,7 @@
     <Compile Include="Extensions\Flurl.PutExtensions.cs" />
     <Compile Include="EtcdClient.cs" />
     <Compile Include="Requests\DeleteRequest.cs" />
+    <Compile Include="Requests\GetRequest.cs" />
     <Compile Include="Requests\IUpdateDirectoryRequest.cs" />
     <Compile Include="Requests\UpsertQueueRequest.cs" />
     <Compile Include="Requests\WatchRequest.cs" />

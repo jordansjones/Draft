@@ -85,10 +85,12 @@
     <Compile Include="Assertions\HttpTestExtensions.cs" />
     <Compile Include="Extensions\ToUriExtensions.cs" />
     <Compile Include="Fixtures\Fixtures.cs" />
+    <Compile Include="Fixtures\Fixtures.Key.cs" />
     <Compile Include="Fixtures\Fixtures.Watch.cs" />
     <Compile Include="Fixtures\Fixtures.Directory.cs" />
     <Compile Include="Helpers\FormBodyBuilder.cs" />
     <Compile Include="Helpers\WatchHelper.cs" />
+    <Compile Include="KeyRequestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueRequestTests.cs" />
     <Compile Include="WatchRequestTests.cs" />

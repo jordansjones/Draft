@@ -56,18 +56,17 @@ namespace Draft.Requests
             {
                 try
                 {
-                    var response = await (EndpointUrl
+                    var response = await EndpointUrl
                         .AppendPathSegment(Path)
                         .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                         .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
                         // ReSharper disable once PossibleInvalidOperationException
                         .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex.Value))
-                        .GetAsync(cancellationToken))
-                        .ConfigureAwait(true);
+                        .GetAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested) break;
 
-                    var result = await (Task.FromResult(response).ReceiveString()).ConfigureAwait(true);
+                    var result = await Task.FromResult(response).ReceiveString();
 
                     // TODO: Some stuff with the response
                     // In order to get the response's modified index

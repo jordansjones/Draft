@@ -18,7 +18,7 @@ namespace Draft
 
         IQueueRequest Enqueue(string keyPath);
 
-        IGetRequest Get(string path);
+        IGetRequest GetKey(string path);
 
         IUpdateDirectoryRequest UpdateDirectory(string dirPath);
 

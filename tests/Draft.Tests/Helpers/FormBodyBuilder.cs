@@ -19,6 +19,15 @@ namespace Draft.Tests
             return this;
         }
 
+        public FormBodyBuilder<TKey, TValue> ConditionallyAdd(bool condition, TKey key, TValue value)
+        {
+            if (condition)
+            {
+                Add(key, value);
+            }
+            return this;
+        }
+
         public IDictionary Build()
         {
             return _items;

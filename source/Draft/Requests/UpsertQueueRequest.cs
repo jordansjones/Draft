@@ -91,9 +91,9 @@ namespace Draft.Requests
                 }
             };
 
-            if (Existing.HasValue)
+            if (Existing.HasValue && Existing.Value)
             {
-                values.Add(EtcdConstants.Parameter_PrevExist, Existing.Value ? EtcdConstants.Parameter_True : EtcdConstants.Parameter_False);
+                values.Add(EtcdConstants.Parameter_PrevExist, EtcdConstants.Parameter_True);
             }
 
             if (Ttl.HasValue)

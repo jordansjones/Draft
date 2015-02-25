@@ -66,9 +66,9 @@ namespace Draft
             };
         }
 
-        public IGetRequest Get(string path)
+        public IGetRequest GetKey(string path)
         {
-            throw new NotImplementedException();
+            return new GetRequest(KeysUrl, path);
         }
 
         public IUpdateDirectoryRequest UpdateDirectory(string dirPath)
