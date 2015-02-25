@@ -1,24 +1,24 @@
 ﻿using System;
+using System.Reactive.Linq;
+
+using Flurl.Http;
+
 using System.Linq;
 using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Flurl;
-using Flurl.Http;
 
 namespace Draft.Requests
 {
     internal class WatchRequest : ObservableBase<object>, IWatchRequest
     {
 
-        private readonly CancellationDisposable _disposable = new CancellationDisposable();
-
         private readonly Url _endpointUrl;
 
-        public WatchRequest(Url endpointUrl, string path, bool single = false)
+        public WatchRequest(Url endpointUrl, string path, bool single)
         {
             _endpointUrl = endpointUrl;
             Path = path;
@@ -60,6 +60,7 @@ namespace Draft.Requests
                         .AppendPathSegment(Path)
                         .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                         .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
+                        // ReSharper disable once PossibleInvalidOperationException
                         .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex.Value))
                         .GetAsync(cancellationToken))
                         .ConfigureAwait(true);
@@ -100,7 +101,8 @@ namespace Draft.Requests
             var modifiedIndex = ModifiedIndex;
             var isSingle = Single;
             return Observable.Create<object>((o, c) => StartPollingAsync(o, c, isSingle, recursive, modifiedIndex))
-                .Subscribe(observer.OnNext, x => observer.OnError(x), observer.OnCompleted);
+                .SubscribeOn(CurrentThreadScheduler.Instance)
+                .Subscribe(observer.OnNext, observer.OnError, observer.OnCompleted);
         }
 
     }

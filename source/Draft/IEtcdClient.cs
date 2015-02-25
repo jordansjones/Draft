@@ -20,6 +20,8 @@ namespace Draft
 
         IGetRequest Get(string path);
 
+        IUpdateDirectoryRequest UpdateDirectory(string dirPath);
+
         IUpsertKeyRequest UpsertKey(string keyPath);
 
         IWatchRequest Watch(string keyPath);

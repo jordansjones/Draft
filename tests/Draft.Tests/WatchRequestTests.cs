@@ -32,11 +32,12 @@ namespace Draft.Tests
                     .SubscribeFor(1)
                     .Wait();
 
-                http.ShouldHaveCalled(
-                    Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Keys)
-                        .AppendPathSegment(Fixtures.Watch.Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(4);
@@ -68,11 +69,12 @@ namespace Draft.Tests
                     // ignored
                 }
 
-                http.ShouldHaveCalled(
-                    Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Keys)
-                        .AppendPathSegment(Fixtures.Watch.Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);
@@ -98,16 +100,17 @@ namespace Draft.Tests
                     .SubscribeFor(3)
                     .Wait();
 
-                http.ShouldHaveCalled(
-                    Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Keys)
-                        .AppendPathSegment(Fixtures.Watch.Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get);
 
-                http.CallLog.Count.Should()
-                    .Be(3);
+                http.CallLog.Should()
+                    .HaveCount(3);
             }
         }
 
@@ -127,14 +130,18 @@ namespace Draft.Tests
 
                 tcs.Task.Wait();
 
-                http.ShouldHaveCalled(
-                    Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Keys)
-                        .AppendPathSegment(Fixtures.Watch.Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);
+
+                http.CallLog.Should()
+                    .HaveCount(1);
 
                 tcs.Task.IsCompleted.Should().BeTrue();
                 tcs.Task.Result.Should().NotBeNull();
@@ -151,12 +158,37 @@ namespace Draft.Tests
                     .WithRecursive(true)
                     .SubscribeFor(1);
 
-                http.ShouldHaveCalled(
-                    Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Keys)
-                        .AppendPathSegment(Fixtures.Watch.Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
-                        .SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True)
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True)
+                    )
+                    .WithVerb(HttpMethod.Get)
+                    .Times(1);
+            }
+        }
+
+        [Fact]
+        public void WatchOnce_ShouldCallTheCurrectUrlWithModifiedIndexOption()
+        {
+            const int modifiedIndex = 3;
+            using (var http = new HttpTest())
+            {
+                Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .WatchOnce(Fixtures.Watch.Path)
+                    .WithModifiedIndex(modifiedIndex)
+                    .SubscribeFor(1);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Fixtures.Watch.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);

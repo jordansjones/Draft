@@ -20,7 +20,10 @@ namespace Draft
 
         public Url EndpointUrl { get; private set; }
 
-        public Url KeysUrl { get { return new Url(_keysUrl); } }
+        public Url KeysUrl
+        {
+            get { return new Url(_keysUrl); }
+        }
 
         public ICompareAndDeleteRequest CompareAndDelete(string keyPath)
         {
@@ -68,6 +71,18 @@ namespace Draft
             throw new NotImplementedException();
         }
 
+        public IUpdateDirectoryRequest UpdateDirectory(string dirPath)
+        {
+            var request = new UpsertQueueRequest(KeysUrl, dirPath)
+            {
+                IsDirectory = true
+            };
+
+            request.WithExisting();
+
+            return request;
+        }
+
         public IUpsertKeyRequest UpsertKey(string keyPath)
         {
             return new UpsertQueueRequest(KeysUrl, keyPath);
@@ -75,7 +90,7 @@ namespace Draft
 
         public IWatchRequest Watch(string keyPath)
         {
-            return new WatchRequest(KeysUrl, keyPath);
+            return new WatchRequest(KeysUrl, keyPath, false);
         }
 
         public IWatchRequest WatchOnce(string keyPath)

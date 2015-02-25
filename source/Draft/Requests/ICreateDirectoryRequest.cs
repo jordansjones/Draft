@@ -16,10 +16,8 @@ namespace Draft.Requests
 
         ICreateDirectoryRequest WithCancellationToken(CancellationToken token);
 
-        ICreateDirectoryRequest WithExisting(bool existing = true);
-
         ICreateDirectoryRequest WithTimeToLive(long? seconds = 0);
 
-
     }
+
 }

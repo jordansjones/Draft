@@ -10,6 +10,8 @@ namespace Draft
 
         public const string Parameter_Directory = "dir";
 
+        public const string Parameter_False = "false";
+
         public const string Parameter_PrevExist = "prevExist";
 
         public const string Parameter_PrevIndex = "prevIndex";

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Flurl.Http;
 
@@ -12,7 +11,7 @@ using Flurl;
 
 namespace Draft.Requests
 {
-    internal class UpsertQueueRequest : IUpsertKeyRequest, ICreateDirectoryRequest, IQueueRequest
+    internal class UpsertQueueRequest : IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
     {
 
         public UpsertQueueRequest(Url endpointUrl, string path)
@@ -43,12 +42,6 @@ namespace Draft.Requests
             return this;
         }
 
-        ICreateDirectoryRequest ICreateDirectoryRequest.WithExisting(bool existing)
-        {
-            WithExisting(existing);
-            return this;
-        }
-
         ICreateDirectoryRequest ICreateDirectoryRequest.WithTimeToLive(long? seconds)
         {
             WithTimeToLive(seconds);
@@ -73,25 +66,39 @@ namespace Draft.Requests
             return this;
         }
 
+        IUpdateDirectoryRequest IUpdateDirectoryRequest.WithCancellationToken(CancellationToken token)
+        {
+            CancellationToken = token;
+            return this;
+        }
+
+        IUpdateDirectoryRequest IUpdateDirectoryRequest.WithTimeToLive(long? seconds)
+        {
+            WithExisting();
+            WithTimeToLive(seconds);
+            return this;
+        }
+
         public async Task<object> Execute()
         {
-            var values = new Dictionary<string, object>();
-            if (!IsDirectory)
+            var values = new ListDictionary
             {
-                values[EtcdConstants.Parameter_Value] = Value;
-            }
-            else
+                {
+                    // Key
+                    IsDirectory ? EtcdConstants.Parameter_Directory : EtcdConstants.Parameter_Value, 
+                    // Value
+                    IsDirectory ? EtcdConstants.Parameter_True : Value
+                }
+            };
+
+            if (Existing.HasValue)
             {
-                values[EtcdConstants.Parameter_Directory] = true;
+                values.Add(EtcdConstants.Parameter_PrevExist, Existing.Value ? EtcdConstants.Parameter_True : EtcdConstants.Parameter_False);
             }
 
             if (Ttl.HasValue)
             {
-                values[EtcdConstants.Parameter_Ttl] = Ttl.Value;
-            }
-            if (Existing.HasValue)
-            {
-                values[EtcdConstants.Parameter_PrevExist] = Existing.Value;
+                values.Add(EtcdConstants.Parameter_Ttl, Ttl.Value);
             }
 
             return await EndpointUrl
