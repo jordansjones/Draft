@@ -15,5 +15,7 @@ namespace Draft.Requests
 
         IDeleteDirectoryRequest WithCancellationToken(CancellationToken token);
 
+        IDeleteDirectoryRequest WithRecursive(bool recursive = true);
+
     }
 }

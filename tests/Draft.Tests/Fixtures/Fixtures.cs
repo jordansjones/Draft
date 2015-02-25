@@ -8,5 +8,7 @@ namespace Draft.Tests
 
         public const string EtcdUrl = "http://localhost:4001";
 
+        public const string RelativeEtcdUrl = "/foo/bar";
+
     }
 }

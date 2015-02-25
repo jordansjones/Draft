@@ -82,6 +82,7 @@
     <Compile Include="CompareAndDeleteTests.cs" />
     <Compile Include="CompareAndSwapTests.cs" />
     <Compile Include="DirectoryRequestTests.cs" />
+    <Compile Include="EtcdTests.cs" />
     <Compile Include="Extensions\DisposableExtensions.cs" />
     <Compile Include="Extensions\FormUrlEncodedExtensions.cs" />
     <Compile Include="Assertions\HttpTestExtensions.cs" />

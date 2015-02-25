@@ -16,7 +16,7 @@ namespace Draft.Tests
     {
 
         [Fact]
-        public async Task CreateDirectory_ShouldCallTheCorrectUrlByAwaitingImmediately()
+        public async Task Create_ShouldCallTheCorrectUrlByAwaitingImmediately()
         {
             using (var http = new HttpTest())
             {
@@ -38,7 +38,7 @@ namespace Draft.Tests
         }
 
         [Fact]
-        public async Task CreateDirectory_ShouldCallTheCorrectUrlWithTimeToLiveOption()
+        public async Task Create_ShouldCallTheCorrectUrlWithTimeToLiveOption()
         {
             using (var http = new HttpTest())
             {
@@ -65,7 +65,73 @@ namespace Draft.Tests
         }
 
         [Fact]
-        public async Task UpdateDirectory_ShouldCallTheCorrectUrlByAwaitingImmediately()
+        public async Task Delete_ShouldCallTheCorrectUrlByAwaitingImmediately()
+        {
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Directory.DefaultResponse);
+
+                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .DeleteDirectory(Fixtures.Directory.Path);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                    )
+                    .WithVerb(HttpMethod.Delete)
+                    .Times(1);
+            }
+        }
+
+        [Fact]
+        public async Task Delete_ShouldCallTheCorrectUrlWithRecursiveFalseOption()
+        {
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Directory.DefaultResponse);
+
+                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .DeleteDirectory(Fixtures.Directory.Path)
+                    .WithRecursive(false);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                    )
+                    .WithVerb(HttpMethod.Delete)
+                    .Times(1);
+            }
+        }
+
+        [Fact]
+        public async Task Delete_ShouldCallTheCorrectUrlWithRecursiveTrueOption()
+        {
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Directory.DefaultResponse);
+
+                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .DeleteDirectory(Fixtures.Directory.Path)
+                    .WithRecursive(true);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                            .SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True)
+                    )
+                    .WithVerb(HttpMethod.Delete)
+                    .Times(1);
+            }
+        }
+
+        [Fact]
+        public async Task Update_ShouldCallTheCorrectUrlByAwaitingImmediately()
         {
             using (var http = new HttpTest())
             {
@@ -87,7 +153,7 @@ namespace Draft.Tests
         }
 
         [Fact]
-        public async Task UpdateDirectory_ShouldCallTheCorrectUrlWithTimeToLiveOption()
+        public async Task Update_ShouldCallTheCorrectUrlWithTimeToLiveOption()
         {
             using (var http = new HttpTest())
             {
@@ -109,27 +175,6 @@ namespace Draft.Tests
                             .Add(EtcdConstants.Parameter_Ttl, Fixtures.Directory.DefaultTtl)
                             .AsRequestBody()
                     )
-                    .Times(1);
-            }
-        }
-
-        [Fact]
-        public async Task DeleteDirectory_ShouldCallTheCorrectUrlByAwaitingImmediately()
-        {
-            using (var http = new HttpTest())
-            {
-                http.RespondWithJson(Fixtures.Directory.DefaultResponse);
-
-                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
-                    .DeleteDirectory(Fixtures.Directory.Path);
-
-                http.Should()
-                    .HaveCalled(
-                        Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
-                    )
-                    .WithVerb(HttpMethod.Delete)
                     .Times(1);
             }
         }

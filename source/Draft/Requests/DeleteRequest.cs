@@ -22,10 +22,13 @@ namespace Draft.Requests
 
         public bool IsDirectory { get; private set; }
 
+        public bool? Recursive { get; private set; }
+
         public async Task<object> Execute()
         {
             return await TargetUrl
                 .Conditionally(IsDirectory, x => x.SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True))
+                .Conditionally(IsDirectory && Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
                 .DeleteAsync(CancellationToken)
                 .ReceiveJson();
         }
@@ -38,6 +41,12 @@ namespace Draft.Requests
         IDeleteDirectoryRequest IDeleteDirectoryRequest.WithCancellationToken(CancellationToken token)
         {
             CancellationToken = token;
+            return this;
+        }
+
+        public IDeleteDirectoryRequest WithRecursive(bool recursive = true)
+        {
+            Recursive = recursive;
             return this;
         }
 
