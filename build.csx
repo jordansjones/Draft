@@ -23,7 +23,7 @@ var solutionDir = solution.GetDirectory();
 var packagingRoot = baseDir.Combine("publish");
 var testResultsDir = baseDir.Combine("TestResults");
 var nugetPackagingDir = packagingRoot.Combine(projectName);
-var sourcesDir = solutionDir.Combine("src");
+var sourcesDir = solutionDir.Combine("source");
 var testsDir = solutionDir.Combine("tests");
 var metaDir = solutionDir.Combine("meta");
 
