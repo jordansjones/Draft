@@ -1,16 +1,14 @@
 ﻿using System;
-
-using Flurl;
-
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Flurl;
 using Flurl.Http.Testing;
 
 using Xunit;
 
-namespace Draft.Tests
+namespace Draft.Tests.Keys
 {
     public class DirectoryRequestTests
     {

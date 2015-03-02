@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -10,7 +9,7 @@ namespace Draft.Responses
     {
 
         [DataMember(Name = "nodes")]
-        public List<KeyData> Children { get; private set; }
+        public KeyData[] Children { get; private set; }
 
         [IgnoreDataMember]
         IKeyData[] IKeyData.Children

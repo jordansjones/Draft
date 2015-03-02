@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -10,16 +9,7 @@ namespace Draft.Responses.Cluster
     {
 
         [DataMember(Name = "clientURLs")]
-        public List<Uri> ClientUrls { get; private set; }
-
-        [DataMember(Name = "peerURLs")]
-        public List<Uri> PeerUrls { get; private set; }
-
-        [IgnoreDataMember]
-        Uri[] IClusterMember.ClientUrls
-        {
-            get { return ClientUrls.ToArray(); }
-        }
+        public Uri[] ClientUrls { get; private set; }
 
         [DataMember(Name = "id")]
         public string Id { get; private set; }
@@ -27,11 +17,8 @@ namespace Draft.Responses.Cluster
         [DataMember(Name = "name")]
         public string Name { get; private set; }
 
-        [IgnoreDataMember]
-        Uri[] IClusterMember.PeerUrls
-        {
-            get { return PeerUrls.ToArray(); }
-        }
+        [DataMember(Name = "peerURLs")]
+        public Uri[] PeerUrls { get; private set; }
 
     }
 }

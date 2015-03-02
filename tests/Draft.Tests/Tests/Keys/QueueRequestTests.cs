@@ -8,7 +8,7 @@ using Flurl.Http.Testing;
 
 using Xunit;
 
-namespace Draft.Tests
+namespace Draft.Tests.Keys
 {
     public class QueueRequestTests
     {

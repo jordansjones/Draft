@@ -114,7 +114,6 @@
     <Compile Include="Responses\KeyData.cs" />
     <Compile Include="Responses\KeyEvent.cs" />
     <Compile Include="Responses\KeyEventType.cs" />
-    <Compile Include="Responses\Member.cs" />
     <Compile Include="Responses\ResponseHeaders.cs" />
     <Compile Include="Responses\Statistics\FollowerCounts.cs" />
     <Compile Include="Responses\Statistics\FollowerLatency.cs" />

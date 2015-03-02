@@ -33,6 +33,7 @@ namespace Draft.Requests.Cluster
                     Uris.ToArray()
                 }
             };
+
             return await TargetUrl
                 .PostJsonAsync(values)
                 .ReceiveJson<ClusterMember>();
