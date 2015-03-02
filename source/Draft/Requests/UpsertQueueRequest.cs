@@ -4,8 +4,9 @@ using Flurl.Http;
 
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 using Flurl;
 
@@ -15,8 +16,7 @@ namespace Draft.Requests
     {
 
         public UpsertQueueRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path)
-        {}
+            : base(endpointUrl, path) {}
 
         public bool? Existing { get; private set; }
 
@@ -28,21 +28,9 @@ namespace Draft.Requests
 
         public string Value { get; private set; }
 
-        ICreateDirectoryRequest ICreateDirectoryRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
-        }
-
         ICreateDirectoryRequest ICreateDirectoryRequest.WithTimeToLive(long? seconds)
         {
             WithTimeToLive(seconds);
-            return this;
-        }
-
-        IQueueRequest IQueueRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
             return this;
         }
 
@@ -58,12 +46,6 @@ namespace Draft.Requests
             return this;
         }
 
-        IUpdateDirectoryRequest IUpdateDirectoryRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
-        }
-
         IUpdateDirectoryRequest IUpdateDirectoryRequest.WithTimeToLive(long? seconds)
         {
             WithExisting();
@@ -71,7 +53,7 @@ namespace Draft.Requests
             return this;
         }
 
-        public async Task<object> Execute()
+        public async Task<IKeyEvent> Execute()
         {
             var values = new ListDictionary
             {
@@ -94,19 +76,13 @@ namespace Draft.Requests
             }
 
             return await TargetUrl
-                .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v, CancellationToken), (x, v) => x.PutUrlEncodedAsync(v, CancellationToken))
-                .ReceiveJson();
+                .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v), (x, v) => x.PutUrlEncodedAsync(v))
+                .ReceiveEtcdResponse<KeyEvent>();
         }
 
-        public TaskAwaiter<object> GetAwaiter()
+        public TaskAwaiter<IKeyEvent> GetAwaiter()
         {
             return Execute().GetAwaiter();
-        }
-
-        IUpsertKeyRequest IUpsertKeyRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         public IUpsertKeyRequest WithExisting(bool existing = true)

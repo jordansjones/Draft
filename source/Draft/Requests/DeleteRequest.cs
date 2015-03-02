@@ -4,8 +4,9 @@ using Flurl.Http;
 
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 using Flurl;
 
@@ -24,35 +25,23 @@ namespace Draft.Requests
 
         public bool? Recursive { get; private set; }
 
-        public async Task<object> Execute()
+        public async Task<IKeyEvent> Execute()
         {
             return await TargetUrl
                 .Conditionally(IsDirectory, x => x.SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True))
                 .Conditionally(IsDirectory && Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
-                .DeleteAsync(CancellationToken)
-                .ReceiveJson();
+                .DeleteAsync()
+                .ReceiveEtcdResponse<KeyEvent>();
         }
 
-        public TaskAwaiter<object> GetAwaiter()
+        public TaskAwaiter<IKeyEvent> GetAwaiter()
         {
             return Execute().GetAwaiter();
-        }
-
-        IDeleteDirectoryRequest IDeleteDirectoryRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         public IDeleteDirectoryRequest WithRecursive(bool recursive = true)
         {
             Recursive = recursive;
-            return this;
-        }
-
-        IDeleteKeyRequest IDeleteKeyRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
             return this;
         }
 

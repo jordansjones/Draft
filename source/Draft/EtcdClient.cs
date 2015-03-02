@@ -25,14 +25,14 @@ namespace Draft
             get { return new Url(_keysUrl); }
         }
 
-        public ICompareAndDeleteRequest CompareAndDelete(string keyPath)
+        public ICompareAndDeleteRequest CompareAndDelete(string key)
         {
-            return new CompareAndDeleteRequest(KeysUrl, keyPath);
+            return new CompareAndDeleteRequest(KeysUrl, key);
         }
 
-        public ICompareAndSwapRequest CompareAndSwap(string keyPath)
+        public ICompareAndSwapRequest CompareAndSwap(string key)
         {
-            return new CompareAndSwapRequest(KeysUrl, keyPath);
+            return new CompareAndSwapRequest(KeysUrl, key);
         }
 
         public IAtomicEtcdClient Atomic
@@ -40,40 +40,40 @@ namespace Draft
             get { return this; }
         }
 
-        public ICreateDirectoryRequest CreateDirectory(string dirPath)
+        public ICreateDirectoryRequest CreateDirectory(string path)
         {
-            return new UpsertQueueRequest(KeysUrl, dirPath)
+            return new UpsertQueueRequest(KeysUrl, path)
             {
                 IsDirectory = true
             };
         }
 
-        public IDeleteDirectoryRequest DeleteDirectory(string dirPath)
+        public IDeleteDirectoryRequest DeleteDirectory(string path)
         {
-            return new DeleteRequest(KeysUrl, dirPath, true);
+            return new DeleteRequest(KeysUrl, path, true);
         }
 
-        public IDeleteKeyRequest DeleteKey(string keyPath)
+        public IDeleteKeyRequest DeleteKey(string key)
         {
-            return new DeleteRequest(KeysUrl, keyPath, false);
+            return new DeleteRequest(KeysUrl, key, false);
         }
 
-        public IQueueRequest Enqueue(string keyPath)
+        public IQueueRequest Enqueue(string key)
         {
-            return new UpsertQueueRequest(KeysUrl, keyPath)
+            return new UpsertQueueRequest(KeysUrl, key)
             {
                 IsQueue = true
             };
         }
 
-        public IGetRequest GetKey(string path)
+        public IGetRequest GetKey(string key)
         {
-            return new GetRequest(KeysUrl, path);
+            return new GetRequest(KeysUrl, key);
         }
 
-        public IUpdateDirectoryRequest UpdateDirectory(string dirPath)
+        public IUpdateDirectoryRequest UpdateDirectory(string path)
         {
-            var request = new UpsertQueueRequest(KeysUrl, dirPath)
+            var request = new UpsertQueueRequest(KeysUrl, path)
             {
                 IsDirectory = true
             };
@@ -83,19 +83,19 @@ namespace Draft
             return request;
         }
 
-        public IUpsertKeyRequest UpsertKey(string keyPath)
+        public IUpsertKeyRequest UpsertKey(string key)
         {
-            return new UpsertQueueRequest(KeysUrl, keyPath);
+            return new UpsertQueueRequest(KeysUrl, key);
         }
 
-        public IWatchRequest Watch(string keyPath)
+        public IWatchRequest Watch(string key)
         {
-            return new WatchRequest(KeysUrl, keyPath, false);
+            return new WatchRequest(KeysUrl, key, false);
         }
 
-        public IWatchRequest WatchOnce(string keyPath)
+        public IWatchRequest WatchOnce(string key)
         {
-            return new WatchRequest(KeysUrl, keyPath, true);
+            return new WatchRequest(KeysUrl, key, true);
         }
 
     }

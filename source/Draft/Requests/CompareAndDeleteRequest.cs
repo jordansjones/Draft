@@ -4,8 +4,9 @@ using Flurl.Http;
 
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 using Flurl;
 
@@ -15,43 +16,30 @@ namespace Draft.Requests
     {
 
         public CompareAndDeleteRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path)
-        {}
+            : base(endpointUrl, path) {}
 
         public long ExpectedIndex { get; private set; }
 
         public string ExpectedValue { get; private set; }
 
-        Task<object> ICompareAndDeleteByIndexRequest.Execute()
+        Task<IKeyEvent> ICompareAndDeleteByIndexRequest.Execute()
         {
             return Execute(false);
         }
 
-        TaskAwaiter<object> ICompareAndDeleteByIndexRequest.GetAwaiter()
+        TaskAwaiter<IKeyEvent> ICompareAndDeleteByIndexRequest.GetAwaiter()
         {
             return GetAwaiter(false);
         }
 
-        ICompareAndDeleteByIndexRequest ICompareAndDeleteByIndexRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
-        }
-
-        Task<object> ICompareAndDeleteByValueRequest.Execute()
+        Task<IKeyEvent> ICompareAndDeleteByValueRequest.Execute()
         {
             return Execute(true);
         }
 
-        TaskAwaiter<object> ICompareAndDeleteByValueRequest.GetAwaiter()
+        TaskAwaiter<IKeyEvent> ICompareAndDeleteByValueRequest.GetAwaiter()
         {
             return GetAwaiter(true);
-        }
-
-        ICompareAndDeleteByValueRequest ICompareAndDeleteByValueRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         public ICompareAndDeleteByIndexRequest WithExpectedIndex(long modifiedIndex)
@@ -66,16 +54,16 @@ namespace Draft.Requests
             return this;
         }
 
-        private async Task<object> Execute(bool isByValue)
+        private async Task<IKeyEvent> Execute(bool isByValue)
         {
             return await TargetUrl
                 .Conditionally(isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevValue, ExpectedValue))
                 .Conditionally(!isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevIndex, ExpectedIndex))
-                .DeleteAsync(CancellationToken)
-                .ReceiveJson();
+                .DeleteAsync()
+                .ReceiveEtcdResponse<KeyEvent>();
         }
 
-        private TaskAwaiter<object> GetAwaiter(bool isByValue)
+        private TaskAwaiter<IKeyEvent> GetAwaiter(bool isByValue)
         {
             return Execute(isByValue).GetAwaiter();
         }

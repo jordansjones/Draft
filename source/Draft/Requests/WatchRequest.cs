@@ -9,11 +9,13 @@ using System.Reactive.Concurrency;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Draft.Responses;
+
 using Flurl;
 
 namespace Draft.Requests
 {
-    internal class WatchRequest : ObservableBase<object>, IWatchRequest
+    internal class WatchRequest : ObservableBase<IKeyEvent>, IWatchRequest
     {
 
         private readonly Url _endpointUrl;
@@ -50,7 +52,7 @@ namespace Draft.Requests
             return this;
         }
 
-        private async Task StartPollingAsync(IObserver<object> observer, CancellationToken cancellationToken, bool isSingle, bool? recursive, int? modifiedIndex)
+        private async Task StartPollingAsync(IObserver<IKeyEvent> observer, CancellationToken cancellationToken, bool isSingle, bool? recursive, int? modifiedIndex)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -62,18 +64,18 @@ namespace Draft.Requests
                         .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
                         // ReSharper disable once PossibleInvalidOperationException
                         .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex.Value))
-                        .GetAsync(cancellationToken);
+                        .GetAsync();
 
-                    if (cancellationToken.IsCancellationRequested) break;
+                    if (cancellationToken.IsCancellationRequested) { break; }
 
-                    var result = await Task.FromResult(response).ReceiveString();
+                    var result = await Task.FromResult(response).ReceiveEtcdResponse<KeyEvent>();
 
                     // TODO: Some stuff with the response
                     // In order to get the response's modified index
                     // value to pass through on the next request
 
                     observer.OnNext(result);
-                    if (isSingle) break;
+                    if (isSingle) { break; }
                 }
                 catch (FlurlHttpTimeoutException)
                 {
@@ -94,12 +96,12 @@ namespace Draft.Requests
             observer.OnCompleted();
         }
 
-        protected override IDisposable SubscribeCore(IObserver<object> observer)
-        {   
+        protected override IDisposable SubscribeCore(IObserver<IKeyEvent> observer)
+        {
             var recursive = Recursive;
             var modifiedIndex = ModifiedIndex;
             var isSingle = Single;
-            return Observable.Create<object>((o, c) => StartPollingAsync(o, c, isSingle, recursive, modifiedIndex))
+            return Observable.Create<IKeyEvent>((o, c) => StartPollingAsync(o, c, isSingle, recursive, modifiedIndex))
                 .SubscribeOn(CurrentThreadScheduler.Instance)
                 .Subscribe(observer.OnNext, observer.OnError, observer.OnCompleted);
         }

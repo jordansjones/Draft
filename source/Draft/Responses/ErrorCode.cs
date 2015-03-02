@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 
-namespace Draft.Models
+namespace Draft.Responses
 {
     /// <summary>
     ///     Etcd error codes

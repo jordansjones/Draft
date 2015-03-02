@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Draft.Models
+namespace Draft.Responses.Statistics
 {
     /// <summary>
     /// Represents the leadership type of a member of a cluster

@@ -1,8 +1,12 @@
 ﻿using System;
+
+using Flurl.Http;
+
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 using Flurl;
 
@@ -12,30 +16,24 @@ namespace Draft.Requests
     {
 
         public GetRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path)
-        {}
+            : base(endpointUrl, path) {}
 
         public bool? Quorum { get; private set; }
 
         public bool? Recursive { get; private set; }
 
-        public async Task<object> Execute()
+        public async Task<IKeyEvent> Execute()
         {
             return await TargetUrl
                 .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Quorum, EtcdConstants.Parameter_True))
                 .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
-                .GetStringAsync(CancellationToken);
+                .GetAsync()
+                .ReceiveEtcdResponse<KeyEvent>();
         }
 
-        public TaskAwaiter<object> GetAwaiter()
+        public TaskAwaiter<IKeyEvent> GetAwaiter()
         {
             return Execute().GetAwaiter();
-        }
-
-        public IGetRequest WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         public IGetRequest WithQuorum(bool quorum = true)

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Draft.Models
+namespace Draft.Responses.Statistics
 {
     /// <summary>
     ///     Various statistics about a follower in an etcd cluster

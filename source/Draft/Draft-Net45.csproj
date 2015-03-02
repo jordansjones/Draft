@@ -60,14 +60,15 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters.cs" />
+    <Compile Include="Responses\IHaveResponseHeaders.cs" />
+    <Compile Include="ValueConverters\JsonValueConverter.cs" />
+    <Compile Include="ValueConverters\StringValueConverter.cs" />
     <Compile Include="Etcd.cs" />
     <Compile Include="EtcdConstants.cs" />
-    <Compile Include="Extensions\Flurl.DeleteExtensions.cs" />
     <Compile Include="Extensions\Flurl.Extensions.cs" />
-    <Compile Include="Extensions\Flurl.GetExtensions.cs" />
-    <Compile Include="Extensions\Flurl.PostExtensions.cs" />
-    <Compile Include="Extensions\Flurl.PutExtensions.cs" />
     <Compile Include="EtcdClient.cs" />
+    <Compile Include="IKeyDataValueConverter.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
     <Compile Include="Requests\CompareAndDeleteRequest.cs" />
     <Compile Include="Requests\CompareAndSwapRequest.cs" />
@@ -76,27 +77,11 @@
     <Compile Include="Requests\IUpdateDirectoryRequest.cs" />
     <Compile Include="Requests\UpsertQueueRequest.cs" />
     <Compile Include="Requests\WatchRequest.cs" />
-    <Compile Include="Models\ResponseHeaders.cs" />
     <Compile Include="Requests\ICompareAndDeleteRequest.cs" />
     <Compile Include="Requests\ICompareAndSwapRequest.cs" />
     <Compile Include="Requests\ICreateDirectoryRequest.cs" />
     <Compile Include="IEtcdClient.cs" />
-    <Compile Include="Models\ErrorCode.cs" />
     <Compile Include="HeaderConstants.cs" />
-    <Compile Include="Models\Health.cs" />
-    <Compile Include="Models\KeyData.cs" />
-    <Compile Include="Models\KeyEvent.cs" />
-    <Compile Include="Models\KeyEventType.cs" />
-    <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\Statistics\FollowerCounts.cs" />
-    <Compile Include="Models\Statistics\FollowerLatency.cs" />
-    <Compile Include="Models\Statistics\FollowerStatistics.cs" />
-    <Compile Include="Models\Statistics\LeaderInfo.cs" />
-    <Compile Include="Models\Statistics\LeaderStatistics.cs" />
-    <Compile Include="Models\Statistics\ServerStatistics.cs" />
-    <Compile Include="Models\Statistics\StateType.cs" />
-    <Compile Include="Models\Statistics\StoreStatistics.cs" />
-    <Compile Include="Models\Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\meta\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
@@ -107,8 +92,27 @@
     <Compile Include="Requests\IQueueRequest.cs" />
     <Compile Include="Requests\IUpsertKeyRequest.cs" />
     <Compile Include="Requests\IWatchRequest.cs" />
-    <Compile Include="Extensions\GetEtcdResponseExtensions.cs" />
-    <Compile Include="Responses\RawEtcdResponse.cs" />
+    <Compile Include="Extensions\Flurl.ResponseMessageExtensions.cs" />
+    <Compile Include="Responses\ErrorCode.cs" />
+    <Compile Include="Responses\Health.cs" />
+    <Compile Include="Responses\IEtcdResponse.cs" />
+    <Compile Include="Responses\IKeyData.cs" />
+    <Compile Include="Responses\IKeyEvent.cs" />
+    <Compile Include="Responses\IResponseHeaders.cs" />
+    <Compile Include="Responses\KeyData.cs" />
+    <Compile Include="Responses\KeyEvent.cs" />
+    <Compile Include="Responses\KeyEventType.cs" />
+    <Compile Include="Responses\Member.cs" />
+    <Compile Include="Responses\ResponseHeaders.cs" />
+    <Compile Include="Responses\Statistics\FollowerCounts.cs" />
+    <Compile Include="Responses\Statistics\FollowerLatency.cs" />
+    <Compile Include="Responses\Statistics\FollowerStatistics.cs" />
+    <Compile Include="Responses\Statistics\LeaderInfo.cs" />
+    <Compile Include="Responses\Statistics\LeaderStatistics.cs" />
+    <Compile Include="Responses\Statistics\ServerStatistics.cs" />
+    <Compile Include="Responses\Statistics\StateType.cs" />
+    <Compile Include="Responses\Statistics\StoreStatistics.cs" />
+    <Compile Include="Responses\Version.cs" />
     <Compile Include="Vendor\ListDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

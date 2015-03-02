@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 namespace Draft.Requests
 {
+    /// <summary>
+    ///     A request to delete a key.
+    /// </summary>
     public interface IDeleteKeyRequest
     {
 
-        Task<object> Execute();
+        /// <summary>
+        ///     Execute this request.
+        /// </summary>
+        Task<IKeyEvent> Execute();
 
-        TaskAwaiter<object> GetAwaiter();
-
-        IDeleteKeyRequest WithCancellationToken(CancellationToken token);
+        /// <summary>
+        ///     Allows use of the <c>await</c> keyword for this request.
+        /// </summary>
+        TaskAwaiter<IKeyEvent> GetAwaiter();
 
     }
 }

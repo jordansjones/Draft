@@ -1,13 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Draft.Models
+namespace Draft.Responses
 {
     [DataContract]
-    internal class KeyData
+    internal class KeyData : IKeyData
     {
+
+        [DataMember(Name = "nodes")]
+        public List<KeyData> Children { get; private set; }
+
+        [IgnoreDataMember]
+        IReadOnlyCollection<IKeyData> IKeyData.Children
+        {
+            get { return Children; }
+        }
 
         [DataMember(Name = "createdIndex")]
         public long CreatedIndex { get; private set; }
@@ -23,9 +32,6 @@ namespace Draft.Models
 
         [DataMember(Name = "modifiedIndex")]
         public long? ModifiedIndex { get; private set; }
-
-        [DataMember(Name = "nodes")]
-        public List<KeyData> Nodes { get; private set; }
 
         [DataMember(Name = "ttl")]
         public long? TtlSeconds { get; private set; }

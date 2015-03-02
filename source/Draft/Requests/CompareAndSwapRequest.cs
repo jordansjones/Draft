@@ -4,8 +4,9 @@ using Flurl.Http;
 
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 using Flurl;
 
@@ -15,8 +16,7 @@ namespace Draft.Requests
     {
 
         public CompareAndSwapRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path)
-        {}
+            : base(endpointUrl, path) {}
 
         public long ExpectedIndex { get; private set; }
 
@@ -26,20 +26,14 @@ namespace Draft.Requests
 
         public string Value { get; private set; }
 
-        Task<object> ICompareAndSwapByIndexRequest.Execute()
+        Task<IKeyEvent> ICompareAndSwapByIndexRequest.Execute()
         {
             return Execute(false);
         }
 
-        TaskAwaiter<object> ICompareAndSwapByIndexRequest.GetAwaiter()
+        TaskAwaiter<IKeyEvent> ICompareAndSwapByIndexRequest.GetAwaiter()
         {
             return GetAwaiter(false);
-        }
-
-        ICompareAndSwapByIndexRequest ICompareAndSwapByIndexRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         ICompareAndSwapByIndexRequest ICompareAndSwapByIndexRequest.WithNewValue(string value)
@@ -54,20 +48,14 @@ namespace Draft.Requests
             return this;
         }
 
-        Task<object> ICompareAndSwapByValueRequest.Execute()
+        Task<IKeyEvent> ICompareAndSwapByValueRequest.Execute()
         {
             return Execute(true);
         }
 
-        TaskAwaiter<object> ICompareAndSwapByValueRequest.GetAwaiter()
+        TaskAwaiter<IKeyEvent> ICompareAndSwapByValueRequest.GetAwaiter()
         {
             return GetAwaiter(true);
-        }
-
-        ICompareAndSwapByValueRequest ICompareAndSwapByValueRequest.WithCancellationToken(CancellationToken token)
-        {
-            CancellationToken = token;
-            return this;
         }
 
         ICompareAndSwapByValueRequest ICompareAndSwapByValueRequest.WithNewValue(string value)
@@ -94,7 +82,7 @@ namespace Draft.Requests
             return this;
         }
 
-        private async Task<object> Execute(bool isByValue)
+        private async Task<IKeyEvent> Execute(bool isByValue)
         {
             var values = new ListDictionary
             {
@@ -114,11 +102,11 @@ namespace Draft.Requests
             return await TargetUrl
                 .Conditionally(isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevValue, ExpectedValue))
                 .Conditionally(!isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevIndex, ExpectedIndex))
-                .PutUrlEncodedAsync(values, CancellationToken)
-                .ReceiveJson();
+                .PutUrlEncodedAsync(values)
+                .ReceiveEtcdResponse<KeyEvent>();
         }
 
-        private TaskAwaiter<object> GetAwaiter(bool isByValue)
+        private TaskAwaiter<IKeyEvent> GetAwaiter(bool isByValue)
         {
             return Execute(isByValue).GetAwaiter();
         }

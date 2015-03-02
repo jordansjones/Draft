@@ -1,6 +1,8 @@
-﻿using System.Runtime.Serialization;
+using System;
+using System.Linq;
+using System.Runtime.Serialization;
 
-namespace Draft.Models
+namespace Draft.Responses
 {
     [DataContract]
     internal class Version

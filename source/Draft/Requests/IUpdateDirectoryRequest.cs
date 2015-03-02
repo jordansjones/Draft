@@ -1,18 +1,34 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
+using Draft.Responses;
 
 namespace Draft.Requests
 {
+    /// <summary>
+    ///     A request to update a directory.
+    /// </summary>
+    /// <remarks>
+    ///     <para>Primarily used for updating the TTL.</para>
+    /// </remarks>
     public interface IUpdateDirectoryRequest
     {
 
-        Task<object> Execute();
+        /// <summary>
+        ///     Execute this request.
+        /// </summary>
+        Task<IKeyEvent> Execute();
 
-        TaskAwaiter<object> GetAwaiter();
+        /// <summary>
+        ///     Allows use of the <c>await</c> keyword for this request.
+        /// </summary>
+        TaskAwaiter<IKeyEvent> GetAwaiter();
 
-        IUpdateDirectoryRequest WithCancellationToken(CancellationToken token);
-
+        /// <summary>
+        ///     An optional expiration for this key.
+        /// </summary>
         IUpdateDirectoryRequest WithTimeToLive(long? seconds = 0);
 
     }

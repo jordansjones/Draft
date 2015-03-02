@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 
 using Flurl;
 
@@ -23,8 +22,6 @@ namespace Draft.Requests
         {
             get { return new Url(_endpointUrl).AppendPathSegment(_keyPath); }
         }
-
-        public CancellationToken? CancellationToken { get; protected set; }
 
 
     }

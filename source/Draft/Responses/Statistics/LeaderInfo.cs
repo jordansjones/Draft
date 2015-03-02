@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Draft.Models
+namespace Draft.Responses.Statistics
 {
     /// <summary>
     ///     Statistical information for a member server's leader

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-using Draft.Models;
+using Draft.Responses;
 
 using Flurl;
 
@@ -23,28 +23,5 @@ namespace Draft
             return predicate ? ifTrue(This, data) : ifFalse(This, data);
         }
 
-
-        public static ResponseHeaders ParseResponseHeaders(this HttpResponseMessage This)
-        {
-            return new ResponseHeaders
-            {
-                ClusterId = This.TryGetHeader(HeaderConstants.ClusterId),
-                EtcdIndex = This.TryGetHeader(HeaderConstants.EtcdIndex),
-                RaftIndex = This.TryGetHeader(HeaderConstants.RaftIndex),
-                RaftTerm = This.TryGetHeader(HeaderConstants.RaftTerm)
-            };
-        }
-
-
-        public static string TryGetHeader(this HttpResponseMessage This, string key)
-        {
-            var headerValues = default(IEnumerable<string>);
-
-            if (This.Headers.TryGetValues(key, out headerValues))
-            {
-                return headerValues.FirstOrDefault() ?? string.Empty;
-            }
-            return string.Empty;
-        }
     }
 }
