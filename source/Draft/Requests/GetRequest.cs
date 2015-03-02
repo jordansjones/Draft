@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class GetRequest : BaseRequest, IGetRequest
     {
 
-        public GetRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path) {}
+        public GetRequest(IEtcdClient client, Url endpointUrl, string path)
+            : base(client, endpointUrl, path) {}
 
         public bool? Quorum { get; private set; }
 

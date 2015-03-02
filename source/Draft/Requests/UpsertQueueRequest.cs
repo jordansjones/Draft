@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class UpsertQueueRequest : BaseRequest, IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
     {
 
-        public UpsertQueueRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path) {}
+        public UpsertQueueRequest(IEtcdClient client, Url endpointUrl, string path)
+            : base(client, endpointUrl, path) {}
 
         public bool? Existing { get; private set; }
 

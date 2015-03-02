@@ -13,9 +13,9 @@ namespace Draft.Responses
         public List<KeyData> Children { get; private set; }
 
         [IgnoreDataMember]
-        IReadOnlyCollection<IKeyData> IKeyData.Children
+        IKeyData[] IKeyData.Children
         {
-            get { return Children; }
+            get { return Children.OfType<IKeyData>().ToArray(); }
         }
 
         [DataMember(Name = "createdIndex")]

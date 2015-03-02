@@ -10,19 +10,21 @@ namespace Draft.Requests
 
         private readonly Url _endpointUrl;
 
-        private readonly string _keyPath;
+        private readonly string _containerPath;
 
-        protected BaseRequest(Url endpointUrl, string keyPath)
+        protected BaseRequest(IEtcdClient client, Url endpointUrl, string containerPath)
         {
+            Client = client;
             _endpointUrl = endpointUrl;
-            _keyPath = keyPath;
+            _containerPath = containerPath;
         }
 
         public Url TargetUrl
         {
-            get { return new Url(_endpointUrl).AppendPathSegment(_keyPath); }
+            get { return new Url(_endpointUrl).AppendPathSegment(_containerPath); }
         }
 
+        public IEtcdClient Client { get; private set; }
 
     }
 }

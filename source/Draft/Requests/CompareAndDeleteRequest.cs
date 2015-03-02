@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class CompareAndDeleteRequest : BaseRequest, ICompareAndDeleteRequest, ICompareAndDeleteByIndexRequest, ICompareAndDeleteByValueRequest
     {
 
-        public CompareAndDeleteRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path) {}
+        public CompareAndDeleteRequest(IEtcdClient client, Url endpointUrl, string containerPath) 
+            : base(client, endpointUrl, containerPath) {}
 
         public long ExpectedIndex { get; private set; }
 

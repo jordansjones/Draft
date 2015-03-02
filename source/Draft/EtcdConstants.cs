@@ -12,6 +12,8 @@ namespace Draft
 
         public const string Parameter_False = "false";
 
+        public const string Parameter_PeerURLs = "peerURLs";
+
         public const string Parameter_PrevExist = "prevExist";
 
         public const string Parameter_PrevIndex = "prevIndex";
@@ -39,6 +41,8 @@ namespace Draft
         public const string Path_Keys = "/v2/keys";
 
         public const string Path_Members = "/v2/members";
+
+        public const string Path_Members_Leader = Path_Members + "/leader";
 
         public const string Path_Stats = "/v2/stats";
 

@@ -21,6 +21,6 @@ namespace Draft.Responses.Statistics
         /// Map of cluster member id's to cluster member statistics
         /// </summary>
         [DataMember(Name = "followers")]
-        public IDictionary<string, FollowerStatistics> Followers { get; private set; }
+        public IReadOnlyDictionary<string, FollowerStatistics> Followers { get; private set; }
     }
 }

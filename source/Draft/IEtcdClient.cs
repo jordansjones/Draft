@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Draft.Requests;
+using Draft.Requests.Cluster;
 
 namespace Draft
 {
@@ -15,6 +16,11 @@ namespace Draft
         ///     Returns an Etcd client for atomic operations.
         /// </summary>
         IAtomicEtcdClient Atomic { get; }
+
+        /// <summary>
+        ///     Returns an Etcd cluent for cluster related operations.
+        /// </summary>
+        IClusterEtcdClient Cluster { get; }
 
         /// <summary>
         ///     Begins a directory creation request.
@@ -87,6 +93,39 @@ namespace Draft
         ///     Begins an atomic key update request.
         /// </summary>
         ICompareAndSwapRequest CompareAndSwap(string key);
+
+    }
+
+    /// <summary>
+    ///     Etcd client for cluster related operations.
+    /// </summary>
+    public interface IClusterEtcdClient
+    {
+
+        /// <summary>
+        ///     Begins a member creation request.
+        /// </summary>
+        ICreateMemberRequest CreateMember();
+
+        /// <summary>
+        ///     Begins a member deletion request.
+        /// </summary>
+        IDeleteMemberRequest DeleteMember();
+
+        /// <summary>
+        ///     Begins a leader retrieval request.
+        /// </summary>
+        IGetLeaderRequest GetLeader();
+
+        /// <summary>
+        ///     Begins a members retrieval request.
+        /// </summary>
+        IGetMembersRequest GetMembers();
+
+        /// <summary>
+        ///     Begins an update member peer urls request.
+        /// </summary>
+        IUpdateMemberPeerUrlsRequest UpdateMemberPeerUrls();
 
     }
 }

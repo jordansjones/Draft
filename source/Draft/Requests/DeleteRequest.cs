@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class DeleteRequest : BaseRequest, IDeleteDirectoryRequest, IDeleteKeyRequest
     {
 
-        public DeleteRequest(Url endpointUrl, string path, bool isDirectory)
-            : base(endpointUrl, path)
+        public DeleteRequest(IEtcdClient client, Url endpointUrl, string path, bool isDirectory)
+            : base(client, endpointUrl, path)
         {
             IsDirectory = isDirectory;
         }

@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class CompareAndSwapRequest : BaseRequest, ICompareAndSwapRequest, ICompareAndSwapByIndexRequest, ICompareAndSwapByValueRequest
     {
 
-        public CompareAndSwapRequest(Url endpointUrl, string path)
-            : base(endpointUrl, path) {}
+        public CompareAndSwapRequest(IEtcdClient client, Url endpointUrl, string containerPath)
+            : base(client, endpointUrl, containerPath) {}
 
         public long ExpectedIndex { get; private set; }
 

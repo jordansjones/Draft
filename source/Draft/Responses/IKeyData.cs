@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Draft.Responses
@@ -13,7 +12,7 @@ namespace Draft.Responses
         /// <summary>
         ///     When <see cref="IsDir" /> is <code>true</code>, this will contain this key's directory contents.
         /// </summary>
-        IReadOnlyCollection<IKeyData> Children { get; }
+        IKeyData[] Children { get; }
 
         /// <summary>
         ///     The etcd index at which this key's node was created.
