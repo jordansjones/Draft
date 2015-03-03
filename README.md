@@ -4,21 +4,21 @@ An [etcd](https://github.com/coreos/etcd) client library for .Net
 
 # Basic usage #
 
-** Initialize the Client **
+**Initialize the Client**
 ```cs
 var client = Draft.Etcd.ClientFor(new Uri("http://localhost:4001"));
 ```
 
 ## Key based operations ##
 
-** Set a key **
+**Set a key**
 ```cs
 var keyResult = await client
                 .UpsertKey("/somekey")
                 .WithValue("The Value!");
 ```
 
-** Set a key with an expiration **
+**Set a key with an expiration**
 ```cs
 var keyResult = await client
                 .UpsertKey("/expiringkey")
@@ -26,51 +26,51 @@ var keyResult = await client
                 .WithTimeToLive(300 /* seconds */);
 ```
 
-** Get a key **
+**Get a key**
 ```cs
 var keyResult = await client
                 .GetKey("/somekey");
 ```
 
-** Get a key with a fully linearized read **
+**Get a key with a fully linearized read**
 ```cs
 var keyResult = await client
                 .GetKey("/somekey")
                 .WithQuorum(true);
 ```
 
-** Delete a key **
+**Delete a key**
 ```cs
 await client.DeleteKey("/somekey");
 ```
 
-** Create a directory **
+**Create a directory**
 ```cs
 var dirResult = await client
                 .CreateDirectory("/foo");
 ```
 
-** Create an expiring directory **
+**Create an expiring directory**
 ```cs
 var dirResult = await client
                 .CreateDirectory("/foo")
                 .WithTimeToLive(300 /* seconds */);
 ```
 
-** Watch a key for a single change **
+**Watch a key for a single change**
 ```cs
 client.WatchOnce("/somekey")
     .Subscribe(x => { /* do the thing */ });
 ```
 
-** Monitor a key and child keys for changes **
+**Monitor a key and child keys for changes**
 ```cs
 client.Watch("/somekey")
     .WithRecursive(true)
     .Subscribe(x => { /* do the thing */ });
 ```
 
-** Stop monitoring key changes **
+**Stop monitoring key changes**
 ```cs
 var disposable = client.Watch("/somekey")
                     .WithRecursive(true)
@@ -81,7 +81,7 @@ disposable.Dispose();
 
 ## Atomic Key based operations ##
 
-** Update a key with an expected value **
+**Update a key with an expected value**
 ```cs
 var result = await client
             .Atomic
@@ -91,7 +91,7 @@ var result = await client
 
 ```
 
-** Delete a key with an expected modified index **
+**Delete a key with an expected modified index**
 ```cs
 var result = await client
             .Atomic
@@ -102,21 +102,21 @@ var result = await client
 
 ## Cluster based operations ##
 
-** Get cluster members **
+**Get cluster members**
 ```cs
 var members = await client
                 .Cluster
                 .GetMembers();
 ```
 
-** Get cluster leader **
+**Get cluster leader**
 ```cs
 var leader = await client
                 .Cluster
                 .GetLeader();
 ```
 
-** Add a cluster member **
+**Add a cluster member**
 ```cs
 var memberInfo = await client
                 .Cluster
@@ -124,7 +124,7 @@ var memberInfo = await client
                 .WithPeerUri(new Uri("http://localhost:4002"), new Uri("http://localhost:5002"));
 ```
 
-** Remove a cluster member **
+**Remove a cluster member**
 ```cs
 await client
     .Cluster
