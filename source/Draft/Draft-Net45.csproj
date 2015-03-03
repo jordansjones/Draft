@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters.cs" />
+    <Compile Include="Configuration\ClientConfig.cs" />
+    <Compile Include="Configuration\IEtcdClientConfig.cs" />
     <Compile Include="Requests\Cluster\CreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\DeleteMemberRequest.cs" />
     <Compile Include="Requests\Cluster\GetLeaderRequest.cs" />
