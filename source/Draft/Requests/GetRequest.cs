@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Exceptions;
 using Draft.Responses;
 
 using Flurl;
@@ -24,11 +25,22 @@ namespace Draft.Requests
 
         public async Task<IKeyEvent> Execute()
         {
-            return await TargetUrl
-                .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Quorum, EtcdConstants.Parameter_True))
-                .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
-                .GetAsync()
-                .ReceiveEtcdResponse<KeyEvent>();
+            try
+            {
+                return await TargetUrl
+                    .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Quorum, EtcdConstants.Parameter_True))
+                    .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
+                    .GetAsync()
+                    .ReceiveEtcdResponse<KeyEvent>();
+            }
+            catch (FlurlHttpTimeoutException e)
+            {
+                throw;
+            }
+            catch (FlurlHttpException e)
+            {
+                throw;
+            }
         }
 
         public TaskAwaiter<IKeyEvent> GetAwaiter()
