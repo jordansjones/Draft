@@ -12,6 +12,8 @@ namespace Draft
 
         public const string Parameter_False = "false";
 
+        public const string Parameter_Name = "name";
+
         public const string Parameter_PeerURLs = "peerURLs";
 
         public const string Parameter_PrevExist = "prevExist";

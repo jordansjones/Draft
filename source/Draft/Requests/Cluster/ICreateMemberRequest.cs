@@ -24,6 +24,11 @@ namespace Draft.Requests.Cluster
         TaskAwaiter<IClusterMember> GetAwaiter();
 
         /// <summary>
+        ///     Name for the member.
+        /// </summary>
+        ICreateMemberRequest WithName(string name);
+
+        /// <summary>
         ///     Peer endpoints for the member.
         /// </summary>
         ICreateMemberRequest WithPeerUri(params Uri[] uris);

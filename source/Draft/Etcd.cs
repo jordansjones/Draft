@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 using Draft.Configuration;
 
 using Flurl;
+using Flurl.Http;
 
 namespace Draft
 {
@@ -19,6 +22,25 @@ namespace Draft
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         private static readonly object _gate = new object();
+
+        static Etcd()
+        {
+            FlurlHttp.Configure(
+                c =>
+                {
+                    c.BeforeCall = http =>
+                    {
+                        //if (http.Request.Method != HttpMethod.Post && http.Request.Method != HttpMethod.Put) return;
+
+                        if (http.Request.Content == null) return;
+
+                        if (http.Request.Content.Headers.ContentType.MediaType == "application/json")
+                        {
+                            http.Request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
+                        }
+                    };
+                });
+        }
 
         /// <summary>
         ///     <see cref="IEtcdClient" />'s global configuration options.

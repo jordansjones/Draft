@@ -17,9 +17,11 @@ namespace Draft.Requests.Cluster
 
         public async Task<IClusterMember[]> Execute()
         {
-            return await TargetUrl
+            var collection = await TargetUrl
                 .GetAsync()
-                .ReceiveJson<ClusterMember[]>();
+                .ReceiveJson<ClusterMemberCollection>();
+
+            return collection.Members;
         }
 
         public TaskAwaiter<IClusterMember[]> GetAwaiter()

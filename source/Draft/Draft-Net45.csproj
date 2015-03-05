@@ -74,6 +74,7 @@
     <Compile Include="Requests\Cluster\IUpdateMemberPeerUrlsRequest.cs" />
     <Compile Include="Requests\Cluster\UpdateMemberPeerUrlsRequest.cs" />
     <Compile Include="Responses\Cluster\ClusterMember.cs" />
+    <Compile Include="Responses\Cluster\ClusterMemberCollection.cs" />
     <Compile Include="Responses\Cluster\IClusterMember.cs" />
     <Compile Include="Responses\IHaveResponseHeaders.cs" />
     <Compile Include="ValueConverters\JsonValueConverter.cs" />

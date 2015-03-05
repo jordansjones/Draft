@@ -21,12 +21,19 @@ namespace Draft.Requests.Cluster
             Uris = new List<Uri>();
         }
 
+        public string Name { get; private set; }
+
         public List<Uri> Uris { get; private set; }
 
         public async Task<IClusterMember> Execute()
         {
             var values = new ListDictionary
             {
+                {
+                    // Key
+                    EtcdConstants.Parameter_Name,
+                    Name
+                },
                 {
                     // Key
                     EtcdConstants.Parameter_PeerURLs,
@@ -42,6 +49,12 @@ namespace Draft.Requests.Cluster
         public TaskAwaiter<IClusterMember> GetAwaiter()
         {
             return Execute().GetAwaiter();
+        }
+
+        public ICreateMemberRequest WithName(string name)
+        {
+            Name = name;
+            return this;
         }
 
         public ICreateMemberRequest WithPeerUri(params Uri[] uris)
