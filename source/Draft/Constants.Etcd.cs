@@ -12,6 +12,14 @@ namespace Draft
         internal static class Etcd
         {
 
+            public const string Header_ClusterId = "X-Etcd-Cluster-Id";
+
+            public const string Header_EtcdIndex = "X-Etcd-Index";
+
+            public const string Header_RaftIndex = "X-Raft-Index";
+
+            public const string Header_RaftTerm = "X-Raft-Term";
+
             public const string Parameter_Directory = "dir";
 
             public const string Parameter_False = "false";

@@ -26,6 +26,15 @@ namespace Draft
             return This.MediaType.Equals(Http.ContentType_ApplicationJson, StringComparison.InvariantCultureIgnoreCase);
         }
 
+        public static bool IsJsonContentType(this HttpRequestMessage This)
+        {
+            return This != null
+                   && This.Content != null
+                   && This.Content.Headers != null
+                   && This.Content.Headers.ContentType != null
+                   && This.Content.Headers.ContentType.IsJson();
+        }
+
         public static bool IsJsonContentType(this HttpResponseMessage This)
         {
             return This != null
@@ -36,7 +45,5 @@ namespace Draft
         }
 
         #endregion
-
-
     }
 }
