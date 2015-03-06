@@ -95,10 +95,11 @@
     <Compile Include="Exceptions\TestFailedException.cs" />
     <Compile Include="Exceptions\TimeoutNotANumberException.cs" />
     <Compile Include="Exceptions\TtlNotANumberException.cs" />
-    <Compile Include="Exceptions\UnknownException.cs" />
+    <Compile Include="Exceptions\UnknownErrorException.cs" />
     <Compile Include="Exceptions\ValueOrTtlRequiredException.cs" />
     <Compile Include="Exceptions\ValueRequiredException.cs" />
     <Compile Include="Exceptions\WatcherClearedException.cs" />
+    <Compile Include="Json\EtcdErrorCodeConverter.cs" />
     <Compile Include="Requests\Cluster\CreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\DeleteMemberRequest.cs" />
     <Compile Include="Requests\Cluster\GetLeaderRequest.cs" />
@@ -149,7 +150,7 @@
     <Compile Include="Requests\IUpsertKeyRequest.cs" />
     <Compile Include="Requests\IWatchRequest.cs" />
     <Compile Include="Extensions\Flurl.ResponseMessageExtensions.cs" />
-    <Compile Include="Responses\ErrorCode.cs" />
+    <Compile Include="Responses\EtcdErrorCode.cs" />
     <Compile Include="Responses\Health.cs" />
     <Compile Include="Responses\IEtcdResponse.cs" />
     <Compile Include="Responses\IKeyData.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Vendor\ListDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.ErrorCode.cs" />
     <None Include="packages.Draft-Net45.config" />
   </ItemGroup>
   <ItemGroup>

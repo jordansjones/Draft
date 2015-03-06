@@ -15,6 +15,16 @@ namespace Draft
 {
     internal static class ExceptionHandling
     {
+        #region HttpStatusCode -> EtcdErrorCode conversion
+
+        private static EtcdErrorCode? GetEtcdErrorCode(this FlurlHttpException This)
+        {
+            if (This == null || This.Call == null || This.Call.Response == null) { return null; }
+
+            return This.Call.Response.StatusCode.Map();
+        }
+
+        #endregion
 
         public static EtcdException ProcessException(this Exception This)
         {
@@ -34,9 +44,12 @@ namespace Draft
 
             var message = etcdError.Message;
 
+            etcdError.ErrorCode = etcdError.ErrorCode
+                                  ?? (fhe.GetEtcdErrorCode() ?? EtcdErrorCode.Unknown);
+
             EtcdException exception;
             // Ugh. The switch from hell.
-            switch (etcdError.ErrorCode)
+            switch (etcdError.ErrorCode.Value)
             {
                 case EtcdErrorCode.KeyNotFound:
                     exception = new KeyNotFoundException(message);

@@ -8,7 +8,7 @@ using Flurl.Http.Testing;
 // ReSharper disable once CheckNamespace
 namespace Draft.Tests
 {
-    public static class HttpTestExtensions
+    public static partial class HttpTestExtensions
     {
 
         public static HttpTestFluentAssertions Should(this HttpTest This)

@@ -5,9 +5,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 
 using Draft.Configuration;
+using Draft.Json;
 
 using Flurl;
 using Flurl.Http;
+
+using Newtonsoft.Json;
 
 namespace Draft
 {
@@ -38,6 +41,13 @@ namespace Draft
                         }
                     };
                 });
+
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(new EtcdErrorCodeConverter());
+                return settings;
+            };
         }
 
         /// <summary>

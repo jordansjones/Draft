@@ -52,6 +52,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture">
+      <HintPath>..\..\packages\AutoFixture.3.24.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Reactive.Core">
@@ -79,10 +82,12 @@
     <Compile Include="Assertions\BaseFluentAssertions.cs" />
     <Compile Include="Assertions\HttpCallFluentAssertions.cs" />
     <Compile Include="Assertions\HttpTestFluentAssertions.cs" />
+    <Compile Include="Extensions\HttpTestExtensions.cs" />
     <Compile Include="Fixtures\Fixtures.Cluster.cs" />
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
     <Compile Include="Tests\Cluster\CreateMemberTests.cs" />
+    <Compile Include="Tests\Exceptions\CoreExceptionTests.cs" />
     <Compile Include="Tests\Keys\DirectoryRequestTests.cs" />
     <Compile Include="Tests\EtcdTests.cs" />
     <Compile Include="Extensions\DisposableExtensions.cs" />

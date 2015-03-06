@@ -9,7 +9,7 @@ namespace Draft
     {
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        internal static class Etcd
+        internal static partial class Etcd
         {
 
             public const string Header_ClusterId = "X-Etcd-Cluster-Id";

@@ -17,7 +17,7 @@ namespace Draft.Responses
         /// <summary>
         ///     The etcd error code.
         /// </summary>
-        EtcdErrorCode ErrorCode { get; }
+        EtcdErrorCode? ErrorCode { get; }
 
         /// <summary>
         ///     The current etcd index if applicable.
