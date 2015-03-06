@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using Flurl;
 using Flurl.Http.Testing;
 
@@ -31,8 +33,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndDelete.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevIndex, Fixtures.CompareAndDelete.ExpectedIndex)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndDelete.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevIndex, Fixtures.CompareAndDelete.ExpectedIndex)
                     )
                     .WithVerb(HttpMethod.Delete)
                     .Times(2);
@@ -57,8 +59,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndDelete.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevValue, Fixtures.CompareAndDelete.ExpectedValue)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndDelete.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevValue, Fixtures.CompareAndDelete.ExpectedValue)
                     )
                     .WithVerb(HttpMethod.Delete)
                     .Times(2);

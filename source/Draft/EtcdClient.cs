@@ -25,7 +25,7 @@ namespace Draft
 
         public Url KeysUrl
         {
-            get { return EndpointUrl.AppendPathSegment(EtcdConstants.Path_Keys); }
+            get { return EndpointUrl.AppendPathSegment(Constants.Etcd.Path_Keys); }
         }
 
         #region IEtcd Client
@@ -59,6 +59,11 @@ namespace Draft
         public IGetRequest GetKey(string key)
         {
             return new GetRequest(this, KeysUrl, key);
+        }
+
+        public IGetVersionRequest GetVersion()
+        {
+            return new GetVersionRequest(this, EndpointUrl, Constants.Etcd.Path_Version);
         }
 
         public IUpdateDirectoryRequest UpdateDirectory(string path)
@@ -118,27 +123,27 @@ namespace Draft
 
         public ICreateMemberRequest CreateMember()
         {
-            return new CreateMemberRequest(this, EndpointUrl, EtcdConstants.Path_Members);
+            return new CreateMemberRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
         }
 
         public IDeleteMemberRequest DeleteMember()
         {
-            return new DeleteMemberRequest(this, EndpointUrl, EtcdConstants.Path_Members);
+            return new DeleteMemberRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
         }
 
         public IGetLeaderRequest GetLeader()
         {
-            return new GetLeaderRequest(this, EndpointUrl, EtcdConstants.Path_Members_Leader);
+            return new GetLeaderRequest(this, EndpointUrl, Constants.Etcd.Path_Members_Leader);
         }
 
         public IGetMembersRequest GetMembers()
         {
-            return new GetMembersRequest(this, EndpointUrl, EtcdConstants.Path_Members);
+            return new GetMembersRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
         }
 
         public IUpdateMemberPeerUrlsRequest UpdateMemberPeerUrls()
         {
-            return new UpdateMemberPeerUrlsRequest(this, EndpointUrl, EtcdConstants.Path_Members);
+            return new UpdateMemberPeerUrlsRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
         }
 
         #endregion

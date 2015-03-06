@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using Flurl;
 using Flurl.Http.Testing;
 
@@ -32,8 +34,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndSwap.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevIndex, Fixtures.CompareAndSwap.ExpectedIndex)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndSwap.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevIndex, Fixtures.CompareAndSwap.ExpectedIndex)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(Fixtures.CompareAndSwap.DefaultRequest())
@@ -61,8 +63,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndSwap.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevIndex, Fixtures.CompareAndSwap.ExpectedIndex)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndSwap.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevIndex, Fixtures.CompareAndSwap.ExpectedIndex)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(Fixtures.CompareAndSwap.TtlRequest())
@@ -89,8 +91,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndSwap.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevValue, Fixtures.CompareAndSwap.ExpectedValue)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndSwap.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevValue, Fixtures.CompareAndSwap.ExpectedValue)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(Fixtures.CompareAndSwap.DefaultRequest())
@@ -118,8 +120,8 @@ namespace Draft.Tests.Atomics
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.CompareAndSwap.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_PrevValue, Fixtures.CompareAndSwap.ExpectedValue)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.CompareAndSwap.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_PrevValue, Fixtures.CompareAndSwap.ExpectedValue)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(Fixtures.CompareAndSwap.TtlRequest())

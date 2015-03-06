@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using FluentAssertions;
 
 using Flurl;
@@ -33,9 +35,9 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(4);
@@ -70,9 +72,9 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);
@@ -101,9 +103,9 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get);
 
@@ -131,9 +133,9 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);
@@ -159,10 +161,10 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
-                            .SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);
@@ -183,10 +185,10 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Watch.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
-                            .SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex)
+                            .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_WaitIndex, modifiedIndex)
                     )
                     .WithVerb(HttpMethod.Get)
                     .Times(1);

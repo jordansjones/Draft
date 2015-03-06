@@ -28,7 +28,7 @@ namespace Draft.Responses
         DateTime? Expiration { get; }
 
         /// <summary>
-        ///     Indicates whether this key's node is an Etcd directory.
+        ///     Indicates whether this key's node is an etcd directory.
         /// </summary>
         bool IsDir { get; }
 
@@ -38,7 +38,7 @@ namespace Draft.Responses
         string Key { get; }
 
         /// <summary>
-        ///     The Etcd index at which this key's node was modified.
+        ///     The etcd index at which this key's node was modified.
         /// </summary>
         long? ModifiedIndex { get; }
 

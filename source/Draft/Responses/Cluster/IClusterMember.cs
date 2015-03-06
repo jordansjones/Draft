@@ -4,7 +4,7 @@ using System.Linq;
 namespace Draft.Responses.Cluster
 {
     /// <summary>
-    ///     Represents a member in the Etcd cluster.
+    ///     Represents a member in the etcd cluster.
     /// </summary>
     public interface IClusterMember
     {

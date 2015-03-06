@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using Flurl;
 using Flurl.Http.Testing;
 
@@ -27,7 +29,7 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Queue.Path)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Queue.Path)
                     )
                     .WithVerb(HttpMethod.Post)
                     .WithRequestBody(Fixtures.Queue.DefaultRequest())
@@ -50,7 +52,7 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Queue.Path)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Queue.Path)
                     )
                     .WithVerb(HttpMethod.Post)
                     .WithRequestBody(Fixtures.Queue.TtlRequest())

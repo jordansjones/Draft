@@ -18,10 +18,10 @@ namespace Draft
         {
             return new ResponseHeaders
             {
-                ClusterId = This.TryGetHeader(HeaderConstants.ClusterId),
-                CurrentIndex = This.TryGetHeaderAsLong(HeaderConstants.EtcdIndex),
-                RaftIndex = This.TryGetHeaderAsLong(HeaderConstants.RaftIndex),
-                RaftTerm = This.TryGetHeaderAsLong(HeaderConstants.RaftTerm)
+                ClusterId = This.TryGetHeader(Constants.Header.ClusterId),
+                CurrentIndex = This.TryGetHeaderAsLong(Constants.Header.EtcdIndex),
+                RaftIndex = This.TryGetHeaderAsLong(Constants.Header.RaftIndex),
+                RaftTerm = This.TryGetHeaderAsLong(Constants.Header.RaftTerm)
             };
         }
 

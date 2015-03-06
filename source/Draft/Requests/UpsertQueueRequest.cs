@@ -59,25 +59,32 @@ namespace Draft.Requests
             {
                 {
                     // Key
-                    IsDirectory ? EtcdConstants.Parameter_Directory : EtcdConstants.Parameter_Value,
+                    IsDirectory ? Constants.Etcd.Parameter_Directory : Constants.Etcd.Parameter_Value,
                     // Value
-                    IsDirectory ? EtcdConstants.Parameter_True : Value
+                    IsDirectory ? Constants.Etcd.Parameter_True : Value
                 }
             };
 
             if (Existing.HasValue && Existing.Value)
             {
-                values.Add(EtcdConstants.Parameter_PrevExist, EtcdConstants.Parameter_True);
+                values.Add(Constants.Etcd.Parameter_PrevExist, Constants.Etcd.Parameter_True);
             }
 
             if (Ttl.HasValue)
             {
-                values.Add(EtcdConstants.Parameter_Ttl, Ttl.Value);
+                values.Add(Constants.Etcd.Parameter_Ttl, Ttl.Value);
             }
 
-            return await TargetUrl
-                .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v), (x, v) => x.PutUrlEncodedAsync(v))
-                .ReceiveEtcdResponse<KeyEvent>();
+            try
+            {
+                return await TargetUrl
+                    .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v), (x, v) => x.PutUrlEncodedAsync(v))
+                    .ReceiveEtcdResponse<KeyEvent>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         public TaskAwaiter<IKeyEvent> GetAwaiter()

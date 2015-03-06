@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Constants;
+
 namespace Draft.Tests
 {
     public static partial class Fixtures
@@ -28,21 +30,21 @@ namespace Draft.Tests
             public static string ExistingRequest(string value = DefaultValue, bool existing = true)
             {
                 return WithValue(value)
-                    .ConditionallyAdd(existing, EtcdConstants.Parameter_PrevExist, EtcdConstants.Parameter_True)
+                    .ConditionallyAdd(existing, Constants.Etcd.Parameter_PrevExist, Constants.Etcd.Parameter_True)
                     .AsRequestBody();
             }
 
             public static string TtlRequest(string value = DefaultValue, int ttl = DefaultTtl)
             {
                 return WithValue(value)
-                    .Add(EtcdConstants.Parameter_Ttl, ttl)
+                    .Add(Constants.Etcd.Parameter_Ttl, ttl)
                     .AsRequestBody();
             }
 
             private static FormBodyBuilder<string, object> WithValue(string value)
             {
                 return new FormBodyBuilder<string, object>()
-                    .Add(EtcdConstants.Parameter_Value, value);
+                    .Add(Constants.Etcd.Parameter_Value, value);
             }
 
         }

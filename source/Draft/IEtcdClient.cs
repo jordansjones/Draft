@@ -13,12 +13,12 @@ namespace Draft
     {
 
         /// <summary>
-        ///     Returns an Etcd client for atomic operations.
+        ///     Returns an etcd client for atomic operations.
         /// </summary>
         IAtomicEtcdClient Atomic { get; }
 
         /// <summary>
-        ///     Returns an Etcd cluent for cluster related operations.
+        ///     Returns an etcd cluent for cluster related operations.
         /// </summary>
         IClusterEtcdClient Cluster { get; }
 
@@ -46,6 +46,11 @@ namespace Draft
         ///     Begins a key retrieval request.
         /// </summary>
         IGetRequest GetKey(string key);
+
+        /// <summary>
+        ///     Begins a version retrieval request.
+        /// </summary>
+        IGetVersionRequest GetVersion();
 
         /// <summary>
         ///     Begins a directory update request.

@@ -19,9 +19,16 @@ namespace Draft.Requests.Cluster
 
         public async Task Execute()
         {
-            await TargetUrl
-                .AppendPathSegment(MemberId)
-                .DeleteAsync();
+            try
+            {
+                await TargetUrl
+                    .AppendPathSegment(MemberId)
+                    .DeleteAsync();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         public TaskAwaiter GetAwaiter()

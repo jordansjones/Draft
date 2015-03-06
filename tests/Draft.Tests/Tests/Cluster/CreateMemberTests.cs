@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using FluentAssertions;
 
 using Flurl;
@@ -30,7 +32,7 @@ namespace Draft.Tests.Cluster
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                        .AppendPathSegment(EtcdConstants.Path_Members)
+                        .AppendPathSegment(Constants.Etcd.Path_Members)
                     )
                     .WithVerb(HttpMethod.Post)
                     .Times(1);

@@ -19,9 +19,16 @@ namespace Draft.Requests.Cluster
 
         public async Task<IClusterMember> Execute()
         {
-            return await TargetUrl
-                .GetAsync()
-                .ReceiveJson<ClusterMember>();
+            try
+            {
+                return await TargetUrl
+                    .GetAsync()
+                    .ReceiveJson<ClusterMember>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         public TaskAwaiter<IClusterMember> GetAwaiter()

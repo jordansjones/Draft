@@ -28,18 +28,14 @@ namespace Draft.Requests
             try
             {
                 return await TargetUrl
-                    .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Quorum, EtcdConstants.Parameter_True))
-                    .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
+                    .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
+                    .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                     .GetAsync()
                     .ReceiveEtcdResponse<KeyEvent>();
             }
-            catch (FlurlHttpTimeoutException e)
-            {
-                throw;
-            }
             catch (FlurlHttpException e)
             {
-                throw;
+                throw e.ProcessException();
             }
         }
 

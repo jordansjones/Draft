@@ -60,10 +60,10 @@ namespace Draft.Requests
                 {
                     var response = await EndpointUrl
                         .AppendPathSegment(Path)
-                        .SetQueryParam(EtcdConstants.Parameter_Wait, EtcdConstants.Parameter_True)
-                        .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
+                        .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
+                        .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                         // ReSharper disable once PossibleInvalidOperationException
-                        .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(EtcdConstants.Parameter_WaitIndex, modifiedIndex.Value))
+                        .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(Constants.Etcd.Parameter_WaitIndex, modifiedIndex.Value))
                         .GetAsync();
 
                     if (cancellationToken.IsCancellationRequested) { break; }
@@ -83,12 +83,12 @@ namespace Draft.Requests
                 }
                 catch (FlurlHttpException e)
                 {
-                    observer.OnError(e);
+                    observer.OnError(e.ProcessException());
                     break;
                 }
                 catch (Exception e)
                 {
-                    observer.OnError(e);
+                    observer.OnError(e.ProcessException());
                     break;
                 }
             }

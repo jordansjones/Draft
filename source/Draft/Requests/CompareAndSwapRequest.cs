@@ -88,7 +88,7 @@ namespace Draft.Requests
             {
                 {
                     // Key
-                    EtcdConstants.Parameter_Value,
+                    Constants.Etcd.Parameter_Value,
                     // Value
                     Value
                 }
@@ -96,14 +96,21 @@ namespace Draft.Requests
 
             if (Ttl.HasValue)
             {
-                values.Add(EtcdConstants.Parameter_Ttl, Ttl.Value);
+                values.Add(Constants.Etcd.Parameter_Ttl, Ttl.Value);
             }
 
-            return await TargetUrl
-                .Conditionally(isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevValue, ExpectedValue))
-                .Conditionally(!isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevIndex, ExpectedIndex))
-                .PutUrlEncodedAsync(values)
-                .ReceiveEtcdResponse<KeyEvent>();
+            try
+            {
+                return await TargetUrl
+                    .Conditionally(isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevValue, ExpectedValue))
+                    .Conditionally(!isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevIndex, ExpectedIndex))
+                    .PutUrlEncodedAsync(values)
+                    .ReceiveEtcdResponse<KeyEvent>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         private TaskAwaiter<IKeyEvent> GetAwaiter(bool isByValue)

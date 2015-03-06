@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Draft.Constants;
+
 using Flurl;
 using Flurl.Http.Testing;
 
@@ -26,7 +28,7 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Directory.Path)
                     )
                     .WithVerb(HttpMethod.Put)
@@ -49,13 +51,13 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Directory.Path)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(
                         Fixtures.Directory.DefaultRequest
-                            .Add(EtcdConstants.Parameter_Ttl, Fixtures.Directory.DefaultTtl)
+                            .Add(Constants.Etcd.Parameter_Ttl, Fixtures.Directory.DefaultTtl)
                             .AsRequestBody()
                     )
                     .Times(1);
@@ -75,8 +77,8 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Delete)
                     .Times(1);
@@ -97,8 +99,8 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Delete)
                     .Times(1);
@@ -119,9 +121,9 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegments(EtcdConstants.Path_Keys, Fixtures.Directory.Path)
-                            .SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True)
-                            .SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True)
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Directory.Path)
+                            .SetQueryParam(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True)
+                            .SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True)
                     )
                     .WithVerb(HttpMethod.Delete)
                     .Times(1);
@@ -141,7 +143,7 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Directory.Path)
                     )
                     .WithVerb(HttpMethod.Put)
@@ -164,13 +166,13 @@ namespace Draft.Tests.Keys
                 http.Should()
                     .HaveCalled(
                         Fixtures.EtcdUrl
-                            .AppendPathSegment(EtcdConstants.Path_Keys)
+                            .AppendPathSegment(Constants.Etcd.Path_Keys)
                             .AppendPathSegment(Fixtures.Directory.Path)
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(
                         Fixtures.Directory.WithExistingRequest
-                            .Add(EtcdConstants.Parameter_Ttl, Fixtures.Directory.DefaultTtl)
+                            .Add(Constants.Etcd.Parameter_Ttl, Fixtures.Directory.DefaultTtl)
                             .AsRequestBody()
                     )
                     .Times(1);

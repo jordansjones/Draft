@@ -31,19 +31,26 @@ namespace Draft.Requests.Cluster
             {
                 {
                     // Key
-                    EtcdConstants.Parameter_Name,
+                    Constants.Etcd.Parameter_Name,
                     Name
                 },
                 {
                     // Key
-                    EtcdConstants.Parameter_PeerURLs,
+                    Constants.Etcd.Parameter_PeerURLs,
                     Uris.ToArray()
                 }
             };
 
-            return await TargetUrl
-                .PostJsonAsync(values)
-                .ReceiveJson<ClusterMember>();
+            try
+            {
+                return await TargetUrl
+                    .PostJsonAsync(values)
+                    .ReceiveJson<ClusterMember>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         public TaskAwaiter<IClusterMember> GetAwaiter()

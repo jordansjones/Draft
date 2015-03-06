@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Constants;
+
 namespace Draft.Tests
 {
     public static partial class Fixtures
@@ -23,7 +25,7 @@ namespace Draft.Tests
                 get
                 {
                     return new FormBodyBuilder<string, object>()
-                        .Add(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True);
+                        .Add(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True);
                 }
             }
 
@@ -32,7 +34,7 @@ namespace Draft.Tests
                 get
                 {
                     return DefaultRequest
-                        .Add(EtcdConstants.Parameter_PrevExist, EtcdConstants.Parameter_True);
+                        .Add(Constants.Etcd.Parameter_PrevExist, Constants.Etcd.Parameter_True);
                 }
             }
 

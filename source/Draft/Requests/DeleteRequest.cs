@@ -27,11 +27,18 @@ namespace Draft.Requests
 
         public async Task<IKeyEvent> Execute()
         {
-            return await TargetUrl
-                .Conditionally(IsDirectory, x => x.SetQueryParam(EtcdConstants.Parameter_Directory, EtcdConstants.Parameter_True))
-                .Conditionally(IsDirectory && Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(EtcdConstants.Parameter_Recursive, EtcdConstants.Parameter_True))
-                .DeleteAsync()
-                .ReceiveEtcdResponse<KeyEvent>();
+            try
+            {
+                return await TargetUrl
+                    .Conditionally(IsDirectory, x => x.SetQueryParam(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True))
+                    .Conditionally(IsDirectory && Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
+                    .DeleteAsync()
+                    .ReceiveEtcdResponse<KeyEvent>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         public TaskAwaiter<IKeyEvent> GetAwaiter()

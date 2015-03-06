@@ -15,7 +15,7 @@ namespace Draft.Requests
     internal class CompareAndDeleteRequest : BaseRequest, ICompareAndDeleteRequest, ICompareAndDeleteByIndexRequest, ICompareAndDeleteByValueRequest
     {
 
-        public CompareAndDeleteRequest(IEtcdClient client, Url endpointUrl, string containerPath) 
+        public CompareAndDeleteRequest(IEtcdClient client, Url endpointUrl, string containerPath)
             : base(client, endpointUrl, containerPath) {}
 
         public long ExpectedIndex { get; private set; }
@@ -56,11 +56,18 @@ namespace Draft.Requests
 
         private async Task<IKeyEvent> Execute(bool isByValue)
         {
-            return await TargetUrl
-                .Conditionally(isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevValue, ExpectedValue))
-                .Conditionally(!isByValue, x => x.SetQueryParam(EtcdConstants.Parameter_PrevIndex, ExpectedIndex))
-                .DeleteAsync()
-                .ReceiveEtcdResponse<KeyEvent>();
+            try
+            {
+                return await TargetUrl
+                    .Conditionally(isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevValue, ExpectedValue))
+                    .Conditionally(!isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevIndex, ExpectedIndex))
+                    .DeleteAsync()
+                    .ReceiveEtcdResponse<KeyEvent>();
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
         private TaskAwaiter<IKeyEvent> GetAwaiter(bool isByValue)
