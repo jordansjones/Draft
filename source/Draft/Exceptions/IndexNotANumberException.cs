@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public IndexNotANumberException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to etcd being unable to parse the passed index value as a number.
+        /// </summary>
         public override bool IsIndexNotANumber
         {
             get { return true; }

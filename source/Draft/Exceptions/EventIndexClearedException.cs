@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public EventIndexClearedException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the event in the requested index is outdated and cleared.
+        /// </summary>
         public override bool IsEventIndexCleared
         {
             get { return true; }

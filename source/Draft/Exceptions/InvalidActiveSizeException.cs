@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidActiveSizeException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an "Invalid active size" error.
+        /// </summary>
         public override bool IsInvalidActiveSize
         {
             get { return true; }

@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public TtlNotANumberException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to etcd being unable to parse the passed ttl value as a number.
+        /// </summary>
         public override bool IsTtlNotANumber
         {
             get { return true; }

@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public LeaderElectException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an in process leader election.
+        /// </summary>
         public override bool IsLeaderElect
         {
             get { return true; }

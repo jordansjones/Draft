@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public UnknownErrorException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an unknown error.
+        /// </summary>
         public override bool IsUnknown
         {
             get { return true; }

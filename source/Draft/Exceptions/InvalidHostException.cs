@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidHostException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to attempting to connect to a non-etcd endpoint.
+        /// </summary>
         public override bool IsInvalidHost
         {
             get { return true; }

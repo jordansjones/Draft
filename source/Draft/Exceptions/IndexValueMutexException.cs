@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public IndexValueMutexException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to "Index and value cannot both be specified."
+        /// </summary>
         public override bool IsIndexValueMutex
         {
             get { return true; }

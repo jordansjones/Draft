@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public PreviousValueRequiredException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the previous value field missing in the form post.
+        /// </summary>
         public override bool IsPreviousValueRequired
         {
             get { return true; }

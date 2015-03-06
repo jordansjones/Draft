@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Draft.Constants;
-
 namespace Draft.Tests
 {
     public static partial class Fixtures

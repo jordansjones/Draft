@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public WatcherClearedException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the watcher being cleared as a result of etcd recovery.
+        /// </summary>
         public override bool IsWatcherCleared
         {
             get { return true; }

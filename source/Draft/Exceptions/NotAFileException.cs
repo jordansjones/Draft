@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public NotAFileException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to attempting a file based operation on a key that isn't a file.
+        /// </summary>
         public override bool IsNotFile
         {
             get { return true; }

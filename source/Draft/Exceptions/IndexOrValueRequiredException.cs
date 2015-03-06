@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public IndexOrValueRequiredException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the request missing the index or value property.
+        /// </summary>
         public override bool IsIndexOrValueRequired
         {
             get { return true; }

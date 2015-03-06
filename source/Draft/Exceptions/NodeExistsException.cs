@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public NodeExistsException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the passed key already existing.
+        /// </summary>
         public override bool IsNodeExists
         {
             get { return true; }

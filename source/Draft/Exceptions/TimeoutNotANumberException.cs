@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public TimeoutNotANumberException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the etcd being unable to parse the passed timeout value as a number.
+        /// </summary>
         public override bool IsTimeoutNotANumber
         {
             get { return true; }

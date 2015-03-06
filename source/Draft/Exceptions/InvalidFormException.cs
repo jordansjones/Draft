@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidFormException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an invalid form post.
+        /// </summary>
         public override bool IsInvalidForm
         {
             get { return true; }

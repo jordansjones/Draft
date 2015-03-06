@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public ExistingPeerAddressException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to there being an existing peer address that matches the value passed.
+        /// </summary>
         public override bool IsExistingPeerAddress
         {
             get { return true; }

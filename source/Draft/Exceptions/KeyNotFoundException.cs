@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public KeyNotFoundException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the passed keyspace key not existing.
+        /// </summary>
         public override bool IsKeyNotFound
         {
             get { return true; }

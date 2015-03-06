@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public KeyIsPreservedException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to attempting to use an etcd reserved keyword as a key operation key.
+        /// </summary>
         public override bool IsKeyIsPreserved
         {
             get { return true; }

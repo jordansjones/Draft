@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public NoMorePeerException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to reaching the max number of peers in the cluster.
+        /// </summary>
         public override bool IsNoMorePeer
         {
             get { return true; }

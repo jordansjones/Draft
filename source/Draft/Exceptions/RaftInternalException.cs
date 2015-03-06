@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public RaftInternalException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an internal raft error.
+        /// </summary>
         public override bool IsRaftInternal
         {
             get { return true; }

@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public DirectoryNotEmptyException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the passed directory still containing children.
+        /// </summary>
         public override bool IsDirectoryNotEmpty
         {
             get { return true; }

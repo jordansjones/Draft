@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public StandbyInternalException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an "Internal standby error".
+        /// </summary>
         public override bool IsStandbyInternal
         {
             get { return true; }

@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public ClientInternalException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an internal client error
+        /// </summary>
         public override bool IsClientInternal
         {
             get { return true; }

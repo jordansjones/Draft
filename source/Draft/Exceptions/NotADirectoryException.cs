@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public NotADirectoryException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to attempting a directory based operation on a key that isn't a directory.
+        /// </summary>
         public override bool IsNotDirectory
         {
             get { return true; }

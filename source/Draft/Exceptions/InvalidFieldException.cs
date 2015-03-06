@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidFieldException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an invalid field value.
+        /// </summary>
         public override bool IsInvalidField
         {
             get { return true; }

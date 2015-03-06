@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public ValueRequiredException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the value field missing in the form post.
+        /// </summary>
         public override bool IsValueRequired
         {
             get { return true; }

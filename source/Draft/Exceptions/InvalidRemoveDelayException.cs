@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidRemoveDelayException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to a "Standby remove delay" error.
+        /// </summary>
         public override bool IsInvalidRemoveDelay
         {
             get { return true; }

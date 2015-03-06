@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public NameRequiredException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the name field is missing in the form post.
+        /// </summary>
         public override bool IsNameRequired
         {
             get { return true; }

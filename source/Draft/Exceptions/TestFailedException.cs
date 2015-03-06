@@ -19,6 +19,9 @@ namespace Draft.Exceptions
         /// </summary>
         public TestFailedException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to the compare test failing.
+        /// </summary>
         public override bool IsTestFailed
         {
             get { return true; }
