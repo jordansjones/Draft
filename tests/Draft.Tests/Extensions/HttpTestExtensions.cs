@@ -11,7 +11,7 @@ namespace Draft.Tests
 
         public static HttpTest RespondWith(this HttpTest This, HttpStatusCode code, string body)
         {
-            return This.RespondWithJson((int) code, body);
+            return This.RespondWith((int) code, body);
         }
 
         public static HttpTest RespondWithJson(this HttpTest This, HttpStatusCode code, object data)

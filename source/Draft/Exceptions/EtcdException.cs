@@ -132,6 +132,14 @@ namespace Draft.Exceptions
         }
 
         /// <summary>
+        ///     Indicates that this exception is due to an invalid request error.
+        /// </summary>
+        public virtual bool IsInvalidRequest
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Indicates that this exception is due to attempting to use an etcd reserved keyword as a key operation key.
         /// </summary>
         public virtual bool IsKeyIsPreserved

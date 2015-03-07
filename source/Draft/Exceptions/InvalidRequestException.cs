@@ -19,6 +19,13 @@ namespace Draft.Exceptions
         /// </summary>
         public InvalidRequestException(string message) : base(message) {}
 
+        /// <summary>
+        ///     Indicates that this exception is due to an invalid request error.
+        /// </summary>
+        public override bool IsInvalidRequest
+        {
+            get { return true; }
+        }
 
     }
 }

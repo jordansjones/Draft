@@ -84,6 +84,7 @@
     <Compile Include="Assertions\HttpTestFluentAssertions.cs" />
     <Compile Include="Extensions\HttpTestExtensions.cs" />
     <Compile Include="Fixtures\Fixtures.Cluster.cs" />
+    <Compile Include="Fixtures\InvalidHostExceptionTestClientFactory.cs" />
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
     <Compile Include="Tests\Cluster\CreateMemberTests.cs" />

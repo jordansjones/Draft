@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Draft.Exceptions;
 using Draft.Responses;
 
+using Flurl.Http;
 using Flurl.Http.Testing;
 
 using Xunit;
@@ -41,6 +42,43 @@ namespace Draft.Tests.Exceptions
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_Unknown))
             {
                 CallFixture.ShouldThrow<UnknownErrorException>();
+            }
+        }
+
+        [Fact]
+        public void ShouldThrowEtcdTimeoutException()
+        {
+            using (var http = new HttpTest())
+            {
+                http.SimulateTimeout();
+
+                CallFixture.ShouldThrow<EtcdTimeoutException>()
+                    .And
+                    .IsTimeout.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidHostException()
+        {
+            FlurlHttp.Configure(
+                x => { x.HttpClientFactory = new InvalidHostExceptionTestClientFactory(); });
+
+            CallFixture.ShouldThrow<InvalidHostException>()
+                .And
+                .IsInvalidHost.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidRequestException()
+        {
+            using (var http = new HttpTest())
+            {
+                http.RespondWith(HttpStatusCode.NotFound, HttpStatusCode.NotFound.ToString());
+
+                CallFixture.ShouldThrow<InvalidRequestException>()
+                    .And
+                    .IsInvalidRequest.Should().BeTrue();
             }
         }
 
