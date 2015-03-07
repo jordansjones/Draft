@@ -10,14 +10,7 @@ namespace Draft.Configuration
 
         public IKeyDataValueConverter ValueConverter
         {
-            get
-            {
-                if (_valueConverter == null)
-                {
-                    _valueConverter = Converters.Default;
-                }
-                return _valueConverter;
-            }
+            get { return _valueConverter ?? (_valueConverter = Converters.Default); }
             set { _valueConverter = value; }
         }
 

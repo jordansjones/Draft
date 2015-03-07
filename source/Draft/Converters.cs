@@ -7,7 +7,7 @@ using Draft.ValueConverters;
 namespace Draft
 {
     /// <summary>
-    ///     <see cref="IKeyData.Value" /> Converters
+    ///     <see cref="IKeyData.RawValue" /> Converters
     /// </summary>
     public static class Converters
     {
@@ -29,7 +29,7 @@ namespace Draft
         /// <summary>
         ///     Json based converter.
         /// </summary>
-        public static IKeyDataValueConverter Json
+        public static IJsonKeyDataValueConverter Json
         {
             get { return JsonConverter; }
         }

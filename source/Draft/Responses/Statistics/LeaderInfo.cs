@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Statistical information for a member server's leader
     /// </summary>
     [DataContract]
-    public class LeaderInfo
+    internal class LeaderInfo
     {
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace Draft.Responses.Statistics
     /// Statistics about communication with cluster members
     /// </summary>
     [DataContract]
-    public class LeaderStatistics
+    internal class LeaderStatistics
     {
         /// <summary>
         /// Id for the currently elected cluster leader

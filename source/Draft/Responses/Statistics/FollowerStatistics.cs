@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Various statistics about a follower in an etcd cluster
     /// </summary>
     [DataContract]
-    public class FollowerStatistics
+    internal class FollowerStatistics
     {
 
         /// <summary>

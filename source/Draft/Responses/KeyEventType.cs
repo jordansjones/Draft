@@ -7,6 +7,7 @@ namespace Draft.Responses
     /// <summary>
     ///     The types of actions on an <see cref="IKeyEvent" />.
     /// </summary>
+    [DataContract]
     public enum KeyEventType
     {
 

@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Follower latency statistics
     /// </summary>
     [DataContract]
-    public class FollowerLatency
+    internal class FollowerLatency
     {
 
         /// <summary>

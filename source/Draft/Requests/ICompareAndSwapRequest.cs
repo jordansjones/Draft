@@ -44,7 +44,7 @@ namespace Draft.Requests
         TaskAwaiter<IKeyEvent> GetAwaiter();
 
         /// <summary>
-        ///     The new value for this key.
+        ///     The new value for this key's node.
         /// </summary>
         ICompareAndSwapByIndexRequest WithNewValue(string value);
 

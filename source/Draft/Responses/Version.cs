@@ -8,11 +8,11 @@ namespace Draft.Responses
     internal class Version
     {
 
-        [DataMember(Name = "releaseVersion")]
-        public string ReleaseVersion { get; private set; }
-
         [DataMember(Name = "internalVersion")]
         public string InternalVersion { get; private set; }
+
+        [DataMember(Name = "releaseVersion")]
+        public string ReleaseVersion { get; private set; }
 
     }
 }

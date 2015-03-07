@@ -12,7 +12,7 @@ namespace Draft.Configuration
     {
 
         /// <summary>
-        /// <see cref="IKeyDataValueConverter" /> to use for <see cref="IKeyData.Value" />.
+        ///     <see cref="IKeyDataValueConverter" /> to use for <see cref="IKeyData.RawValue" />.
         /// </summary>
         IKeyDataValueConverter ValueConverter { get; set; }
 

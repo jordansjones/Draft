@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Etcd backing store statistics
     /// </summary>
     [DataContract]
-    public class StoreStatistics
+    internal class StoreStatistics
     {
 
         /// <summary>

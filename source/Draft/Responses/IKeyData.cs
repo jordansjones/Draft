@@ -43,17 +43,17 @@ namespace Draft.Responses
         long? ModifiedIndex { get; }
 
         /// <summary>
+        ///     The raw value of this key's node.
+        /// </summary>
+        string RawValue { get; }
+
+        /// <summary>
         ///     The time to live for this key's node in seconds.
         /// </summary>
         /// <remarks>
         ///     <para>Will be <c>null</c> if no <c>Time To Live</c> value was provided on the create/update request for this key.</para>
         /// </remarks>
         long? TtlSeconds { get; }
-
-        /// <summary>
-        ///     The raw value of this key's node.
-        /// </summary>
-        string Value { get; }
 
     }
 }

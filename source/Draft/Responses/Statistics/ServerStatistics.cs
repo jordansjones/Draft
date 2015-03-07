@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Statistical information on an etcd server member
     /// </summary>
     [DataContract]
-    public class ServerStatistics
+    internal class ServerStatistics
     {
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace Draft.Responses.Statistics
     ///     Follower send counts
     /// </summary>
     [DataContract]
-    public class FollowerCounts
+    internal class FollowerCounts
     {
 
         /// <summary>

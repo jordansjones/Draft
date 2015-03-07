@@ -6,7 +6,7 @@ namespace Draft.Responses.Statistics
     /// <summary>
     /// Represents the leadership type of a member of a cluster
     /// </summary>
-    public enum StateType
+    internal enum StateType
     {
 
         /// <summary>

@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 using Draft.Responses;
+
+using System.Linq;
 
 using Newtonsoft.Json;
 
 namespace Draft.Json
 {
+    [ExcludeFromCodeCoverage]
     internal class EtcdErrorCodeConverter : JsonConverter
     {
 
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override bool CanConvert(Type objectType)
         {
-            if (!(value is EtcdErrorCode))
-            {
-                writer.WriteNull();
-                return;
-            }
+            var nullableType = Nullable.GetUnderlyingType(objectType);
 
-            var code = (EtcdErrorCode) value;
+            var t = (nullableType == null || objectType == nullableType)
+                ? objectType
+                : nullableType;
 
-            writer.WriteValue(code.RawValue());
+            return t.IsEnum
+                   && t == typeof (EtcdErrorCode);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null) return null;
+            if (reader.TokenType == JsonToken.Null) { return null; }
 
             if (reader.TokenType == JsonToken.Integer)
             {
@@ -44,16 +45,17 @@ namespace Draft.Json
             return null;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var nullableType = Nullable.GetUnderlyingType(objectType);
+            if (!(value is EtcdErrorCode))
+            {
+                writer.WriteNull();
+                return;
+            }
 
-            var t = (nullableType == null || objectType == nullableType)
-                ? objectType
-                : nullableType;
+            var code = (EtcdErrorCode) value;
 
-            return t.IsEnum
-                   && t == typeof (EtcdErrorCode);
+            writer.WriteValue(code.RawValue());
         }
 
     }

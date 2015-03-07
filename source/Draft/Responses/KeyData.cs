@@ -32,11 +32,11 @@ namespace Draft.Responses
         [DataMember(Name = "modifiedIndex")]
         public long? ModifiedIndex { get; private set; }
 
+        [DataMember(Name = "value")]
+        public string RawValue { get; private set; }
+
         [DataMember(Name = "ttl")]
         public long? TtlSeconds { get; private set; }
-
-        [DataMember(Name = "value")]
-        public string Value { get; private set; }
 
     }
 }
