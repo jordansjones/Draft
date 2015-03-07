@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,6 +11,7 @@ namespace Draft.Exceptions
     /// <summary>
     ///     Base exception that is thrown when etcd returns an error response.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public abstract class EtcdException : Exception
     {
 

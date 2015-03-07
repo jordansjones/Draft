@@ -1,15 +1,16 @@
 ﻿using System;
+
+using FluentAssertions;
+
+using Flurl;
+
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 using Draft.Exceptions;
-using Draft.Responses;
 
-using FluentAssertions;
-
-using Flurl;
 using Flurl.Http.Testing;
 
 using Xunit;
@@ -54,7 +55,7 @@ namespace Draft.Tests.Cluster
         {
             using (var http = new HttpTest())
             {
-                http.RespondWithJson(HttpStatusCode.Conflict, Fixtures.CreateErrorMessage(EtcdErrorCode.ExistingPeerAddress));
+                http.RespondWithJson(HttpStatusCode.Conflict, Fixtures.CreateErrorMessage(Constants.Etcd.ErrorCode_ExistingPeerAddress));
 
                 Func<Task> action = async () =>
                 {

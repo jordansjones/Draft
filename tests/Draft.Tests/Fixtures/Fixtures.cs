@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Draft.Responses;
-
 using Ploeh.AutoFixture;
 
 namespace Draft.Tests
@@ -16,13 +14,13 @@ namespace Draft.Tests
 
         private static readonly Fixture Fixture = new Fixture();
 
-        public static object CreateErrorMessage(EtcdErrorCode? errorCode = null, string message = null, string cause = null, long? index = null)
+        public static object CreateErrorMessage(int? errorCode = null, string message = null, string cause = null, long? index = null)
         {
             var dict = new ListDictionary();
 
             if (errorCode != null)
             {
-                dict.Add("errorCode", errorCode.Value.RawValue());
+                dict.Add("errorCode", errorCode.Value);
             }
 
             if (message != null)
