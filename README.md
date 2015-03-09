@@ -1,6 +1,12 @@
 Draft
 ====
+[![Build status](https://ci.appveyor.com/api/projects/status/ptna69f3j0vkh35b/branch/master?svg=true)](https://ci.appveyor.com/project/jordansjones/draft/branch/master)
+
 An [etcd](https://github.com/coreos/etcd) client library for .Net
+
+Get it on NuGet:
+
+`PM> Install-Package Draft`
 
 # Basic usage #
 
