@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Flurl.Http.Testing;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -96,6 +97,52 @@ namespace Draft.Tests
                 responseDto.Id.Should().Be(dto.Id);
                 responseDto.Name.Should().Be(dto.Name);
             }
+        }
+
+        [Fact]
+        public void JsonConverter_ShouldDeserializeDynamicCorrectly()
+        {
+            var result = Converters.Json.ReadString(Fixtures.Dto.Json_SimpleDataContract);
+
+            result.Should().NotBeNull();
+            result.Should().BeAssignableTo<JObject>();
+
+            var jresult = (JObject) result;
+
+            jresult.HasValues.Should().BeTrue();
+
+            jresult.Property("id").Should().NotBeNullOrEmpty();
+            jresult.Property("NAME").Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void JsonConverter_ShouldDeserializeTypeCorrectly()
+        {
+            var result = Converters.Json.ReadString<SimpleDataContractDto>(Fixtures.Dto.Json_SimpleDataContract);
+
+            result.Should().NotBeNull();
+
+            result.Id.Should().Be(Fixtures.Dto.Json_SimpleDataContract_Id);
+            result.Name.Should().NotBeNullOrWhiteSpace()
+                .And.Be(Fixtures.Dto.Json_SimpleDataContract_Name);
+        }
+
+        [Fact]
+        public void StringConverter_ShouldDeserializeCorrectly()
+        {
+            var result = Converters.String.ReadString(Fixtures.Dto.Json_SimpleDataContract_Name);
+
+            result.Should().NotBeNull();
+            result.Should().Be(Fixtures.Dto.Json_SimpleDataContract_Name);
+        }
+
+        [Fact]
+        public void StringConverter_ShouldDoNothingWithStringParameterOnWriteStringMethod()
+        {
+            var result = Converters.String.WriteString(Fixtures.Dto.Json_SimpleDataContract_Name);
+
+            result.Should().NotBeNull();
+            result.Should().Be(Fixtures.Dto.Json_SimpleDataContract_Name);
         }
 
         [Fact]
