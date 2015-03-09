@@ -19,7 +19,7 @@ namespace Draft.Requests
         /// <summary>
         ///     The modified index of the key to start watching from.
         /// </summary>
-        IWatchRequest WithModifiedIndex(int? index = null);
+        IWatchRequest WithModifiedIndex(long? index = null);
 
         /// <summary>
         ///     When <c>true</c>, also watch for change's in this key's children.

@@ -4,6 +4,8 @@ using System.Reactive.Linq;
 using Flurl.Http;
 
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading;
@@ -35,7 +37,7 @@ namespace Draft.Requests
             get { return new Url(_endpointUrl); }
         }
 
-        public int? ModifiedIndex { get; private set; }
+        public long? ModifiedIndex { get; private set; }
 
         public string Path { get; private set; }
 
@@ -48,7 +50,7 @@ namespace Draft.Requests
             get { return _etcdClient; }
         }
 
-        public IWatchRequest WithModifiedIndex(int? index = null)
+        public IWatchRequest WithModifiedIndex(long? index = null)
         {
             ModifiedIndex = index;
             return this;
@@ -60,30 +62,33 @@ namespace Draft.Requests
             return this;
         }
 
-        private async Task StartPollingAsync(IObserver<IKeyEvent> observer, CancellationToken cancellationToken, bool isSingle, bool? recursive, int? modifiedIndex)
+        private Task<HttpResponseMessage> CallEndpoint(bool? recursive, long? index)
+        {
+            return EndpointUrl
+                .AppendPathSegment(Path)
+                .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
+                .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
+                // ReSharper disable once PossibleInvalidOperationException
+                .Conditionally(index.HasValue, x => x.SetQueryParam(Constants.Etcd.Parameter_WaitIndex, index.Value))
+                .GetAsync();
+        }
+
+        private async Task StartPollingAsync(IObserver<IKeyEvent> observer, CancellationToken cancellationToken, bool isSingle, bool? recursive, long? modifiedIndex)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    var response = await EndpointUrl
-                        .AppendPathSegment(Path)
-                        .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
-                        .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
-                        // ReSharper disable once PossibleInvalidOperationException
-                        .Conditionally(modifiedIndex.HasValue, x => x.SetQueryParam(Constants.Etcd.Parameter_WaitIndex, modifiedIndex.Value))
-                        .GetAsync();
+                    var response = await CallEndpoint(recursive, modifiedIndex);
 
                     if (cancellationToken.IsCancellationRequested) { break; }
 
                     var result = await Task.FromResult(response).ReceiveEtcdResponse<KeyEvent>(EtcdClient);
 
-                    // TODO: Some stuff with the response
-                    // In order to get the response's modified index
-                    // value to pass through on the next request
-
                     observer.OnNext(result);
                     if (isSingle) { break; }
+
+                    modifiedIndex = TryUpdateIndex(response);
                 }
                 catch (FlurlHttpTimeoutException)
                 {
@@ -91,6 +96,12 @@ namespace Draft.Requests
                 }
                 catch (FlurlHttpException e)
                 {
+                    var idx = TryUpdateIndex(e);
+                    if (idx.HasValue)
+                    {
+                        modifiedIndex = idx;
+                        continue;
+                    }
                     observer.OnError(e.ProcessException());
                     break;
                 }
@@ -112,6 +123,23 @@ namespace Draft.Requests
             return Observable.Create<IKeyEvent>((o, c) => StartPollingAsync(o, c, isSingle, recursive, modifiedIndex))
                 .SubscribeOn(CurrentThreadScheduler.Instance)
                 .Subscribe(observer.OnNext, observer.OnError, observer.OnCompleted);
+        }
+
+        private static long? TryUpdateIndex(FlurlHttpException e)
+        {
+            if (e == null) { return null; }
+            if (e.Call == null) { return null; }
+            if (e.Call.HttpStatus != HttpStatusCode.BadRequest) { return null; }
+            if (e.Call.Response == null) { return null; }
+
+            return TryUpdateIndex(e.Call.Response);
+        }
+
+        private static long? TryUpdateIndex(HttpResponseMessage response)
+        {
+            return response == null
+                ? null
+                : response.TryGetHeaderAsLong(Constants.Etcd.Header_EtcdIndex);
         }
 
     }
