@@ -131,9 +131,9 @@ Task("UnitTests")
 {
     Information("Running Tests in {0}", solution);
 
-    XUnit2(
+    XUnit(
         solutionDir + "/**/bin/" + configuration + "/**/*.Tests*.dll",
-        new XUnit2Settings {
+        new XUnitSettings {
             OutputDirectory = testResultsDir,
             HtmlReport = true,
             XmlReport = true

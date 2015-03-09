@@ -5,13 +5,23 @@
         <title>Draft</title>
         <version>@version@</version>
         <authors>Jordan S. Jones</authors>
-        <licenseUrl>https://raw.githubusercontent.com/jordansjones/Draft/master/LICENSE.txt</licenseUrl>
+        <licenseUrl>https://raw.githubusercontent.com/jordansjones/Draft/fb4ed8ecb79556a94195b017e3ff9fb8cfa25d01/LICENSE.txt</licenseUrl>
         <projectUrl>https://github.com/jordansjones/Draft</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>An etcd client library for .Net</description>
         <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>etcd</tags>
         <copyright>Copyright 2015 Jordan S. Jones</copyright>
+        <dependencies>
+            <group targetFramework="net45">
+                <dependency id="Flurl" version="1.0.6" />
+                <dependency id="Flurl.Http" version="0.5.0" />
+                <dependency id="Newtonsoft.Json" version="6.0.8" />
+                <dependency id="Rx-Core" version="2.2.5" />
+                <dependency id="Rx-Interfaces" version="2.2.5" />
+                <dependency id="Rx-Linq" version="2.2.5" />
+            </group>
+        </dependencies>
     </metadata>
     <files>
         <file src="lib\net45\Draft.*" target="lib\net45" />
