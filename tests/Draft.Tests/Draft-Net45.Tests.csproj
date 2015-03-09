@@ -69,6 +69,7 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="xunit">
@@ -83,11 +84,14 @@
     <Compile Include="Assertions\HttpCallFluentAssertions.cs" />
     <Compile Include="Assertions\HttpTestFluentAssertions.cs" />
     <Compile Include="Extensions\HttpTestExtensions.cs" />
+    <Compile Include="Fixtures\Dtos\SimpleDataContractDto.cs" />
     <Compile Include="Fixtures\Fixtures.Cluster.cs" />
     <Compile Include="Fixtures\InvalidHostExceptionTestClientFactory.cs" />
+    <Compile Include="Helpers\XmlValueConverter.cs" />
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
     <Compile Include="Tests\Cluster\CreateMemberTests.cs" />
+    <Compile Include="Tests\ConfigureTests.cs" />
     <Compile Include="Tests\Exceptions\CoreExceptionTests.cs" />
     <Compile Include="Tests\Keys\DirectoryRequestTests.cs" />
     <Compile Include="Tests\EtcdTests.cs" />
@@ -107,9 +111,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Keys\QueueRequestTests.cs" />
     <Compile Include="Tests\Keys\WatchRequestTests.cs" />
+    <Compile Include="Tests\ValueConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fixtures\Fixtures.Queue.cs" />
+    <Compile Include="Fixtures\Fixtures.Dto.cs" />
     <None Include="packages.Draft-Net45.Tests.config" />
   </ItemGroup>
   <ItemGroup>

@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class CompareAndSwapRequest : BaseRequest, ICompareAndSwapRequest, ICompareAndSwapByIndexRequest, ICompareAndSwapByValueRequest
     {
 
-        public CompareAndSwapRequest(IEtcdClient client, Url endpointUrl, string containerPath)
-            : base(client, endpointUrl, containerPath) {}
+        public CompareAndSwapRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath)
+            : base(etcdClient, endpointUrl, containerPath) {}
 
         public long ExpectedIndex { get; private set; }
 
@@ -105,7 +105,7 @@ namespace Draft.Requests
                     .Conditionally(isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevValue, ExpectedValue))
                     .Conditionally(!isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevIndex, ExpectedIndex))
                     .PutUrlEncodedAsync(values)
-                    .ReceiveEtcdResponse<KeyEvent>();
+                    .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {

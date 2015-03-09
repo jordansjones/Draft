@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Configuration;
 using Draft.Requests;
 
 namespace Draft
@@ -11,9 +12,9 @@ namespace Draft
     public static class ValueConversionForRequestExtensions
     {
 
-        private static string Convert<T>(T value, IKeyDataValueConverter valueConverter = null)
+        private static string Convert<T>(IEtcdClientConfig config, T value, IKeyDataValueConverter valueConverter = null)
         {
-            valueConverter = valueConverter ?? Etcd.Configuration.ValueConverter;
+            valueConverter = valueConverter ?? (config.ValueConverter ?? Etcd.Configuration.ValueConverter);
             return valueConverter.WriteString(value);
         }
 
@@ -22,7 +23,7 @@ namespace Draft
         /// </summary>
         public static ICompareAndDeleteByValueRequest WithExpectedValue<T>(this ICompareAndDeleteRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithExpectedValue(Convert(value, valueConverter));
+            return This.WithExpectedValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Draft
         /// </summary>
         public static ICompareAndSwapByValueRequest WithExpectedValue<T>(this ICompareAndSwapRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithExpectedValue(Convert(value, valueConverter));
+            return This.WithExpectedValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Draft
         /// </summary>
         public static ICompareAndSwapByIndexRequest WithNewValue<T>(this ICompareAndSwapByIndexRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithNewValue(Convert(value, valueConverter));
+            return This.WithNewValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Draft
         /// </summary>
         public static ICompareAndSwapByValueRequest WithNewValue<T>(this ICompareAndSwapByValueRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithNewValue(Convert(value, valueConverter));
+            return This.WithNewValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Draft
         /// </summary>
         public static IQueueRequest WithValue<T>(this IQueueRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithValue(Convert(value, valueConverter));
+            return This.WithValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace Draft
         /// </summary>
         public static IUpsertKeyRequest WithValue<T>(this IUpsertKeyRequest This, T value, IKeyDataValueConverter valueConverter = null)
         {
-            return This.WithValue(Convert(value, valueConverter));
+            return This.WithValue(Convert(This.EtcdClient.Config, value, valueConverter));
         }
 
     }

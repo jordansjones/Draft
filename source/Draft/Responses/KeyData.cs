@@ -5,16 +5,41 @@ using System.Runtime.Serialization;
 namespace Draft.Responses
 {
     [DataContract]
-    internal class KeyData : IKeyData
+    internal class KeyData : IKeyData, IHaveAValueConverter
     {
 
+        private KeyData[] _children;
+
+        [field : IgnoreDataMember]
+        private Func<IKeyDataValueConverter> _valueConverter;
+
         [DataMember(Name = "nodes")]
-        public KeyData[] Children { get; private set; }
+        public KeyData[] Children
+        {
+            get { return _children ?? (_children = new KeyData[0]); }
+            private set { _children = value; }
+        }
+
+        [IgnoreDataMember]
+        public Func<IKeyDataValueConverter> ValueConverter
+        {
+            get { return _valueConverter; }
+            set
+            {
+                _valueConverter = value;
+
+                foreach (var c in Children)
+                {
+                    c.ValueConverter = _valueConverter;
+                }
+            }
+        }
 
         [IgnoreDataMember]
         IKeyData[] IKeyData.Children
         {
-            get { return Children.OfType<IKeyData>().ToArray(); }
+            // ReSharper disable once CoVariantArrayConversion
+            get { return Children; }
         }
 
         [DataMember(Name = "createdIndex")]

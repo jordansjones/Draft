@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using Draft.Exceptions;
 using Draft.Responses;
 
 using Flurl;
@@ -16,8 +15,8 @@ namespace Draft.Requests
     internal class GetRequest : BaseRequest, IGetRequest
     {
 
-        public GetRequest(IEtcdClient client, Url endpointUrl, string path)
-            : base(client, endpointUrl, path) {}
+        public GetRequest(IEtcdClient etcdClient, Url endpointUrl, string path)
+            : base(etcdClient, endpointUrl, path) {}
 
         public bool? Quorum { get; private set; }
 
@@ -31,7 +30,7 @@ namespace Draft.Requests
                     .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
                     .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                     .GetAsync()
-                    .ReceiveEtcdResponse<KeyEvent>();
+                    .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {

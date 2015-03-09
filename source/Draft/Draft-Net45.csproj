@@ -121,6 +121,7 @@
     <Compile Include="Responses\EtcdVersion.cs" />
     <Compile Include="Responses\IEtcdError.cs" />
     <Compile Include="Responses\IEtcdVersion.cs" />
+    <Compile Include="Responses\IHaveAValueConverter.cs" />
     <Compile Include="Responses\IHaveResponseHeaders.cs" />
     <Compile Include="ValueConverters\JsonValueConverter.cs" />
     <Compile Include="ValueConverters\StringValueConverter.cs" />

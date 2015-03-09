@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Draft.Configuration
 {
-    internal sealed class ClientConfig : IEtcdClientConfig
+    internal sealed class ClientConfig : IMutableEtcdClientConfig
     {
 
         private IKeyDataValueConverter _valueConverter;
@@ -12,6 +12,14 @@ namespace Draft.Configuration
         {
             get { return _valueConverter ?? (_valueConverter = Converters.Default); }
             set { _valueConverter = value; }
+        }
+
+        public ClientConfig DeepCopy()
+        {
+            return new ClientConfig
+            {
+                ValueConverter = ValueConverter
+            };
         }
 
     }

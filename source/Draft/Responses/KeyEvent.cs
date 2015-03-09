@@ -5,11 +5,14 @@ using System.Runtime.Serialization;
 namespace Draft.Responses
 {
     [DataContract]
-    internal class KeyEvent : IKeyEvent, IHaveResponseHeaders
+    internal class KeyEvent : IKeyEvent, IHaveResponseHeaders, IHaveAValueConverter
     {
 
         [field : IgnoreDataMember]
         private readonly ResponseHeaders _headers = new ResponseHeaders();
+
+        [field : IgnoreDataMember]
+        private Func<IKeyDataValueConverter> _valueConverter;
 
         [DataMember(Name = "node")]
         public KeyData Data { get; private set; }
@@ -20,6 +23,26 @@ namespace Draft.Responses
         public IResponseHeaders GetResponseHeaders()
         {
             return Headers;
+        }
+
+        [IgnoreDataMember]
+        public Func<IKeyDataValueConverter> ValueConverter
+        {
+            get { return _valueConverter; }
+            set
+            {
+                _valueConverter = value;
+
+                if (Data != null)
+                {
+                    Data.ValueConverter = _valueConverter;
+                }
+
+                if (PreviousData != null)
+                {
+                    PreviousData.ValueConverter = _valueConverter;
+                }
+            }
         }
 
         [property : IgnoreDataMember]

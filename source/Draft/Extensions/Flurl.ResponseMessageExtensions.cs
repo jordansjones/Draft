@@ -25,10 +25,16 @@ namespace Draft
             };
         }
 
-        public static async Task<T> ReceiveEtcdResponse<T>(this Task<HttpResponseMessage> This)
+        public static async Task<T> ReceiveEtcdResponse<T>(this Task<HttpResponseMessage> This, IEtcdClient etcdClient)
             where T : IHaveResponseHeaders
         {
             var response = await This.ReceiveJson<T>();
+            var vcResponse = response as IHaveAValueConverter;
+            if (vcResponse != null)
+            {
+                var vc = etcdClient.Config.ValueConverter;
+                vcResponse.ValueConverter = () => vc;
+            }
             var httpMessage = await This;
             response.Headers = httpMessage.ParseResponseHeaders();
             return response;

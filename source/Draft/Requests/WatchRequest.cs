@@ -20,8 +20,11 @@ namespace Draft.Requests
 
         private readonly Url _endpointUrl;
 
-        public WatchRequest(Url endpointUrl, string path, bool single)
+        private readonly IEtcdClient _etcdClient;
+
+        public WatchRequest(IEtcdClient etcdClient, Url endpointUrl, string path, bool single)
         {
+            _etcdClient = etcdClient;
             _endpointUrl = endpointUrl;
             Path = path;
             Single = single;
@@ -39,6 +42,11 @@ namespace Draft.Requests
         public bool? Recursive { get; private set; }
 
         public bool Single { get; private set; }
+
+        public IEtcdClient EtcdClient
+        {
+            get { return _etcdClient; }
+        }
 
         public IWatchRequest WithModifiedIndex(int? index = null)
         {
@@ -68,7 +76,7 @@ namespace Draft.Requests
 
                     if (cancellationToken.IsCancellationRequested) { break; }
 
-                    var result = await Task.FromResult(response).ReceiveEtcdResponse<KeyEvent>();
+                    var result = await Task.FromResult(response).ReceiveEtcdResponse<KeyEvent>(EtcdClient);
 
                     // TODO: Some stuff with the response
                     // In order to get the response's modified index

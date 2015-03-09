@@ -16,7 +16,7 @@ namespace Draft.Requests.Cluster
     internal class UpdateMemberPeerUrlsRequest : BaseRequest, IUpdateMemberPeerUrlsRequest
     {
 
-        public UpdateMemberPeerUrlsRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath)
+        public UpdateMemberPeerUrlsRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath)
         {
             Uris = new List<Uri>();
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Ploeh.AutoFixture;
+
 namespace Draft.Tests
 {
     public static partial class Fixtures
@@ -37,6 +39,40 @@ namespace Draft.Tests
                 return WithValue(value)
                     .Add(Constants.Etcd.Parameter_Ttl, ttl)
                     .AsRequestBody();
+            }
+
+            public static object UpsertResponse(string keyPath, string value, string previousValue = null)
+            {
+                var hasPreviousValue = !string.IsNullOrWhiteSpace(previousValue);
+                var modifiedIndex = Fixture.Create<long>();
+                var createdIndex = hasPreviousValue ? modifiedIndex - 10 : modifiedIndex;
+
+                var nodeValues = new ListDictionary
+                {
+                    {"createdIndex", createdIndex},
+                    {"key", keyPath},
+                    {"modifiedIndex", modifiedIndex},
+                    {"value", value}
+                };
+
+                var response = new ListDictionary
+                {
+                    {"action", "set"},
+                    {"node", nodeValues}
+                };
+
+                if (hasPreviousValue)
+                {
+                    response["prevNode"] = new ListDictionary
+                    {
+                        {"createdIndex", createdIndex},
+                        {"key", keyPath},
+                        {"modifiedIndex", createdIndex},
+                        {"value", previousValue}
+                    };
+                }
+
+                return response;
             }
 
             private static FormBodyBuilder<string, object> WithValue(string value)

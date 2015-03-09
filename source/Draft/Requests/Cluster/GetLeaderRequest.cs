@@ -15,7 +15,7 @@ namespace Draft.Requests.Cluster
     internal class GetLeaderRequest : BaseRequest, IGetLeaderRequest
     {
 
-        public GetLeaderRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath) {}
+        public GetLeaderRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
 
         public async Task<IClusterMember> Execute()
         {

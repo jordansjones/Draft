@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class UpsertQueueRequest : BaseRequest, IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
     {
 
-        public UpsertQueueRequest(IEtcdClient client, Url endpointUrl, string path)
-            : base(client, endpointUrl, path) {}
+        public UpsertQueueRequest(IEtcdClient etcdClient, Url endpointUrl, string path)
+            : base(etcdClient, endpointUrl, path) {}
 
         public bool? Existing { get; private set; }
 
@@ -79,7 +79,7 @@ namespace Draft.Requests
             {
                 return await TargetUrl
                     .Conditionally(IsQueue, values, (x, v) => x.PostUrlEncodedAsync(v), (x, v) => x.PutUrlEncodedAsync(v))
-                    .ReceiveEtcdResponse<KeyEvent>();
+                    .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {

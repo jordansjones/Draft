@@ -14,7 +14,7 @@ namespace Draft.Requests
     {
 
 
-        public GetVersionRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath) {}
+        public GetVersionRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
 
         public async Task<IEtcdVersion> Execute()
         {

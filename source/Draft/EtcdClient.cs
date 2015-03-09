@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 
+using Draft.Configuration;
 using Draft.Requests;
 using Draft.Requests.Cluster;
 
@@ -13,9 +15,19 @@ namespace Draft
 
         private readonly Url _endpointUrl;
 
-        public EtcdClient(Url endpointUrl)
+        private readonly object _gate = new object();
+
+        private ClientConfig _clientConfig;
+
+        public EtcdClient(Url endpointUrl, ClientConfig clientConfig)
         {
             _endpointUrl = endpointUrl;
+            _clientConfig = clientConfig ?? new ClientConfig();
+        }
+
+        public IMutableEtcdClientConfig Config
+        {
+            get { return _clientConfig; }
         }
 
         public Url EndpointUrl
@@ -27,6 +39,25 @@ namespace Draft
         {
             get { return EndpointUrl.AppendPathSegment(Constants.Etcd.Path_Keys); }
         }
+
+        IEtcdClientConfig IEtcdClient.Config
+        {
+            get { return Config; }
+        }
+
+        #region Client Config
+
+        public void Configure(Action<IMutableEtcdClientConfig> configAction)
+        {
+            var clientConfig = _clientConfig.DeepCopy();
+            lock (_gate)
+            {
+                configAction(clientConfig);
+                Interlocked.Exchange(ref _clientConfig, clientConfig);
+            }
+        }
+
+        #endregion
 
         #region IEtcd Client
 
@@ -85,12 +116,12 @@ namespace Draft
 
         public IWatchRequest Watch(string key)
         {
-            return new WatchRequest(KeysUrl, key, false);
+            return new WatchRequest(this, KeysUrl, key, false);
         }
 
         public IWatchRequest WatchOnce(string key)
         {
-            return new WatchRequest(KeysUrl, key, true);
+            return new WatchRequest(this, KeysUrl, key, true);
         }
 
         #endregion

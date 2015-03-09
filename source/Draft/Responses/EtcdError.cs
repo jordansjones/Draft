@@ -23,7 +23,7 @@ namespace Draft.Responses
         public string Message { get; private set; }
 
 #if DEBUG
-        [OnError]
+        [OnError, System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         public void OnDeserializing(StreamingContext context, ErrorContext errorContext)
         {
             System.Diagnostics.Debugger.Break();

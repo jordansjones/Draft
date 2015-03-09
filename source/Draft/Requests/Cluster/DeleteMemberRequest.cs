@@ -13,7 +13,7 @@ namespace Draft.Requests.Cluster
     internal class DeleteMemberRequest : BaseRequest, IDeleteMemberRequest
     {
 
-        public DeleteMemberRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath) {}
+        public DeleteMemberRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
 
         public string MemberId { get; private set; }
 

@@ -12,6 +12,11 @@ namespace Draft.Requests
     {
 
         /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
+
+        /// <summary>
         ///     The modified index of the key to start watching from.
         /// </summary>
         IWatchRequest WithModifiedIndex(int? index = null);

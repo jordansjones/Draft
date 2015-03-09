@@ -14,6 +14,11 @@ namespace Draft.Requests
     {
 
         /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
+
+        /// <summary>
         ///     Attempt to update a key with the expected modified index.
         /// </summary>
         /// <param name="modifiedIndex">The expected modified index.</param>
@@ -32,6 +37,11 @@ namespace Draft.Requests
     /// </summary>
     public interface ICompareAndSwapByIndexRequest
     {
+
+        /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
 
         /// <summary>
         ///     Execute this request.
@@ -60,6 +70,11 @@ namespace Draft.Requests
     /// </summary>
     public interface ICompareAndSwapByValueRequest
     {
+
+        /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
 
         /// <summary>
         ///     Execute this request.

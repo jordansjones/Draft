@@ -16,7 +16,7 @@ namespace Draft.Requests.Cluster
     internal class CreateMemberRequest : BaseRequest, ICreateMemberRequest
     {
 
-        public CreateMemberRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath)
+        public CreateMemberRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath)
         {
             Uris = new List<Uri>();
         }

@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class CompareAndDeleteRequest : BaseRequest, ICompareAndDeleteRequest, ICompareAndDeleteByIndexRequest, ICompareAndDeleteByValueRequest
     {
 
-        public CompareAndDeleteRequest(IEtcdClient client, Url endpointUrl, string containerPath)
-            : base(client, endpointUrl, containerPath) {}
+        public CompareAndDeleteRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath)
+            : base(etcdClient, endpointUrl, containerPath) {}
 
         public long ExpectedIndex { get; private set; }
 
@@ -62,7 +62,7 @@ namespace Draft.Requests
                     .Conditionally(isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevValue, ExpectedValue))
                     .Conditionally(!isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevIndex, ExpectedIndex))
                     .DeleteAsync()
-                    .ReceiveEtcdResponse<KeyEvent>();
+                    .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {

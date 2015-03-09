@@ -17,6 +17,11 @@ namespace Draft.Requests
     {
 
         /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
+
+        /// <summary>
         ///     Execute this request.
         /// </summary>
         Task<IKeyEvent> Execute();

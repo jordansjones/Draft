@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Configuration;
 using Draft.Requests;
 using Draft.Requests.Cluster;
 
@@ -21,6 +22,16 @@ namespace Draft
         ///     Returns an etcd cluent for cluster related operations.
         /// </summary>
         IClusterEtcdClient Cluster { get; }
+
+        /// <summary>
+        ///     <see cref="IEtcdClient" />'s instance configuration options.
+        /// </summary>
+        IEtcdClientConfig Config { get; }
+
+        /// <summary>
+        ///     Provides thread-safe access to this instance's configuration options.
+        /// </summary>
+        void Configure(Action<IMutableEtcdClientConfig> configAction);
 
         /// <summary>
         ///     Begins a directory creation request.

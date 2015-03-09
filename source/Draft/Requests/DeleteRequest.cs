@@ -15,8 +15,8 @@ namespace Draft.Requests
     internal class DeleteRequest : BaseRequest, IDeleteDirectoryRequest, IDeleteKeyRequest
     {
 
-        public DeleteRequest(IEtcdClient client, Url endpointUrl, string path, bool isDirectory)
-            : base(client, endpointUrl, path)
+        public DeleteRequest(IEtcdClient etcdClient, Url endpointUrl, string path, bool isDirectory)
+            : base(etcdClient, endpointUrl, path)
         {
             IsDirectory = isDirectory;
         }
@@ -33,7 +33,7 @@ namespace Draft.Requests
                     .Conditionally(IsDirectory, x => x.SetQueryParam(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True))
                     .Conditionally(IsDirectory && Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                     .DeleteAsync()
-                    .ReceiveEtcdResponse<KeyEvent>();
+                    .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {

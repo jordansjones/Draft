@@ -20,7 +20,7 @@ namespace Draft
     {
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static readonly Lazy<IEtcdClientConfig> _configuration = new Lazy<IEtcdClientConfig>(() => new ClientConfig());
+        private static readonly Lazy<ClientConfig> _configuration = new Lazy<ClientConfig>(() => new ClientConfig());
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         private static readonly object _gate = new object();
@@ -68,7 +68,7 @@ namespace Draft
                 throw new ArgumentException("Uri must be absolute", "uri");
             }
 
-            return new EtcdClient(new Url(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped)));
+            return new EtcdClient(new Url(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped)), _configuration.Value.DeepCopy());
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace Draft
         /// <remarks>
         ///     <para>Should only be called once on application initialization.</para>
         /// </remarks>
-        public static void Configure(Action<IEtcdClientConfig> configAction)
+        public static void Configure(Action<IMutableEtcdClientConfig> configAction)
         {
             lock (_gate)
             {
-                configAction(Configuration);
+                configAction(_configuration.Value);
             }
         }
 

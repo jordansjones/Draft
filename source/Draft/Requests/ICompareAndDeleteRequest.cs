@@ -14,6 +14,11 @@ namespace Draft.Requests
     {
 
         /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
+
+        /// <summary>
         ///     Attempt to delete a key with the expected modified index.
         /// </summary>
         /// <param name="modifiedIndex">The expected modified index.</param>
@@ -34,6 +39,11 @@ namespace Draft.Requests
     {
 
         /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
+
+        /// <summary>
         ///     Execute this request.
         /// </summary>
         Task<IKeyEvent> Execute();
@@ -50,6 +60,11 @@ namespace Draft.Requests
     /// </summary>
     public interface ICompareAndDeleteByValueRequest
     {
+
+        /// <summary>
+        ///     The underlying <see cref="IEtcdClient" /> for this request.
+        /// </summary>
+        IEtcdClient EtcdClient { get; }
 
         /// <summary>
         ///     Execute this request.

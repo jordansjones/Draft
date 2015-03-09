@@ -13,13 +13,8 @@ namespace Draft.Tests
         [Fact]
         public void ShouldThrowArgumentExceptionOnRelativeUri()
         {
-            Action action = CreateWithRelativeUrl;
+            Action action = () => Etcd.ClientFor(new Uri(Fixtures.RelativeEtcdUrl, UriKind.Relative));
             action.ShouldThrowExactly<ArgumentException>();
-        }
-
-        private static void CreateWithRelativeUrl()
-        {
-            Etcd.ClientFor(new Uri(Fixtures.RelativeEtcdUrl, UriKind.Relative));
         }
 
     }

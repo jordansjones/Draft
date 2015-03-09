@@ -13,7 +13,7 @@ namespace Draft.Requests.Cluster
     internal class GetMembersRequest : BaseRequest, IGetMembersRequest
     {
 
-        public GetMembersRequest(IEtcdClient client, Url endpointUrl, string containerPath) : base(client, endpointUrl, containerPath) {}
+        public GetMembersRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
 
         public async Task<IClusterMember[]> Execute()
         {

@@ -1,10 +1,14 @@
 ﻿using System;
+
+using Flurl;
+
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-using Flurl;
 using Flurl.Http.Testing;
+
+using Newtonsoft.Json;
 
 using Xunit;
 
@@ -140,7 +144,7 @@ namespace Draft.Tests.Keys
         }
 
         [Fact]
-        public async Task Update_ShouldCallTheCorrectUrlByAwaitingImmediately()
+        public async Task Upsert_ShouldCallTheCorrectUrlByAwaitingImmediately()
         {
             using (var http = new HttpTest())
             {
@@ -162,7 +166,7 @@ namespace Draft.Tests.Keys
         }
 
         [Fact]
-        public async Task Update_ShouldCallTheCorrectUrlWithExistingFalseOption()
+        public async Task Upsert_ShouldCallTheCorrectUrlWithExistingFalseOption()
         {
             using (var http = new HttpTest())
             {
@@ -185,7 +189,7 @@ namespace Draft.Tests.Keys
         }
 
         [Fact]
-        public async Task Update_ShouldCallTheCorrectUrlWithExistingTrueOption()
+        public async Task Upsert_ShouldCallTheCorrectUrlWithExistingTrueOption()
         {
             using (var http = new HttpTest())
             {
@@ -208,7 +212,7 @@ namespace Draft.Tests.Keys
         }
 
         [Fact]
-        public async Task Update_ShouldCallTheCorrectUrlWithTtlOption()
+        public async Task Upsert_ShouldCallTheCorrectUrlWithTtlOption()
         {
             using (var http = new HttpTest())
             {
