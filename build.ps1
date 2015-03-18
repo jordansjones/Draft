@@ -17,11 +17,6 @@ if (!(Test-Path $NUGET_EXE)) {
     Throw "Could not find " + $NUGET_EXE
 }
 
-Invoke-Expression "$NUGET_EXE install xunit.runners -Version 1.9.2 -OutputDirectory $TOOLS_DIR -ExcludeVersion -Prerelease"
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
-
 Invoke-Expression "$NUGET_EXE install Cake -OutputDirectory $TOOLS_DIR -ExcludeVersion"
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
