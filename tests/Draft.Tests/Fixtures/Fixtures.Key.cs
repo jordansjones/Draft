@@ -30,7 +30,7 @@ namespace Draft.Tests
             public static string ExistingRequest(string value = DefaultValue, bool existing = true)
             {
                 return WithValue(value)
-                    .ConditionallyAdd(existing, Constants.Etcd.Parameter_PrevExist, Constants.Etcd.Parameter_True)
+                    .Add(Constants.Etcd.Parameter_PrevExist, existing ? Constants.Etcd.Parameter_True : Constants.Etcd.Parameter_False)
                     .AsRequestBody();
             }
 

@@ -13,8 +13,7 @@ var forcePackage    = HasArgument("forcePackage");
 var projectName = "Draft";
 
 // "Root"
-var context =  GetContext();
-var baseDir = context.Environment.WorkingDirectory;
+var baseDir = Context.Environment.WorkingDirectory;
 var solution = baseDir.GetFilePath(projectName + ".sln");
 
 // Directories
@@ -34,10 +33,10 @@ var licenseFile = solutionDir.GetFilePath("LICENSE.txt");
 var readmeFile = solutionDir.GetFilePath("README.md");
 var releaseNotesFile = solutionDir.GetFilePath("ReleaseNotes.md");
 
-var appVeyorEnv =  context.AppVeyor().Environment;
+var appVeyorEnv =  Context.AppVeyor().Environment;
 
 // Get whether or not this is a local build.
-var local = !context.BuildSystem().IsRunningOnAppVeyor;
+var local = !Context.BuildSystem().IsRunningOnAppVeyor;
 var isReleaseBuild = !local && appVeyorEnv.Repository.Tag.IsTag;
 
 // Release notes
@@ -57,11 +56,11 @@ Setup(() =>
     // Executed BEFORE the first task.
     Information("Running tasks...");
 
-    if (!FileSystem.Exist(testResultsDir))
+    if (!DirectoryExists(testResultsDir))
     {
         CreateDirectory(testResultsDir);
     }
-    if (!FileSystem.Exist(nugetPackagingDir))
+    if (!DirectoryExists(nugetPackagingDir))
     {
         CreateDirectory(nugetPackagingDir);
     }
@@ -125,8 +124,19 @@ Task("Build")
 	);
 });
 
+Task("InstallUnitTestRunner")
+    .Does(() =>
+{
+    NuGetInstall("xunit.runners", new NuGetInstallSettings {
+        ExcludeVersion = true,
+        OutputDirectory = solutionDir.Combine("tools"),
+        Version = "1.9.2"
+    });
+});
+
 Task("UnitTests")
     .IsDependentOn("Build")
+    .IsDependentOn("InstallUnitTestRunner")
     .Does(() =>
 {
     Information("Running Tests in {0}", solution);
@@ -159,9 +169,7 @@ Task("CopyNugetPackageFiles")
 
     foreach (var dirPair in dirMap)
     {
-        var files = FileSystem.GetDirectory(dirPair.Key)
-            .GetFiles(projectName + "*", SearchScope.Current)
-            .Select(x => x.Path);
+        var files = GetFiles(dirPair.Key + "/" + projectName + "*");
         CopyFiles(files, dirPair.Value);
     }
 

@@ -1,2 +1,6 @@
+### New in 0.1.1 (Released 2015/03/15)
+* Fixed: Passing `false` into `WithExisting` is no longer ignored and results in `prevExist=false` being passed in the call.
+* Fixed: Misuse of the `waitIndex` parameter during `Watch`/`WatchOnce` calls. Now will increment value passed to `WithModifiedIndex` until the value matches what is returned in the `X-Etcd-Index` header.
+
 ### New in 0.1.0 (Released 2015/02/20)
 * Initial release

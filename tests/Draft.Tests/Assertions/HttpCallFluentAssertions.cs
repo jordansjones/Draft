@@ -41,7 +41,7 @@ namespace Draft.Tests.Assertions
             Execute.Assertion
                 .ForCondition(matchingCalls.Any())
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {context:IEtcdClient to have called {0} with a request body of {1}{reason}, but did not find any calls.", FirstRequestAbsoluteUri, bodyPattern);
+                .FailWith("Expected {context:IEtcdClient} to have called {0} with a request body of {1}{reason}, but did not find any calls.", FirstRequestAbsoluteUri, bodyPattern);
 
             return new HttpCallFluentAssertions(matchingCalls);
         }

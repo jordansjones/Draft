@@ -88,7 +88,13 @@ namespace Draft.Requests
                     observer.OnNext(result);
                     if (isSingle) { break; }
 
-                    modifiedIndex = TryUpdateIndex(response);
+                    if (modifiedIndex != null)
+                    {
+                        var idx = TryUpdateIndex(response);
+                        modifiedIndex = idx == null || modifiedIndex.Value == idx.Value
+                            ? null
+                            : modifiedIndex + 1;
+                    }
                 }
                 catch (FlurlHttpTimeoutException)
                 {
@@ -96,13 +102,17 @@ namespace Draft.Requests
                 }
                 catch (FlurlHttpException e)
                 {
-                    var idx = TryUpdateIndex(e);
-                    if (idx.HasValue)
+                    var ex = e.ProcessException();
+                    if (modifiedIndex != null && ex.IsEventIndexCleared)
                     {
-                        modifiedIndex = idx;
-                        continue;
+                        var idx = TryUpdateIndex(e);
+                        if (idx.HasValue)
+                        {
+                            modifiedIndex = idx;
+                            continue;
+                        }
                     }
-                    observer.OnError(e.ProcessException());
+                    observer.OnError(ex);
                     break;
                 }
                 catch (Exception e)

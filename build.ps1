@@ -22,11 +22,6 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Invoke-Expression "$NUGET_EXE install ilmerge -OutputDirectory $TOOLS_DIR -ExcludeVersion -Prerelease"
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
-
 Invoke-Expression "$NUGET_EXE install Cake -OutputDirectory $TOOLS_DIR -ExcludeVersion"
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
