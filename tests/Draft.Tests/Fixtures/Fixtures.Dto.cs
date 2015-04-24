@@ -8,7 +8,7 @@ using Ploeh.AutoFixture;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]

@@ -5,7 +5,7 @@ using Ploeh.AutoFixture;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         public static class Key
@@ -47,37 +47,34 @@ namespace Draft.Tests
                 var modifiedIndex = Fixture.Create<long>();
                 var createdIndex = hasPreviousValue ? modifiedIndex - 10 : modifiedIndex;
 
-                var nodeValues = new ListDictionary
-                {
-                    {"createdIndex", createdIndex},
-                    {"key", keyPath},
-                    {"modifiedIndex", modifiedIndex},
-                    {"value", value}
-                };
+                var nodeValues = new FormBodyBuilder()
+                    .Add("createdIndex", createdIndex)
+                    .Add("key", keyPath)
+                    .Add("modifiedIndex", modifiedIndex)
+                    .Add("value", value)
+                    .Build();
 
-                var response = new ListDictionary
-                {
-                    {"action", "set"},
-                    {"node", nodeValues}
-                };
+                var response = new FormBodyBuilder()
+                    .Add("action", "set")
+                    .Add("node", nodeValues)
+                    .Build();
 
                 if (hasPreviousValue)
                 {
-                    response["prevNode"] = new ListDictionary
-                    {
-                        {"createdIndex", createdIndex},
-                        {"key", keyPath},
-                        {"modifiedIndex", createdIndex},
-                        {"value", previousValue}
-                    };
+                    response["prevNode"] = new FormBodyBuilder()
+                        .Add("createdIndex", createdIndex)
+                        .Add("key", keyPath)
+                        .Add("modifiedIndex", createdIndex)
+                        .Add("value", previousValue)
+                        .Build();
                 }
 
                 return response;
             }
 
-            private static FormBodyBuilder<string, object> WithValue(string value)
+            private static FormBodyBuilder WithValue(string value)
             {
-                return new FormBodyBuilder<string, object>()
+                return new FormBodyBuilder()
                     .Add(Constants.Etcd.Parameter_Value, value);
             }
 

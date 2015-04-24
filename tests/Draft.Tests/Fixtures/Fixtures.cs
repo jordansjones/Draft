@@ -5,7 +5,7 @@ using Ploeh.AutoFixture;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         public const string EtcdUrl = "http://localhost:4001";
@@ -16,26 +16,13 @@ namespace Draft.Tests
 
         public static object CreateErrorMessage(int? errorCode = null, string message = null, string cause = null, long? index = null)
         {
-            var dict = new ListDictionary();
-
-            if (errorCode != null)
-            {
-                dict.Add("errorCode", errorCode.Value);
-            }
-
-            if (message != null)
-            {
-                dict.Add("message", message);
-            }
-
-            if (cause != null)
-            {
-                dict.Add("cause", cause);
-            }
-
-            dict.Add("index", index ?? Fixture.Create<long>());
-
-            return dict;
+            return new FormBodyBuilder()
+                // ReSharper disable once PossibleInvalidOperationException
+                .Add(errorCode.HasValue, "errorCode", () => errorCode.Value)
+                .Add(message != null, "message", () => message)
+                .Add(cause != null, "cause", () => cause)
+                .Add("index", index ?? Fixture.Create<long>())
+                .Build();
         }
 
     }

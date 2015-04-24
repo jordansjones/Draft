@@ -101,8 +101,10 @@
     <Compile Include="Exceptions\ValueOrTtlRequiredException.cs" />
     <Compile Include="Exceptions\ValueRequiredException.cs" />
     <Compile Include="Exceptions\WatcherClearedException.cs" />
+    <Compile Include="Extensions\FormBodyBuilder.Extensions.cs" />
     <Compile Include="Extensions\ValueConverter.RequestExtensions.cs" />
     <Compile Include="Extensions\ValueConverter.ResponseExtensions.cs" />
+    <Compile Include="Helpers\FormBodyBuilder.cs" />
     <Compile Include="Json\EtcdErrorCodeConverter.cs" />
     <Compile Include="Requests\Cluster\CreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\DeleteMemberRequest.cs" />
@@ -174,7 +176,6 @@
     <Compile Include="Responses\Statistics\StateType.cs" />
     <Compile Include="Responses\Statistics\StoreStatistics.cs" />
     <Compile Include="Responses\Version.cs" />
-    <Compile Include="Vendor\ListDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.ErrorCode.cs" />

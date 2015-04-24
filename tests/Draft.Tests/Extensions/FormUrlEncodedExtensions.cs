@@ -6,10 +6,10 @@ using Flurl.Http.Content;
 
 namespace Draft.Tests
 {
-    public static class FormUrlEncodedExtensions
+    internal static class FormUrlEncodedExtensions
     {
 
-        public static string AsRequestBody(this FormBodyBuilder<string, object> This)
+        public static string AsRequestBody(this FormBodyBuilder This)
         {
             return This.Build().AsRequestBody();
         }

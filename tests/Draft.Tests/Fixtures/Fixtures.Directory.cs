@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         public static class Directory
@@ -18,16 +18,16 @@ namespace Draft.Tests
                 Message = "Foo"
             };
 
-            public static FormBodyBuilder<string, object> DefaultRequest
+            public static FormBodyBuilder DefaultRequest
             {
                 get
                 {
-                    return new FormBodyBuilder<string, object>()
+                    return new FormBodyBuilder()
                         .Add(Constants.Etcd.Parameter_Directory, Constants.Etcd.Parameter_True);
                 }
             }
 
-            public static FormBodyBuilder<string, object> WithExistingRequest
+            public static FormBodyBuilder WithExistingRequest
             {
                 get
                 {

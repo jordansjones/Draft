@@ -55,25 +55,16 @@ namespace Draft.Requests
 
         public async Task<IKeyEvent> Execute()
         {
-            var values = new ListDictionary
-            {
-                {
-                    // Key
+            var values = new FormBodyBuilder()
+                .Add(
                     IsDirectory ? Constants.Etcd.Parameter_Directory : Constants.Etcd.Parameter_Value,
-                    // Value
                     IsDirectory ? Constants.Etcd.Parameter_True : Value
-                }
-            };
-
-            if (Existing.HasValue)
-            {
-                values.Add(Constants.Etcd.Parameter_PrevExist, Existing.Value ? Constants.Etcd.Parameter_True : Constants.Etcd.Parameter_False);
-            }
-
-            if (Ttl.HasValue)
-            {
-                values.Add(Constants.Etcd.Parameter_Ttl, Ttl.Value);
-            }
+                )
+                // ReSharper disable once PossibleInvalidOperationException
+                .Add(Existing.HasValue, Constants.Etcd.Parameter_PrevExist, () => Existing.Value ? Constants.Etcd.Parameter_True : Constants.Etcd.Parameter_False)
+                // ReSharper disable once PossibleInvalidOperationException
+                .Add(Ttl.HasValue, Constants.Etcd.Parameter_Ttl, () => Ttl.Value)
+                .Build();
 
             try
             {

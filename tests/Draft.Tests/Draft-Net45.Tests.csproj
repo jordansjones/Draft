@@ -115,7 +115,6 @@
     <Compile Include="Fixtures\Fixtures.Key.cs" />
     <Compile Include="Fixtures\Fixtures.Watch.cs" />
     <Compile Include="Fixtures\Fixtures.Directory.cs" />
-    <Compile Include="Helpers\FormBodyBuilder.cs" />
     <Compile Include="Helpers\WatchHelper.cs" />
     <Compile Include="Tests\Keys\KeyRequestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

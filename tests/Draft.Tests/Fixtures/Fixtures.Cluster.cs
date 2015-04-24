@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         public static class Cluster

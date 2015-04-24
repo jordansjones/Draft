@@ -84,20 +84,11 @@ namespace Draft.Requests
 
         private async Task<IKeyEvent> Execute(bool isByValue)
         {
-            var values = new ListDictionary
-            {
-                {
-                    // Key
-                    Constants.Etcd.Parameter_Value,
-                    // Value
-                    Value
-                }
-            };
-
-            if (Ttl.HasValue)
-            {
-                values.Add(Constants.Etcd.Parameter_Ttl, Ttl.Value);
-            }
+            var values = new FormBodyBuilder()
+                .Add(Constants.Etcd.Parameter_Value, Value)
+                // ReSharper disable once PossibleInvalidOperationException
+                .Add(Ttl.HasValue, Constants.Etcd.Parameter_Ttl, () => Ttl.Value)
+                .Build();
 
             try
             {

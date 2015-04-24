@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Draft.Tests
 {
-    public static partial class Fixtures
+    internal static partial class Fixtures
     {
 
         public static class CompareAndSwap
@@ -37,9 +37,9 @@ namespace Draft.Tests
                     .AsRequestBody();
             }
 
-            private static FormBodyBuilder<string, object> WithValue(string value)
+            private static FormBodyBuilder WithValue(string value)
             {
-                return new FormBodyBuilder<string, object>()
+                return new FormBodyBuilder()
                     .Add(Constants.Etcd.Parameter_Value, value);
             }
         }

@@ -27,14 +27,9 @@ namespace Draft.Requests.Cluster
 
         public async Task<IClusterMember> Execute()
         {
-            var values = new ListDictionary
-            {
-                {
-                    // Key
-                    Constants.Etcd.Parameter_PeerURLs,
-                    Uris.ToArray()
-                }
-            };
+            var values = new FormBodyBuilder()
+                .Add(Constants.Etcd.Parameter_PeerURLs, Uris.ToArray())
+                .Build();
 
             try
             {
