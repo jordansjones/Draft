@@ -16,7 +16,7 @@ namespace Draft.Tests
 
         public static string AsRequestBody(this IDictionary This)
         {
-            return new CapturedFormUrlEncodedContent(This).Content;
+            return new CapturedUrlEncodedContent(This).Content;
         }
 
     }

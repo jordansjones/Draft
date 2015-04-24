@@ -130,7 +130,7 @@ Task("InstallUnitTestRunner")
     NuGetInstall("xunit.runners", new NuGetInstallSettings {
         ExcludeVersion = true,
         OutputDirectory = solutionDir.Combine("tools"),
-        Version = "1.9.2"
+        Version = "2.0.0"
     });
 });
 
