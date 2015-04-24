@@ -127,7 +127,7 @@ Task("Build")
 Task("InstallUnitTestRunner")
     .Does(() =>
 {
-    NuGetInstall("xunit.runners", new NuGetInstallSettings {
+    NuGetInstall("xunit.runner.console", new NuGetInstallSettings {
         ExcludeVersion = true,
         OutputDirectory = solutionDir.Combine("tools"),
         Version = "2.0.0"
@@ -141,9 +141,9 @@ Task("UnitTests")
 {
     Information("Running Tests in {0}", solution);
 
-    XUnit(
+    XUnit2(
         solutionDir + "/**/bin/" + configuration + "/**/*.Tests*.dll",
-        new XUnitSettings {
+        new XUnit2Settings {
             OutputDirectory = testResultsDir,
             HtmlReport = true,
             XmlReport = true
