@@ -15,6 +15,19 @@ Get it on NuGet:
 var client = Draft.Etcd.ClientFor(new Uri("http://localhost:4001"));
 ```
 
+**Initialize the Client with multiple endpoints**
+```cs
+var endpointPool = await Draft.Endpoints.EndpointPool.Build()
+	.WithRoutingStrategy(Draft.Endpoints.EndpointRoutingStrategy.RoundRobin)
+	.WithVerificationStrategy(Draft.Endpoints.EndpointVerificationStrategy.All)
+	.VerifyAndBuild(
+		new Uri("http://localhost:4001"), 
+		new Uri("http://localhost:4002"), 
+		new Uri("http://localhost:5002")
+	);
+var client = Draft.Etcd.ClientFor(endpointPool);
+```
+
 ## Key based operations ##
 
 **Set a key**
@@ -127,7 +140,10 @@ var leader = await client
 var memberInfo = await client
                 .Cluster
                 .CreateMember()
-                .WithPeerUri(new Uri("http://localhost:4002"), new Uri("http://localhost:5002"));
+                .WithPeerUri(
+					new Uri("http://localhost:4002"), 
+					new Uri("http://localhost:5002")
+				);
 ```
 
 **Remove a cluster member**
