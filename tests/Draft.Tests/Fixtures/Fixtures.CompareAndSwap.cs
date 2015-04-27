@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Responses;
+
 namespace Draft.Tests
 {
     internal static partial class Fixtures
@@ -19,10 +21,7 @@ namespace Draft.Tests
 
             public const string Path = "/foo/cas";
 
-            public static readonly object DefaultResponse = new
-            {
-                Message = "Foo"
-            };
+            public static readonly object DefaultResponse = new KeyData();
 
             public static string DefaultRequest(string value = NewValue)
             {

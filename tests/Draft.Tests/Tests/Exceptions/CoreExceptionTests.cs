@@ -62,7 +62,7 @@ namespace Draft.Tests.Exceptions
         public void ShouldThrowInvalidHostException()
         {
             FlurlHttp.Configure(
-                x => { x.HttpClientFactory = new InvalidHostExceptionTestClientFactory(); });
+                x => { x.HttpClientFactory = new TestingHttpClientFactory(new HttpTest()); });
 
             CallFixture.ShouldThrow<InvalidHostException>()
                 .And

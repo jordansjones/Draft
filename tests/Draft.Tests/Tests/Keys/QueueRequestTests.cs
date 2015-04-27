@@ -21,6 +21,7 @@ namespace Draft.Tests.Keys
                 http.RespondWithJson(Fixtures.Queue.DefaultResponse);
 
                 await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .Atomic
                     .Enqueue(Fixtures.Queue.Path)
                     .WithValue(Fixtures.Queue.DefaultValue);
 
@@ -43,6 +44,7 @@ namespace Draft.Tests.Keys
                 http.RespondWithJson(Fixtures.Queue.DefaultResponse);
 
                 await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .Atomic
                     .Enqueue(Fixtures.Queue.Path)
                     .WithValue(Fixtures.Queue.DefaultValue)
                     .WithTimeToLive(Fixtures.Queue.DefaultTtl);

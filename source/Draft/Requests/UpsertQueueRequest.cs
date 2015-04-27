@@ -6,17 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
 
 namespace Draft.Requests
 {
     internal class UpsertQueueRequest : BaseRequest, IUpsertKeyRequest, ICreateDirectoryRequest, IUpdateDirectoryRequest, IQueueRequest
     {
 
-        public UpsertQueueRequest(IEtcdClient etcdClient, Url endpointUrl, string path)
-            : base(etcdClient, endpointUrl, path) {}
+        public UpsertQueueRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts)
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public bool? Existing { get; private set; }
 

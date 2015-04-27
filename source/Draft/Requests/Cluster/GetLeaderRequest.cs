@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses.Cluster;
 
 using Flurl;
@@ -15,7 +16,8 @@ namespace Draft.Requests.Cluster
     internal class GetLeaderRequest : BaseRequest, IGetLeaderRequest
     {
 
-        public GetLeaderRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
+        public GetLeaderRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts) 
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public async Task<IClusterMember> Execute()
         {

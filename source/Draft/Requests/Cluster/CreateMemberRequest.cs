@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses.Cluster;
 
 using Flurl;
@@ -16,7 +17,8 @@ namespace Draft.Requests.Cluster
     internal class CreateMemberRequest : BaseRequest, ICreateMemberRequest
     {
 
-        public CreateMemberRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath)
+        public CreateMemberRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts) 
+            : base(etcdClient, endpointPool, pathParts)
         {
             Uris = new List<Uri>();
         }

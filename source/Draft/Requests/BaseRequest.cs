@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Draft.Endpoints;
+
 using Flurl;
 
 namespace Draft.Requests
@@ -8,22 +10,25 @@ namespace Draft.Requests
     internal abstract class BaseRequest
     {
 
-        private readonly string _containerPath;
+        private readonly string[] _pathParts;
 
-        private readonly Url _endpointUrl;
+        private readonly EndpointPool _endpointPool;
 
-        protected BaseRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath)
+        protected BaseRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts)
         {
             EtcdClient = etcdClient;
-            _endpointUrl = endpointUrl;
-            _containerPath = containerPath;
+            _endpointPool = endpointPool;
+            _pathParts = pathParts;
         }
 
         public IEtcdClient EtcdClient { get; private set; }
 
         public Url TargetUrl
         {
-            get { return new Url(_endpointUrl).AppendPathSegment(_containerPath); }
+            get
+            {
+                return _endpointPool.GetEndpointUrl(_pathParts);
+            }
         }
 
     }

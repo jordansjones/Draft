@@ -3,25 +3,22 @@ using System.Linq;
 using System.Threading;
 
 using Draft.Configuration;
+using Draft.Endpoints;
 using Draft.Requests;
 using Draft.Requests.Cluster;
-
-using Flurl;
 
 namespace Draft
 {
     internal class EtcdClient : IEtcdClient, IAtomicEtcdClient, IClusterEtcdClient
     {
 
-        private readonly Url _endpointUrl;
-
         private readonly object _gate = new object();
 
         private ClientConfig _clientConfig;
 
-        public EtcdClient(Url endpointUrl, ClientConfig clientConfig)
+        public EtcdClient(EndpointPool endpointPool, ClientConfig clientConfig)
         {
-            _endpointUrl = endpointUrl;
+            EndpointPool = endpointPool;
             _clientConfig = clientConfig ?? new ClientConfig();
         }
 
@@ -30,15 +27,7 @@ namespace Draft
             get { return _clientConfig; }
         }
 
-        public Url EndpointUrl
-        {
-            get { return new Url(_endpointUrl); }
-        }
-
-        public Url KeysUrl
-        {
-            get { return EndpointUrl.AppendPathSegment(Constants.Etcd.Path_Keys); }
-        }
+        public EndpointPool EndpointPool { get; private set; }
 
         IEtcdClientConfig IEtcdClient.Config
         {
@@ -61,45 +50,42 @@ namespace Draft
 
         #region IEtcd Client
 
-        public ICreateDirectoryRequest CreateDirectory(string path)
+        public ICreateDirectoryRequest CreateDirectory(string key)
         {
-            return new UpsertQueueRequest(this, KeysUrl, path)
+            return new UpsertQueueRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key)
             {
                 IsDirectory = true
             };
         }
 
-        public IDeleteDirectoryRequest DeleteDirectory(string path)
+        public IDeleteDirectoryRequest DeleteDirectory(string key)
         {
-            return new DeleteRequest(this, KeysUrl, path, true);
+            return new DeleteRequest(this, EndpointPool, true, Constants.Etcd.Path_Keys, key);
         }
 
         public IDeleteKeyRequest DeleteKey(string key)
         {
-            return new DeleteRequest(this, KeysUrl, key, false);
+            return new DeleteRequest(this, EndpointPool, false, Constants.Etcd.Path_Keys, key);
         }
 
-        public IQueueRequest Enqueue(string key)
+        IQueueRequest IEtcdClient.Enqueue(string key)
         {
-            return new UpsertQueueRequest(this, KeysUrl, key)
-            {
-                IsQueue = true
-            };
+            return Enqueue(key);
         }
 
         public IGetRequest GetKey(string key)
         {
-            return new GetRequest(this, KeysUrl, key);
+            return new GetRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key);
         }
 
         public IGetVersionRequest GetVersion()
         {
-            return new GetVersionRequest(this, EndpointUrl, Constants.Etcd.Path_Version);
+            return new GetVersionRequest(this, EndpointPool, Constants.Etcd.Path_Version);
         }
 
-        public IUpdateDirectoryRequest UpdateDirectory(string path)
+        public IUpdateDirectoryRequest UpdateDirectory(string key)
         {
-            var request = new UpsertQueueRequest(this, KeysUrl, path)
+            var request = new UpsertQueueRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key)
             {
                 IsDirectory = true
             };
@@ -111,17 +97,17 @@ namespace Draft
 
         public IUpsertKeyRequest UpsertKey(string key)
         {
-            return new UpsertQueueRequest(this, KeysUrl, key);
+            return new UpsertQueueRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key);
         }
 
         public IWatchRequest Watch(string key)
         {
-            return new WatchRequest(this, KeysUrl, key, false);
+            return new WatchRequest(this, EndpointPool, false, Constants.Etcd.Path_Keys, key);
         }
 
         public IWatchRequest WatchOnce(string key)
         {
-            return new WatchRequest(this, KeysUrl, key, true);
+            return new WatchRequest(this, EndpointPool, true, Constants.Etcd.Path_Keys, key);
         }
 
         #endregion
@@ -135,12 +121,20 @@ namespace Draft
 
         public ICompareAndDeleteRequest CompareAndDelete(string key)
         {
-            return new CompareAndDeleteRequest(this, KeysUrl, key);
+            return new CompareAndDeleteRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key);
         }
 
         public ICompareAndSwapRequest CompareAndSwap(string key)
         {
-            return new CompareAndSwapRequest(this, KeysUrl, key);
+            return new CompareAndSwapRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key);
+        }
+
+        public IQueueRequest Enqueue(string key)
+        {
+            return new UpsertQueueRequest(this, EndpointPool, Constants.Etcd.Path_Keys, key)
+            {
+                IsQueue = true
+            };
         }
 
         #endregion
@@ -154,27 +148,27 @@ namespace Draft
 
         public ICreateMemberRequest CreateMember()
         {
-            return new CreateMemberRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
+            return new CreateMemberRequest(this, EndpointPool, Constants.Etcd.Path_Members);
         }
 
         public IDeleteMemberRequest DeleteMember()
         {
-            return new DeleteMemberRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
+            return new DeleteMemberRequest(this, EndpointPool, Constants.Etcd.Path_Members);
         }
 
         public IGetLeaderRequest GetLeader()
         {
-            return new GetLeaderRequest(this, EndpointUrl, Constants.Etcd.Path_Members_Leader);
+            return new GetLeaderRequest(this, EndpointPool, Constants.Etcd.Path_Members_Leader);
         }
 
         public IGetMembersRequest GetMembers()
         {
-            return new GetMembersRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
+            return new GetMembersRequest(this, EndpointPool, Constants.Etcd.Path_Members);
         }
 
         public IUpdateMemberPeerUrlsRequest UpdateMemberPeerUrls()
         {
-            return new UpdateMemberPeerUrlsRequest(this, EndpointUrl, Constants.Etcd.Path_Members);
+            return new UpdateMemberPeerUrlsRequest(this, EndpointPool, Constants.Etcd.Path_Members);
         }
 
         #endregion

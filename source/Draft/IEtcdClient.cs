@@ -36,12 +36,12 @@ namespace Draft
         /// <summary>
         ///     Begins a directory creation request.
         /// </summary>
-        ICreateDirectoryRequest CreateDirectory(string path);
+        ICreateDirectoryRequest CreateDirectory(string key);
 
         /// <summary>
         ///     Begins a directory deletion request.
         /// </summary>
-        IDeleteDirectoryRequest DeleteDirectory(string path);
+        IDeleteDirectoryRequest DeleteDirectory(string key);
 
         /// <summary>
         ///     Begins a key deletion request.
@@ -51,6 +51,10 @@ namespace Draft
         /// <summary>
         ///     Begins an enqueue key request.
         /// </summary>
+        /// <remarks>
+        /// <para>This is being moved to live as a member of <see cref="IEtcdClient.Atomic" /> (<see cref="IAtomicEtcdClient.Enqueue" />).</para>
+        /// </remarks>
+        [Obsolete("This is being moved to live under the 'Atomic' member. Soon(TM) this will result in a compile time error.")]
         IQueueRequest Enqueue(string key);
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace Draft
         /// <remarks>
         ///     <para>Primarily used for updating TTL.</para>
         /// </remarks>
-        IUpdateDirectoryRequest UpdateDirectory(string path);
+        IUpdateDirectoryRequest UpdateDirectory(string key);
 
         /// <summary>
         ///     Begins a key update request.
@@ -109,6 +113,11 @@ namespace Draft
         ///     Begins an atomic key update request.
         /// </summary>
         ICompareAndSwapRequest CompareAndSwap(string key);
+
+        /// <summary>
+        ///     Begins an atomic enqueue key request.
+        /// </summary>
+        IQueueRequest Enqueue(string key);
 
     }
 

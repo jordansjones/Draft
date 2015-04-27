@@ -2,11 +2,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.ExceptionServices;
 
 using Draft.Configuration;
+using Draft.Endpoints;
 using Draft.Json;
 
-using Flurl;
 using Flurl.Http;
 
 using Newtonsoft.Json;
@@ -20,10 +21,9 @@ namespace Draft
     {
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static readonly Lazy<ClientConfig> _configuration = new Lazy<ClientConfig>(() => new ClientConfig());
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
         private static readonly object _gate = new object();
+
+        internal static readonly Lazy<ClientConfig> ClientConfig = new Lazy<ClientConfig>(() => new ClientConfig());
 
         static Etcd()
         {
@@ -54,21 +54,50 @@ namespace Draft
         /// </summary>
         public static IEtcdClientConfig Configuration
         {
-            get { return _configuration.Value; }
+            get { return ClientConfig.Value; }
+        }
+
+        /// <summary>
+        ///     Creates an <see cref="IEtcdClient" /> for the specified <see cref="EndpointPool" />.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Passed <paramref name="endpointPool" /> is null.</exception>
+        public static IEtcdClient ClientFor(EndpointPool endpointPool)
+        {
+            if (endpointPool == null)
+            {
+                throw new ArgumentNullException("endpointPool");
+            }
+            return new EtcdClient(endpointPool, ClientConfig.Value.DeepCopy());
         }
 
         /// <summary>
         ///     Creates an <see cref="IEtcdClient" /> for the specified <see cref="Uri" />.
         /// </summary>
-        /// <exception cref="ArgumentException">The <see cref="Uri" /> is not an absolute uri.</exception>
-        public static IEtcdClient ClientFor(Uri uri)
+        /// <exception cref="ArgumentNullException">Passed <paramref name="uris" /> is null.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="uris" /> is not an absolute <see cref="Uri" />.</exception>
+        public static IEtcdClient ClientFor(params Uri[] uris)
         {
-            if (!uri.IsAbsoluteUri)
+            if (uris == null)
             {
-                throw new ArgumentException("Uri must be absolute", "uri");
+                throw new ArgumentNullException("uris");
             }
 
-            return new EtcdClient(new Url(uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped)), _configuration.Value.DeepCopy());
+            EndpointPool endpointPool = null;
+            try
+            {
+                endpointPool = EndpointPool.Build()
+                                               .WithRoutingStrategy(EndpointRoutingStrategy.RoundRobin)
+                                               .WithVerificationStrategy(EndpointVerificationStrategy.None)
+                                               .VerifyAndBuild(uris)
+                                               .Result;
+            }
+            catch (AggregateException ae)
+            {
+                ExceptionDispatchInfo.Capture(ae.Flatten().InnerExceptions.First()).Throw();
+            }
+            
+
+            return ClientFor(endpointPool);
         }
 
         /// <summary>
@@ -81,7 +110,7 @@ namespace Draft
         {
             lock (_gate)
             {
-                configAction(_configuration.Value);
+                configAction(ClientConfig.Value);
             }
         }
 

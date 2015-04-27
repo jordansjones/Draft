@@ -10,6 +10,11 @@ namespace Draft
     internal static class FlurlExtensions
     {
 
+        public static Url ToUrl(this Uri This)
+        {
+            return This.ToString();
+        }
+
         public static Url Conditionally(this Url This, bool predicate, Func<Url, Url> action)
         {
             return predicate ? action(This) : This;

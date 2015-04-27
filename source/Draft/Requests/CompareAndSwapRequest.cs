@@ -6,17 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
 
 namespace Draft.Requests
 {
     internal class CompareAndSwapRequest : BaseRequest, ICompareAndSwapRequest, ICompareAndSwapByIndexRequest, ICompareAndSwapByValueRequest
     {
 
-        public CompareAndSwapRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath)
-            : base(etcdClient, endpointUrl, containerPath) {}
+        public CompareAndSwapRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts)
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public long ExpectedIndex { get; private set; }
 

@@ -11,35 +11,29 @@ using System.Reactive.Concurrency;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
 
 namespace Draft.Requests
 {
     internal class WatchRequest : ObservableBase<IKeyEvent>, IWatchRequest
     {
 
-        private readonly Url _endpointUrl;
-
         private readonly IEtcdClient _etcdClient;
 
-        public WatchRequest(IEtcdClient etcdClient, Url endpointUrl, string path, bool single)
+        public WatchRequest(IEtcdClient etcdClient, EndpointPool endpointPool, bool single, params string[] pathParts)
         {
             _etcdClient = etcdClient;
-            _endpointUrl = endpointUrl;
-            Path = path;
+            EndpointPool = endpointPool;
+            PathParts = pathParts;
             Single = single;
         }
 
-        public Url EndpointUrl
-        {
-            get { return new Url(_endpointUrl); }
-        }
+        public EndpointPool EndpointPool { get; private set; }
 
         public long? ModifiedIndex { get; private set; }
 
-        public string Path { get; private set; }
+        public string[] PathParts { get; private set; }
 
         public bool? Recursive { get; private set; }
 
@@ -64,8 +58,7 @@ namespace Draft.Requests
 
         private Task<HttpResponseMessage> CallEndpoint(bool? recursive, long? index)
         {
-            return EndpointUrl
-                .AppendPathSegment(Path)
+            return EndpointPool.GetEndpointUrl(PathParts)
                 .SetQueryParam(Constants.Etcd.Parameter_Wait, Constants.Etcd.Parameter_True)
                 .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                 // ReSharper disable once PossibleInvalidOperationException
@@ -95,6 +88,10 @@ namespace Draft.Requests
                             ? null
                             : modifiedIndex + 1;
                     }
+                }
+                catch (TaskCanceledException)
+                {
+                    /* Restart the connection */
                 }
                 catch (FlurlHttpTimeoutException)
                 {

@@ -1,20 +1,21 @@
 ﻿using System;
+
+using Flurl.Http;
+
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
-using Flurl.Http;
 
 namespace Draft.Requests
 {
     internal class GetVersionRequest : BaseRequest, IGetVersionRequest
     {
 
-
-        public GetVersionRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
+        public GetVersionRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts)
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public async Task<IEtcdVersion> Execute()
         {

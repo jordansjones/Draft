@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
+
 using Flurl;
 
 namespace Draft.Requests.Cluster
@@ -13,7 +15,8 @@ namespace Draft.Requests.Cluster
     internal class DeleteMemberRequest : BaseRequest, IDeleteMemberRequest
     {
 
-        public DeleteMemberRequest(IEtcdClient etcdClient, Url endpointUrl, string containerPath) : base(etcdClient, endpointUrl, containerPath) {}
+        public DeleteMemberRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts) 
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public string MemberId { get; private set; }
 

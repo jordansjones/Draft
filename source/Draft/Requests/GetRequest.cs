@@ -6,17 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
 
 namespace Draft.Requests
 {
     internal class GetRequest : BaseRequest, IGetRequest
     {
 
-        public GetRequest(IEtcdClient etcdClient, Url endpointUrl, string path)
-            : base(etcdClient, endpointUrl, path) {}
+        public GetRequest(IEtcdClient etcdClient, EndpointPool endpointPool, params string[] pathParts)
+            : base(etcdClient, endpointPool, pathParts) {}
 
         public bool? Quorum { get; private set; }
 

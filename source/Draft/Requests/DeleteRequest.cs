@@ -6,17 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Draft.Endpoints;
 using Draft.Responses;
-
-using Flurl;
 
 namespace Draft.Requests
 {
     internal class DeleteRequest : BaseRequest, IDeleteDirectoryRequest, IDeleteKeyRequest
     {
 
-        public DeleteRequest(IEtcdClient etcdClient, Url endpointUrl, string path, bool isDirectory)
-            : base(etcdClient, endpointUrl, path)
+        public DeleteRequest(IEtcdClient etcdClient, EndpointPool endpointPool, bool isDirectory, params string[] pathParts)
+            : base(etcdClient, endpointPool, pathParts)
         {
             IsDirectory = isDirectory;
         }

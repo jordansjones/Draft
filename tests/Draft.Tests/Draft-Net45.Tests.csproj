@@ -96,7 +96,7 @@
     <Compile Include="Extensions\HttpTestExtensions.cs" />
     <Compile Include="Fixtures\Dtos\SimpleDataContractDto.cs" />
     <Compile Include="Fixtures\Fixtures.Cluster.cs" />
-    <Compile Include="Fixtures\InvalidHostExceptionTestClientFactory.cs" />
+    <Compile Include="Fixtures\TestingHttpClientFactory.cs" />
     <Compile Include="Helpers\XmlValueConverter.cs" />
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
@@ -120,7 +120,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Keys\QueueRequestTests.cs" />
     <Compile Include="Tests\Keys\WatchRequestTests.cs" />
+    <Compile Include="Tests\RoutingStrategies\BaseRoutingStrategyTests.cs" />
+    <Compile Include="Tests\RoutingStrategies\RoutingStrategyConsistentKeyHashingTests.cs" />
+    <Compile Include="Tests\RoutingStrategies\RoutingStrategyFirstTests.cs" />
+    <Compile Include="Tests\RoutingStrategies\RoutingStrategyRandomTests.cs" />
+    <Compile Include="Tests\RoutingStrategies\RoutingStrategyRoundRobinTests.cs" />
     <Compile Include="Tests\ValueConverterTests.cs" />
+    <Compile Include="Tests\VerificationStrategies\BaseVerificationStrategyTests.cs" />
+    <Compile Include="Tests\VerificationStrategies\VerificationStrategyAllTests.cs" />
+    <Compile Include="Tests\VerificationStrategies\VerificationStrategyAnyTests.cs" />
+    <Compile Include="Tests\VerificationStrategies\VerificationStrategyNoneTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fixtures\Fixtures.Queue.cs" />
