@@ -24,21 +24,11 @@ namespace Draft.Endpoints
 
         #region Built-in strategies
 
-        private static readonly Lazy<EndpointRoutingStrategy> LazyConsistenKeyHashing = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyConsistentKeyHashing());
-
         private static readonly Lazy<EndpointRoutingStrategy> LazyFirst = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyFirst());
 
         private static readonly Lazy<EndpointRoutingStrategy> LazyRandom = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyRandom());
 
         private static readonly Lazy<EndpointRoutingStrategy> LazyRoundRobin = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyRoundRobin());
-
-//        /// <summary>
-//        ///     Uses a consistent hashing algorithm on the etcd key to select the <see cref="Endpoint" />.
-//        /// </summary>
-//        public static EndpointRoutingStrategy ConsistentKeyHashing
-//        {
-//            get { return LazyConsistenKeyHashing.Value; }
-//        }
 
         /// <summary>
         ///     Uses the first <see cref="Endpoint" />.

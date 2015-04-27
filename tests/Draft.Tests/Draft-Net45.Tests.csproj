@@ -121,7 +121,6 @@
     <Compile Include="Tests\Keys\QueueRequestTests.cs" />
     <Compile Include="Tests\Keys\WatchRequestTests.cs" />
     <Compile Include="Tests\RoutingStrategies\BaseRoutingStrategyTests.cs" />
-    <Compile Include="Tests\RoutingStrategies\RoutingStrategyConsistentKeyHashingTests.cs" />
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyFirstTests.cs" />
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyRandomTests.cs" />
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyRoundRobinTests.cs" />

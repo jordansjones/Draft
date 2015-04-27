@@ -72,7 +72,6 @@
     <Compile Include="Endpoints\Endpoint.cs" />
     <Compile Include="Endpoints\EndpointRoutingStrategy.cs" />
     <Compile Include="Endpoints\EndpointVerificationStrategy.cs" />
-    <Compile Include="Endpoints\RoutingStrategy.ConsistentKeyHashing.cs" />
     <Compile Include="Endpoints\RoutingStrategy.First.cs" />
     <Compile Include="Endpoints\RoutingStrategy.Random.cs" />
     <Compile Include="Endpoints\RoutingStrategy.RoundRobin.cs" />
