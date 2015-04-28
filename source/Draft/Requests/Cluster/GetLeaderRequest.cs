@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using Draft.Endpoints;
 using Draft.Responses.Cluster;
 
-using Flurl;
-
 namespace Draft.Requests.Cluster
 {
     internal class GetLeaderRequest : BaseRequest, IGetLeaderRequest

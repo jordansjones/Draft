@@ -78,6 +78,7 @@
     <Compile Include="Endpoints\VerificationStrategy.None.cs" />
     <Compile Include="Endpoints\VerificationStrategy.All.cs" />
     <Compile Include="Endpoints\VerificationStrategy.Any.cs" />
+    <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\ClientInternalException.cs" />
     <Compile Include="Exceptions\DirectoryNotEmptyException.cs" />
     <Compile Include="Exceptions\EtcdException.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Exceptions\PreviousValueRequiredException.cs" />
     <Compile Include="Exceptions\RaftInternalException.cs" />
     <Compile Include="Exceptions\RootIsReadOnlyException.cs" />
+    <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Exceptions\StandbyInternalException.cs" />
     <Compile Include="Exceptions\TestFailedException.cs" />
     <Compile Include="Exceptions\TimeoutNotANumberException.cs" />

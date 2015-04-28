@@ -36,6 +36,14 @@ namespace Draft.Exceptions
         public HttpStatusCode? HttpStatusCode { get; internal set; }
 
         /// <summary>
+        ///     Indicates that this exception is due to a general problem with the request to etcd.
+        /// </summary>
+        public virtual bool IsBadRequest
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Indicates that this exception is due to an internal client error
         /// </summary>
         public virtual bool IsClientInternal
@@ -232,6 +240,14 @@ namespace Draft.Exceptions
         /// </summary>
         /// <remarks>You probably tried to set a value on the root keyspace.</remarks>
         public virtual bool IsRootReadOnly
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        ///     Indicates that this exception is due to an "Service unavailable error".
+        /// </summary>
+        public virtual bool IsServiceUnavailable
         {
             get { return false; }
         }

@@ -35,7 +35,7 @@ namespace Draft.Requests.Cluster
             {
                 return await TargetUrl
                     .AppendPathSegment(MemberId)
-                    .PostJsonAsync(values)
+                    .PutJsonAsync(values)
                     .ReceiveJson<ClusterMember>();
             }
             catch (FlurlHttpException e)

@@ -1,13 +1,13 @@
 ﻿using System;
+
+using Flurl.Http;
+
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Draft.Endpoints;
 using Draft.Responses.Cluster;
-
-using Flurl;
-using Flurl.Http;
 
 namespace Draft.Requests.Cluster
 {

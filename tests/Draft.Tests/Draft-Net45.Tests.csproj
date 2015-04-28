@@ -102,6 +102,10 @@
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
     <Compile Include="Tests\Cluster\CreateMemberTests.cs" />
+    <Compile Include="Tests\Cluster\DeleteMemberTests.cs" />
+    <Compile Include="Tests\Cluster\GetLeaderTests.cs" />
+    <Compile Include="Tests\Cluster\GetMembersTests.cs" />
+    <Compile Include="Tests\Cluster\UpdateMemberPeerUrlsTests.cs" />
     <Compile Include="Tests\ConfigureTests.cs" />
     <Compile Include="Tests\Exceptions\CoreExceptionTests.cs" />
     <Compile Include="Tests\Keys\DirectoryRequestTests.cs" />
