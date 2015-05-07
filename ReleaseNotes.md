@@ -1,3 +1,6 @@
+### New in 0.2.1 (Released 2015/05/07)
+* Fixed: `NullReferenceException` thrown when a `WebException` occurs due to a client connection problem.
+
 ### New in 0.2.0 (Released 2015/04/26)
 * New: Support for multiple etcd endpoints
 	* Includes verifying endpoint availability
