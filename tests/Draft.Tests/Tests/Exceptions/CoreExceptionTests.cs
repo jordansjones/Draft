@@ -129,6 +129,17 @@ namespace Draft.Tests.Exceptions
         }
 
         [Fact]
+        public void ShouldThrowHttpConnectionException()
+        {
+            FlurlHttp.Configure(
+                x => { x.HttpClientFactory = new TestingHttpClientFactory(new HttpTest(), (ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); }); });
+
+            CallFixture.ShouldThrow<HttpConnectionException>()
+                .And
+                .IsHttpConnection.Should().BeTrue();
+        }
+
+        [Fact]
         public void ShouldThrowIndexNotANumberException()
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_IndexNotANumber))

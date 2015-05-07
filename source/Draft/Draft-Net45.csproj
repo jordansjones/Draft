@@ -85,6 +85,7 @@
     <Compile Include="Exceptions\EventIndexClearedException.cs" />
     <Compile Include="Exceptions\ExceptionHandling.cs" />
     <Compile Include="Exceptions\ExistingPeerAddressException.cs" />
+    <Compile Include="Exceptions\HttpConnectionException.cs" />
     <Compile Include="Exceptions\IndexNotANumberException.cs" />
     <Compile Include="Exceptions\IndexOrValueRequiredException.cs" />
     <Compile Include="Exceptions\IndexValueMutexException.cs" />

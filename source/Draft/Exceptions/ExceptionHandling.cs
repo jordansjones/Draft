@@ -39,6 +39,7 @@ namespace Draft
             if (fhe.IsTimeoutException()) { return fhe.AsTimeoutException(); }
             if (fhe.IsInvalidHostException()) { return fhe.AsInvalidHostException(); }
             if (fhe.IsInvalidRequestException()) { return fhe.AsInvalidRequestException(); }
+            if (fhe.IsHttpConnectionException()) { return fhe.AsHttpConnectionException(); }
 
             var etcdError = fhe.GetResponseJson<EtcdError>();
 
@@ -153,6 +154,36 @@ namespace Draft
 
             return exception;
         }
+
+        #region Connection Closed Exception
+
+        private static EtcdException AsHttpConnectionException(this FlurlHttpException This)
+        {
+            var webex = This.GetBaseException() as WebException;
+
+            if (webex == null || string.IsNullOrWhiteSpace(webex.Message)) return new HttpConnectionException();
+            return new HttpConnectionException(webex.Message);
+        }
+
+        private static bool IsHttpConnectionException(this FlurlHttpException This)
+        {
+            if (This == null) return false;
+
+            var be = This.GetBaseException();
+            var webex = be as WebException;
+
+            return This.Call != null
+                   && !This.Call.Completed
+                   && !This.Call.HttpStatus.HasValue
+                   && webex != null
+                   && (
+                       webex.Status == WebExceptionStatus.ConnectionClosed
+                       || webex.Status == WebExceptionStatus.ConnectFailure
+                       );
+        }
+
+        #endregion
+
 
         #region Invalid Host Exception
 

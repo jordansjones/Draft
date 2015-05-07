@@ -68,6 +68,14 @@ namespace Draft.Exceptions
         }
 
         /// <summary>
+        ///     Indicates that this exception is due to an underlying http client connection error.
+        /// </summary>
+        public virtual bool IsHttpConnection
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Indicates that this exception is due to etcd being unable to parse the passed index value as a number.
         /// </summary>
         public virtual bool IsIndexNotANumber
@@ -309,7 +317,6 @@ namespace Draft.Exceptions
         ///     The request url for the operation.
         /// </summary>
         public string RequestUrl { get; internal set; }
-
 
     }
 }
