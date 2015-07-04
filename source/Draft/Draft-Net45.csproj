@@ -34,17 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Flurl, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.1.0.7\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+    <Reference Include="Flurl, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.1.0.8\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Flurl.Http, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.Http.0.6.0\lib\net45\Flurl.Http.dll</HintPath>
+    <Reference Include="Flurl.Http, Version=0.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Http.0.6.2\lib\net45\Flurl.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,6 +78,8 @@
     <Compile Include="Endpoints\VerificationStrategy.None.cs" />
     <Compile Include="Endpoints\VerificationStrategy.All.cs" />
     <Compile Include="Endpoints\VerificationStrategy.Any.cs" />
+    <Compile Include="Endpoints\VerificationStrategy.ClusterMembers.cs" />
+    <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\ClientInternalException.cs" />
     <Compile Include="Exceptions\DirectoryNotEmptyException.cs" />
     <Compile Include="Exceptions\EtcdException.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Exceptions\PreviousValueRequiredException.cs" />
     <Compile Include="Exceptions\RaftInternalException.cs" />
     <Compile Include="Exceptions\RootIsReadOnlyException.cs" />
+    <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Exceptions\StandbyInternalException.cs" />
     <Compile Include="Exceptions\TestFailedException.cs" />
     <Compile Include="Exceptions\TimeoutNotANumberException.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Helpers\FormBodyBuilder.cs" />
     <Compile Include="Helpers\IRandom.cs" />
     <Compile Include="Helpers\StaticRandom.cs" />
+    <Compile Include="Helpers\NormalizedPathSegment.cs" />
     <Compile Include="Json\EtcdErrorCodeConverter.cs" />
     <Compile Include="Requests\Cluster\CreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\DeleteMemberRequest.cs" />
@@ -134,6 +138,12 @@
     <Compile Include="Requests\Cluster\UpdateMemberPeerUrlsRequest.cs" />
     <Compile Include="Requests\GetVersionRequest.cs" />
     <Compile Include="Requests\IGetVersionRequest.cs" />
+    <Compile Include="Requests\Statistics\GetLeaderStatisticsRequest.cs" />
+    <Compile Include="Requests\Statistics\GetSelfStatisticsRequest.cs" />
+    <Compile Include="Requests\Statistics\GetStoreStatisticsRequest.cs" />
+    <Compile Include="Requests\Statistics\IGetLeaderStatisticsRequest.cs" />
+    <Compile Include="Requests\Statistics\IGetServerStatisticsRequest.cs" />
+    <Compile Include="Requests\Statistics\IGetStoreStatisticsRequest.cs" />
     <Compile Include="Responses\Cluster\ClusterMember.cs" />
     <Compile Include="Responses\Cluster\ClusterMemberCollection.cs" />
     <Compile Include="Responses\Cluster\IClusterMember.cs" />
@@ -143,6 +153,13 @@
     <Compile Include="Responses\IEtcdVersion.cs" />
     <Compile Include="Responses\IHaveAValueConverter.cs" />
     <Compile Include="Responses\IHaveResponseHeaders.cs" />
+    <Compile Include="Responses\Statistics\IFollowerCounts.cs" />
+    <Compile Include="Responses\Statistics\IFollowerLatency.cs" />
+    <Compile Include="Responses\Statistics\IFollowerStatistics.cs" />
+    <Compile Include="Responses\Statistics\ILeaderInfo.cs" />
+    <Compile Include="Responses\Statistics\ILeaderStatistics.cs" />
+    <Compile Include="Responses\Statistics\IServerStatistics.cs" />
+    <Compile Include="Responses\Statistics\IStoreStatistics.cs" />
     <Compile Include="ValueConverters\JsonValueConverter.cs" />
     <Compile Include="ValueConverters\StringValueConverter.cs" />
     <Compile Include="Etcd.cs" />
@@ -197,9 +214,7 @@
     <Compile Include="Constants.ErrorCode.cs" />
     <None Include="packages.Draft-Net45.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Requests\Statistics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

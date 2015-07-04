@@ -1,26 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Draft.ValueConverters
 {
-    internal class JsonValueConverter : IJsonKeyDataValueConverter
+    internal class JsonValueConverter : IKeyDataValueConverter
     {
 
-        public T ReadString<T>(string value)
+        public T Read<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            return JsonConvert.DeserializeObject<T>(value, Etcd.JsonSettings);
         }
 
-        public object ReadString(string value)
+        public string Write<T>(T value)
         {
-            return ReadString<object>(value);
-        }
-
-        public string WriteString(object value)
-        {
-            return JsonConvert.SerializeObject(value);
+            return JsonConvert.SerializeObject(value, Etcd.JsonSettings);
         }
 
     }

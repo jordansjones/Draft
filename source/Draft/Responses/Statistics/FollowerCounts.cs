@@ -8,20 +8,20 @@ namespace Draft.Responses.Statistics
     ///     Follower send counts
     /// </summary>
     [DataContract]
-    internal class FollowerCounts
+    internal class FollowerCounts : IFollowerCounts
     {
 
         /// <summary>
         ///     Count of unsuccessful sends
         /// </summary>
         [DataMember(Name = "fail")]
-        public long Fail { get; private set; }
+        public long Fail { get; set; }
 
         /// <summary>
         ///     Count of successful sends
         /// </summary>
         [DataMember(Name = "success")]
-        public long Success { get; private set; }
+        public long Success { get; set; }
 
     }
 }

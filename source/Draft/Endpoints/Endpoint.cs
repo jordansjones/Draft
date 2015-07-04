@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Draft.Endpoints
 {
     /// <summary>
     ///     Represents a verified etcd endpoint.
     /// </summary>
+    [Serializable, DataContract]
     public sealed class Endpoint : IEquatable<Endpoint>
     {
+
+        /// <summary>
+        ///     Initializes a new <see cref="Endpoint" /> class with default values for <see cref="Availability" /> and
+        ///     <see cref="Uri" />.
+        /// </summary>
+        public Endpoint()
+            : this(default(Uri), default(EndpointAvailability)) {}
 
         /// <summary>
         ///     Initializes a new <see cref="Endpoint" /> class with the specified <paramref name="availability" /> and
@@ -24,11 +33,13 @@ namespace Draft.Endpoints
         /// <summary>
         ///     <see cref="EndpointAvailability" /> value of this etcd endpoint.
         /// </summary>
+        [DataMember(Order = 1)]
         public EndpointAvailability Availability { get; private set; }
 
         /// <summary>
         ///     Is <c>true</c> when <see cref="Availability" /><c> == </c><see cref="EndpointAvailability.Online" />.
         /// </summary>
+        [IgnoreDataMember]
         public bool IsOnline
         {
             get { return Availability == EndpointAvailability.Online; }
@@ -37,7 +48,28 @@ namespace Draft.Endpoints
         /// <summary>
         ///     <see cref="Uri" /> value of this etcd endpoint.
         /// </summary>
+        [DataMember(Order = 2)]
         public Uri Uri { get; private set; }
+
+        /// <summary>
+        ///     Creates a new <see cref="Endpoint" /> instance with the specified <paramref name="availability" /> value.
+        /// </summary>
+        /// <returns>A new <see cref="Endpoint" /> instance with the specified <paramref name="availability" /> value.</returns>
+        public Endpoint WithEndpointAvailability(EndpointAvailability availability)
+        {
+            return new Endpoint(Uri, availability);
+        }
+
+        /// <summary>
+        ///     Creates a new <see cref="Endpoint" /> instance with the specified <paramref name="uri" /> value.
+        /// </summary>
+        /// <returns>A new <see cref="Endpoint" /> instance with the specified <paramref name="uri" /> value.</returns>
+        public Endpoint WithUri(Uri uri)
+        {
+            return new Endpoint(uri, Availability);
+        }
+
+        #region Equality
 
         /// <summary>
         ///     Determines whether the specified <see cref="Endpoint" /> is equal to the current <see cref="Endpoint" />.
@@ -46,7 +78,7 @@ namespace Draft.Endpoints
         {
             if (ReferenceEquals(null, other)) { return false; }
             if (ReferenceEquals(this, other)) { return true; }
-            return Availability == other.Availability && Equals(Uri, other.Uri);
+            return Equals(Uri, other.Uri);
         }
 
         /// <summary>
@@ -64,7 +96,7 @@ namespace Draft.Endpoints
         /// </summary>
         public override int GetHashCode()
         {
-            unchecked { return ((int) Availability * 397) ^ (Uri != null ? Uri.GetHashCode() : 0); }
+            unchecked { return (Uri != null ? Uri.GetHashCode() : 0); }
         }
 
         /// <summary>
@@ -83,5 +115,6 @@ namespace Draft.Endpoints
             return !Equals(left, right);
         }
 
+        #endregion
     }
 }

@@ -18,6 +18,25 @@ namespace Draft.Tests
                 };
             }
 
+            public static object ClusterMemberResponse(Uri[] clientUris = null, Uri[] peerUris = null)
+            {
+                return new
+                {
+                    id = Guid.NewGuid().ToString(),
+                    name = Guid.NewGuid().ToString(),
+                    clientURLs = (clientUris ?? new Uri[0]).Select(x => x.ToString()).ToArray(),
+                    peerURLs = (peerUris ?? new Uri[0]).Select(x => x.ToString()).ToArray()
+                };
+            }
+
+            public static object ClusterMembersResponse(params object[] members)
+            {
+                return new
+                {
+                    members = members
+                };
+            }
+
         }
 
     }

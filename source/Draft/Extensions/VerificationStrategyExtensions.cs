@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Draft.Endpoints;
+using Draft.Responses.Cluster;
 
 using Flurl.Http;
 
@@ -43,6 +44,31 @@ namespace Draft
             }
 
             return new Endpoint(endpoint, availablility);
+        }
+
+        public static async Task<IEnumerable<Uri>> ParallelLoadClusterMembers(this IEnumerable<Uri> This)
+        {
+            var loadTasks = This.Select(LoadClusterMembers).ToArray();
+
+            await Task.WhenAll(loadTasks);
+
+            return loadTasks.SelectMany(x => x.Result);
+        }
+
+        private static async Task<IEnumerable<Uri>> LoadClusterMembers(Uri endpoint)
+        {
+            try
+            {
+                var collection = await new NormalizedPathSegment(Constants.Etcd.Path_Members)
+                    .ToUrl(endpoint)
+                    .GetAsync()
+                    .ReceiveJson<ClusterMemberCollection>();
+                return collection.Members.SelectMany(x => x.ClientUrls);
+            }
+            catch (FlurlHttpException e)
+            {
+                throw e.ProcessException();
+            }
         }
 
     }

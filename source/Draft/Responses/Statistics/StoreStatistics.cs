@@ -8,8 +8,20 @@ namespace Draft.Responses.Statistics
     ///     Etcd backing store statistics
     /// </summary>
     [DataContract]
-    internal class StoreStatistics
+    internal class StoreStatistics : IStoreStatistics
     {
+
+        /// <summary>
+        ///     Number of failed Compare and Delete requests
+        /// </summary>
+        [DataMember(Name = "compareAndDeleteFail")]
+        public long CompareAndDeleteFail { get; private set; }
+
+        /// <summary>
+        ///     Number of successful Compare and Delete requests
+        /// </summary>
+        [DataMember(Name = "compareAndDeleteSuccess")]
+        public long CompareAndDeleteSuccess { get; private set; }
 
         /// <summary>
         ///     Number of failed Compare and Swap requests

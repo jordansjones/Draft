@@ -39,6 +39,8 @@ namespace Draft
             if (fhe.IsTimeoutException()) { return fhe.AsTimeoutException(); }
             if (fhe.IsInvalidHostException()) { return fhe.AsInvalidHostException(); }
             if (fhe.IsInvalidRequestException()) { return fhe.AsInvalidRequestException(); }
+            if (fhe.IsBadRequestException()) { return fhe.AsBadRequestException(); }
+            if (fhe.IsServiceUnavailableException()) { return fhe.AsServiceUnavailableException(); }
             if (fhe.IsHttpConnectionException()) { return fhe.AsHttpConnectionException(); }
 
             var etcdError = fhe.GetResponseJson<EtcdError>();
@@ -155,6 +157,22 @@ namespace Draft
             return exception;
         }
 
+        #region Bad Request Exception
+
+        private static EtcdException AsBadRequestException(this FlurlHttpException This)
+        {
+            return new BadRequestException(This.Message);
+        }
+
+        private static bool IsBadRequestException(this FlurlHttpException This)
+        {
+            return This.Call.HttpStatus.HasValue
+                   && This.Call.HttpStatus.Value == HttpStatusCode.BadRequest
+                   && !This.Call.Response.IsJsonContentType();
+        }
+
+        #endregion
+
         #region Connection Closed Exception
 
         private static EtcdException AsHttpConnectionException(this FlurlHttpException This)
@@ -189,7 +207,7 @@ namespace Draft
 
         private static EtcdException AsInvalidHostException(this FlurlHttpException This)
         {
-            return new InvalidHostException();
+            return new InvalidHostException(This.Message);
         }
 
         private static bool IsInvalidHostException(this FlurlHttpException This)
@@ -219,6 +237,22 @@ namespace Draft
         }
 
         #endregion
+
+        #region Service Unavailable Exception
+
+        private static EtcdException AsServiceUnavailableException(this FlurlHttpException This)
+        {
+            return new ServiceUnavailableException(This.Message);
+        }
+
+        private static bool IsServiceUnavailableException(this FlurlHttpException This)
+        {
+            return This.Call.HttpStatus.HasValue
+                   && This.Call.HttpStatus.Value == HttpStatusCode.ServiceUnavailable;
+        }
+
+        #endregion
+
 
         #region Timeout Exception
 

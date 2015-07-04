@@ -6,10 +6,11 @@ using Draft.Configuration;
 using Draft.Endpoints;
 using Draft.Requests;
 using Draft.Requests.Cluster;
+using Draft.Requests.Statistics;
 
 namespace Draft
 {
-    internal class EtcdClient : IEtcdClient, IAtomicEtcdClient, IClusterEtcdClient
+    internal class EtcdClient : IEtcdClient, IAtomicEtcdClient, IClusterEtcdClient, IStatisticsEtcdClient
     {
 
         private readonly object _gate = new object();
@@ -27,12 +28,12 @@ namespace Draft
             get { return _clientConfig; }
         }
 
-        public EndpointPool EndpointPool { get; private set; }
-
         IEtcdClientConfig IEtcdClient.Config
         {
             get { return Config; }
         }
+
+        public EndpointPool EndpointPool { get; private set; }
 
         #region Client Config
 
@@ -66,11 +67,6 @@ namespace Draft
         public IDeleteKeyRequest DeleteKey(string key)
         {
             return new DeleteRequest(this, EndpointPool, false, Constants.Etcd.Path_Keys, key);
-        }
-
-        IQueueRequest IEtcdClient.Enqueue(string key)
-        {
-            return Enqueue(key);
         }
 
         public IGetRequest GetKey(string key)
@@ -169,6 +165,30 @@ namespace Draft
         public IUpdateMemberPeerUrlsRequest UpdateMemberPeerUrls()
         {
             return new UpdateMemberPeerUrlsRequest(this, EndpointPool, Constants.Etcd.Path_Members);
+        }
+
+        #endregion
+
+        #region IStatisticsEtcd Client
+
+        public IStatisticsEtcdClient Statistics
+        {
+            get { return this; }
+        }
+
+        public IGetLeaderStatisticsRequest GetLeaderStatistics()
+        {
+            return new GetLeaderStatisticsRequest(this, EndpointPool, Constants.Etcd.Path_Stats_Leader);
+        }
+
+        public IGetServerStatisticsRequest GetServerStatistics()
+        {
+            return new GetSelfStatisticsRequest(this, EndpointPool, Constants.Etcd.Path_Stats_Self);
+        }
+
+        public IGetStoreStatisticsRequest GetStoreStatistics()
+        {
+            return new GetStoreStatisticsRequest(this, EndpointPool, Constants.Etcd.Path_Stats_Store);
         }
 
         #endregion

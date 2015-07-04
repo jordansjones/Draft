@@ -60,6 +60,12 @@ namespace Draft
 
             public const string Path_Stats = "/v2/stats";
 
+            public const string Path_Stats_Leader = Path_Stats + "/leader";
+
+            public const string Path_Stats_Self = Path_Stats + "/self";
+
+            public const string Path_Stats_Store = Path_Stats + "/store";
+
             public const string Path_Version = "/version";
 
         }

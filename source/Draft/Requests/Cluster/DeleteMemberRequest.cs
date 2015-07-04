@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 using Draft.Endpoints;
 
-using Flurl;
-
 namespace Draft.Requests.Cluster
 {
     internal class DeleteMemberRequest : BaseRequest, IDeleteMemberRequest

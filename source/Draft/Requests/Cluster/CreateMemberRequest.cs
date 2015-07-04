@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using Draft.Endpoints;
 using Draft.Responses.Cluster;
 
-using Flurl;
-
 namespace Draft.Requests.Cluster
 {
     internal class CreateMemberRequest : BaseRequest, ICreateMemberRequest

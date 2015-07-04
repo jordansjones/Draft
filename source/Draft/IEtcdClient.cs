@@ -2,8 +2,10 @@
 using System.Linq;
 
 using Draft.Configuration;
+using Draft.Endpoints;
 using Draft.Requests;
 using Draft.Requests.Cluster;
+using Draft.Requests.Statistics;
 
 namespace Draft
 {
@@ -19,7 +21,7 @@ namespace Draft
         IAtomicEtcdClient Atomic { get; }
 
         /// <summary>
-        ///     Returns an etcd cluent for cluster related operations.
+        ///     Returns an etcd client for cluster related operations.
         /// </summary>
         IClusterEtcdClient Cluster { get; }
 
@@ -27,6 +29,11 @@ namespace Draft
         ///     <see cref="IEtcdClient" />'s instance configuration options.
         /// </summary>
         IEtcdClientConfig Config { get; }
+
+        /// <summary>
+        ///     Returns an etcd client for statistics related operations.
+        /// </summary>
+        IStatisticsEtcdClient Statistics { get; }
 
         /// <summary>
         ///     Provides thread-safe access to this instance's configuration options.
@@ -47,15 +54,6 @@ namespace Draft
         ///     Begins a key deletion request.
         /// </summary>
         IDeleteKeyRequest DeleteKey(string key);
-
-        /// <summary>
-        ///     Begins an enqueue key request.
-        /// </summary>
-        /// <remarks>
-        /// <para>This is being moved to live as a member of <see cref="IEtcdClient.Atomic" /> (<see cref="IAtomicEtcdClient.Enqueue" />).</para>
-        /// </remarks>
-        [Obsolete("This is being moved to live under the 'Atomic' member. Soon(TM) this will result in a compile time error.")]
-        IQueueRequest Enqueue(string key);
 
         /// <summary>
         ///     Begins a key retrieval request.
@@ -151,6 +149,31 @@ namespace Draft
         ///     Begins an update member peer urls request.
         /// </summary>
         IUpdateMemberPeerUrlsRequest UpdateMemberPeerUrls();
+
+    }
+
+    /// <summary>
+    ///     Etcd client for statistics related operations.
+    /// </summary>
+    public interface IStatisticsEtcdClient
+    {
+
+        /// <summary>
+        ///     Begins a request to retrieve the statistical information for the leader in an etcd cluster.
+        /// </summary>
+        IGetLeaderStatisticsRequest GetLeaderStatistics();
+
+        /// <summary>
+        ///     Begins a request to retrieve the statistical information for the server.
+        /// </summary>
+        /// <remarks>Which server depends on how the <see cref="EndpointPool" /> was built.</remarks>
+        IGetServerStatisticsRequest GetServerStatistics();
+
+        /// <summary>
+        ///     Begins a request to retrieve the etcd backing store statistics.
+        /// </summary>
+        /// <remarks>For which server depends on how the <see cref="EndpointPool" /> was built.</remarks>
+        IGetStoreStatisticsRequest GetStoreStatistics();
 
     }
 }

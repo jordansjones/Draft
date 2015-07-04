@@ -15,7 +15,7 @@ namespace Draft
         private static string Convert<T>(IEtcdClientConfig config, T value, IKeyDataValueConverter valueConverter = null)
         {
             valueConverter = valueConverter ?? (config.ValueConverter ?? Etcd.Configuration.ValueConverter);
-            return valueConverter.WriteString(value);
+            return valueConverter.Write(value);
         }
 
         /// <summary>

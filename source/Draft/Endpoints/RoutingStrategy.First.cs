@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Draft.Endpoints
 {
+    [Serializable, DataContract]
     internal sealed class RoutingStrategyFirst : EndpointRoutingStrategy
     {
 
