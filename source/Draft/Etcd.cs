@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -11,6 +12,7 @@ using Draft.Json;
 using Flurl.Http;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Draft
 {
@@ -25,8 +27,17 @@ namespace Draft
 
         internal static readonly Lazy<ClientConfig> ClientConfig = new Lazy<ClientConfig>(() => new ClientConfig());
 
+        internal static readonly JsonSerializerSettings JsonSettings;
+
         static Etcd()
         {
+
+            JsonSettings = new JsonSerializerSettings();
+            JsonSettings.Converters = JsonSettings.Converters ?? new List<JsonConverter>();
+            JsonSettings.Converters.Add(new EtcdErrorCodeConverter());
+            JsonSettings.Converters.Add(new StringEnumConverter { AllowIntegerValues = true });
+
+
             FlurlHttp.Configure(
                 c =>
                 {
@@ -34,19 +45,14 @@ namespace Draft
                     {
                         if (http.Request.IsJsonContentType())
                         {
-                            // This is going to be replaced because etcd complains if the
+                            // This needs to be explicitly set because etcd complains if the
                             // content-type has a charset value appended
                             http.Request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue(Constants.Http.ContentType_ApplicationJson);
                         }
                     };
                 });
 
-            JsonConvert.DefaultSettings = () =>
-            {
-                var settings = new JsonSerializerSettings();
-                settings.Converters.Add(new EtcdErrorCodeConverter());
-                return settings;
-            };
+            JsonConvert.DefaultSettings = () => JsonSettings;
         }
 
         /// <summary>

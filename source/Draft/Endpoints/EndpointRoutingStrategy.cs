@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Draft.Endpoints
 {
     /// <summary>
     ///     Represents a strategy for selecting which etcd endpoint to use for http calls.
     /// </summary>
+    [Serializable, DataContract]
     public abstract class EndpointRoutingStrategy
     {
 
+        [IgnoreDataMember]
         internal static EndpointRoutingStrategy Default
         {
             get { return First; }
@@ -24,15 +27,19 @@ namespace Draft.Endpoints
 
         #region Built-in strategies
 
+        [IgnoreDataMember]
         private static readonly Lazy<EndpointRoutingStrategy> LazyFirst = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyFirst());
 
+        [IgnoreDataMember]
         private static readonly Lazy<EndpointRoutingStrategy> LazyRandom = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyRandom());
 
+        [IgnoreDataMember]
         private static readonly Lazy<EndpointRoutingStrategy> LazyRoundRobin = new Lazy<EndpointRoutingStrategy>(() => new RoutingStrategyRoundRobin());
 
         /// <summary>
         ///     Uses the first <see cref="Endpoint" />.
         /// </summary>
+        [IgnoreDataMember]
         public static EndpointRoutingStrategy First
         {
             get { return LazyFirst.Value; }
@@ -41,6 +48,7 @@ namespace Draft.Endpoints
         /// <summary>
         ///     Uses a randomly selected <see cref="Endpoint" />.
         /// </summary>
+        [IgnoreDataMember]
         public static EndpointRoutingStrategy Random
         {
             get { return LazyRandom.Value; }
@@ -49,6 +57,7 @@ namespace Draft.Endpoints
         /// <summary>
         ///     Uses a round-robin patter for selecting the <see cref="Endpoint" />.
         /// </summary>
+        [IgnoreDataMember]
         public static EndpointRoutingStrategy RoundRobin
         {
             get { return LazyRoundRobin.Value; }

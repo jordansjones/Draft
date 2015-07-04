@@ -12,24 +12,25 @@ namespace Draft
     public static class Converters
     {
 
+        private static IKeyDataValueConverter _default;
+
         internal static readonly JsonValueConverter JsonConverter = new JsonValueConverter();
 
         internal static readonly StringValueConverter StringConverter = new StringValueConverter();
 
-        static Converters()
-        {
-            Default = Json;
-        }
-
         /// <summary>
         ///     The default converter.
         /// </summary>
-        public static IKeyDataValueConverter Default { get; internal set; }
+        public static IKeyDataValueConverter Default
+        {
+            get { return _default ?? Json; }
+            internal set { _default = value; }
+        }
 
         /// <summary>
         ///     Json based converter.
         /// </summary>
-        public static IJsonKeyDataValueConverter Json
+        public static IKeyDataValueConverter Json
         {
             get { return JsonConverter; }
         }

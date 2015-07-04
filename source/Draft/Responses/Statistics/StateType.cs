@@ -1,33 +1,38 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Draft.Responses.Statistics
 {
     /// <summary>
-    /// Represents the leadership type of a member of a cluster
+    ///     Represents the leadership type of a member of a cluster
     /// </summary>
-    internal enum StateType
+    [DataContract]
+    public enum StateType
     {
 
         /// <summary>
-        /// Unable to parse
+        ///     Unable to parse
         /// </summary>
         Unknown,
 
         /// <summary>
-        /// StateFollower
+        ///     StateFollower
         /// </summary>
-        Follower,
+        [EnumMember(Value = "StateFollower")]
+        StateFollower,
 
         /// <summary>
-        /// StateCandidate
+        ///     StateCandidate
         /// </summary>
-        Candidate,
+        [EnumMember(Value = "StateCandidate")]
+        StateCandidate,
 
         /// <summary>
-        /// StateLeader
+        ///     StateLeader
         /// </summary>
-        Leader
+        [EnumMember(Value = "StateLeader")]
+        StateLeader
 
     }
 }

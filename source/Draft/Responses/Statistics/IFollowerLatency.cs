@@ -1,45 +1,38 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Draft.Responses.Statistics
 {
     /// <summary>
     ///     Follower latency statistics
     /// </summary>
-    [DataContract]
-    internal class FollowerLatency : IFollowerLatency
+    public interface IFollowerLatency
     {
 
         /// <summary>
         ///     Follower's average latency
         /// </summary>
-        [DataMember(Name = "average")]
-        public double Average { get; set; }
+        double Average { get; }
 
         /// <summary>
         ///     Follower's current latency
         /// </summary>
-        [DataMember(Name = "current")]
-        public double Current { get; set; }
+        double Current { get; }
 
         /// <summary>
         ///     Follower's maximum latency
         /// </summary>
-        [DataMember(Name = "maximum")]
-        public double Maximum { get; set; }
+        double Maximum { get; }
 
         /// <summary>
         ///     Follower's minimum latency
         /// </summary>
-        [DataMember(Name = "minimum")]
-        public double Minimum { get; set; }
+        double Minimum { get; }
 
         /// <summary>
         ///     Standard Deviation
         /// </summary>
-        [DataMember(Name = "standardDeviation")]
-        public double StandardDeviation { get; set; }
+        double StandardDeviation { get; }
 
     }
 }

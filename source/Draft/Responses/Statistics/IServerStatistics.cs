@@ -1,63 +1,48 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Draft.Responses.Statistics
 {
     /// <summary>
     ///     Statistical information on an etcd server member
     /// </summary>
-    [DataContract]
-    internal class ServerStatistics : IServerStatistics
+    public interface IServerStatistics
     {
 
         /// <summary>
         ///     The unique identifier for this server member
         /// </summary>
-        [DataMember(Name = "id")]
-        public string Id { get; set; }
+        string Id { get; }
 
         /// <summary>
         ///     Statistical information for this server member's leader
         /// </summary>
-        [DataMember(Name = "leaderInfo")]
-        public LeaderInfo LeaderInfo { get; set; }
-
-        [IgnoreDataMember]
-        ILeaderInfo IServerStatistics.LeaderInfo
-        {
-            get { return LeaderInfo; }
-        }
+        ILeaderInfo LeaderInfo { get; }
 
         /// <summary>
         ///     The name for this server member
         /// </summary>
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         ///     Number of append requests this server member has processed
         /// </summary>
-        [DataMember(Name = "recvAppendRequestCnt")]
-        public long ReceivedAppendRequestCount { get; set; }
+        long ReceivedAppendRequestCount { get; }
 
         /// <summary>
         ///     Number of bytes per second this server member is receiving (follower state only)
         /// </summary>
-        [DataMember(Name = "recvBandwidthRate")]
-        public double? ReceivedBandwidthRate { get; set; }
+        double? ReceivedBandwidthRate { get; }
 
         /// <summary>
         ///     Number of requests per second this server member is receiving (follower state only)
         /// </summary>
-        [DataMember(Name = "recvPkgRate")]
-        public double? ReceivedPackageRate { get; set; }
+        double? ReceivedPackageRate { get; }
 
         /// <summary>
         ///     Numer of requests this server member has sent
         /// </summary>
-        [DataMember(Name = "sendAppendRequestCnt")]
-        public long SendAppendRequestCount { get; set; }
+        long SendAppendRequestCount { get; }
 
         /// <summary>
         ///     Number of bytes per second this server member is sending (leader state only)
@@ -65,8 +50,7 @@ namespace Draft.Responses.Statistics
         /// <remarks>
         ///     This value is null on single member clusters
         /// </remarks>
-        [DataMember(Name = "sendBandwidthRate")]
-        public double? SendBandwidthRate { get; set; }
+        double? SendBandwidthRate { get; }
 
         /// <summary>
         ///     Number of requests per second this server member is sending (leader state only)
@@ -74,20 +58,17 @@ namespace Draft.Responses.Statistics
         /// <remarks>
         ///     This value is null on single member clusters
         /// </remarks>
-        [DataMember(Name = "sendPkgRate")]
-        public double? SendPackageRate { get; set; }
+        double? SendPackageRate { get; }
 
         /// <summary>
         ///     The time when this server member was started
         /// </summary>
-        [DataMember(Name = "startTime")]
-        public DateTime StartTime { get; set; }
+        DateTime StartTime { get; }
 
         /// <summary>
         ///     The cluster state for this server member
         /// </summary>
-        [DataMember(Name = "state")]
-        public StateType State { get; set; }
+        StateType State { get; }
 
     }
 }

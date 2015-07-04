@@ -37,26 +37,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions.Core">
-      <HintPath>..\..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Flurl, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.1.0.7\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Flurl.Http, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Flurl.Http.0.6.0\lib\net45\Flurl.Http.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Flurl, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.1.0.8\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=0.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Http.0.6.2\lib\net45\Flurl.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture, Version=3.30.3.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.3.30.3\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture, Version=3.30.8.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoFixture.3.30.8\lib\net40\Ploeh.AutoFixture.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -97,6 +99,7 @@
     <Compile Include="Extensions\HttpTestExtensions.cs" />
     <Compile Include="Fixtures\Dtos\SimpleDataContractDto.cs" />
     <Compile Include="Fixtures\Fixtures.Cluster.cs" />
+    <Compile Include="Fixtures\Fixtures.Statistics.cs" />
     <Compile Include="Fixtures\TestingHttpClientFactory.cs" />
     <Compile Include="Helpers\XmlValueConverter.cs" />
     <Compile Include="Tests\Atomics\CompareAndDeleteTests.cs" />
@@ -129,6 +132,9 @@
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyFirstTests.cs" />
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyRandomTests.cs" />
     <Compile Include="Tests\RoutingStrategies\RoutingStrategyRoundRobinTests.cs" />
+    <Compile Include="Tests\Statistics\GetLeaderTests.cs" />
+    <Compile Include="Tests\Statistics\GetSelfTests.cs" />
+    <Compile Include="Tests\Statistics\GetStoreTests.cs" />
     <Compile Include="Tests\ValueConverterTests.cs" />
     <Compile Include="Tests\VerificationStrategies\BaseVerificationStrategyTests.cs" />
     <Compile Include="Tests\VerificationStrategies\VerificationStrategyAllTests.cs" />

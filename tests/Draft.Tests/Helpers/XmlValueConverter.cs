@@ -1,38 +1,31 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace Draft.Tests
 {
-    public class XmlValueConverter<T> : IKeyDataValueConverter
+    public class XmlValueConverter : IKeyDataValueConverter
     {
 
-        public XmlValueConverter()
-        {
-            XmlSerializer = new XmlSerializer(typeof (T));
-        }
-
-        public XmlSerializer XmlSerializer { get; private set; }
-
-        public object ReadString(string value)
+        public T Read<T>(string value)
         {
             using (var sr = new StringReader(value))
             {
-                return XmlSerializer.Deserialize(sr);
+                var serializer = new XmlSerializer(typeof (T));
+                return (T) serializer.Deserialize(sr);
             }
         }
 
-        public string WriteString(object value)
+        public string Write<T>(T value)
         {
-            var sb = new StringBuilder();
-            using (var sw = new StringWriter(sb))
+            using (var sw = new StringWriter())
             {
-                XmlSerializer.Serialize(sw, value);
+                var serializer = new XmlSerializer(typeof (T));
+                serializer.Serialize(sw, value);
+                sw.Flush();
+                return sw.ToString();
             }
-
-            return sb.ToString();
         }
 
     }

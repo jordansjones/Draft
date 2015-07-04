@@ -1,111 +1,93 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Draft.Responses.Statistics
 {
     /// <summary>
     ///     Etcd backing store statistics
     /// </summary>
-    [DataContract]
-    internal class StoreStatistics : IStoreStatistics
+    public interface IStoreStatistics
     {
 
         /// <summary>
         ///     Number of failed Compare and Delete requests
         /// </summary>
-        [DataMember(Name = "compareAndDeleteFail")]
-        public long CompareAndDeleteFail { get; private set; }
+        long CompareAndDeleteFail { get; }
 
         /// <summary>
         ///     Number of successful Compare and Delete requests
         /// </summary>
-        [DataMember(Name = "compareAndDeleteSuccess")]
-        public long CompareAndDeleteSuccess { get; private set; }
+        long CompareAndDeleteSuccess { get; }
 
         /// <summary>
         ///     Number of failed Compare and Swap requests
         /// </summary>
-        [DataMember(Name = "compareAndSwapFail")]
-        public long CompareAndSwapFail { get; private set; }
+        long CompareAndSwapFail { get; }
 
         /// <summary>
         ///     Number of successful Compare and Swap requests
         /// </summary>
-        [DataMember(Name = "compareAndSwapSuccess")]
-        public long CompareAndSwapSuccess { get; private set; }
+        long CompareAndSwapSuccess { get; }
 
         /// <summary>
         ///     Number of failed Create requests
         /// </summary>
-        [DataMember(Name = "createFail")]
-        public long CreateFail { get; private set; }
+        long CreateFail { get; }
 
         /// <summary>
         ///     Number of successful Create requests
         /// </summary>
-        [DataMember(Name = "createSuccess")]
-        public long CreateSuccess { get; private set; }
+        long CreateSuccess { get; }
 
         /// <summary>
         ///     Number of failed Delete requests
         /// </summary>
-        [DataMember(Name = "deleteFail")]
-        public long DeleteFail { get; private set; }
+        long DeleteFail { get; }
 
         /// <summary>
         ///     Number of successful Delete requests
         /// </summary>
-        [DataMember(Name = "deleteSuccess")]
-        public long DeleteSuccess { get; private set; }
+        long DeleteSuccess { get; }
 
         /// <summary>
         ///     Number of key expirations
         /// </summary>
-        [DataMember(Name = "expireCount")]
-        public long ExpireCount { get; private set; }
+        long ExpireCount { get; }
 
         /// <summary>
         ///     Number of failed Get requests
         /// </summary>
-        [DataMember(Name = "getsFail")]
-        public long GetsFail { get; private set; }
+        long GetsFail { get; }
 
         /// <summary>
         ///     Number of successful Get requests
         /// </summary>
-        [DataMember(Name = "getsSuccess")]
-        public long GetsSuccess { get; private set; }
+        long GetsSuccess { get; }
 
         /// <summary>
         ///     Number of failed Set requests
         /// </summary>
-        [DataMember(Name = "setsFail")]
-        public long SetsFail { get; private set; }
+        long SetsFail { get; }
 
         /// <summary>
         ///     Number of successful Set requests
         /// </summary>
-        [DataMember(Name = "setsSuccess")]
-        public long SetsSuccess { get; private set; }
+        long SetsSuccess { get; }
 
         /// <summary>
         ///     Number of failed Update requests
         /// </summary>
-        [DataMember(Name = "updateFail")]
-        public long UpdateFail { get; private set; }
+        long UpdateFail { get; }
 
         /// <summary>
         ///     Number of successful Update requests
         /// </summary>
-        [DataMember(Name = "updateSuccess")]
-        public long UpdateSuccess { get; private set; }
+        long UpdateSuccess { get; }
 
         /// <summary>
         ///     Number of active watchers
         /// </summary>
-        [DataMember(Name = "watchers")]
-        public long Watchers { get; private set; }
+        long Watchers { get; }
 
     }
 }

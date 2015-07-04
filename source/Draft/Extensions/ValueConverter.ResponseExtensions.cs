@@ -28,13 +28,7 @@ namespace Draft
             valueConverter = valueConverter == null && keyData != null ? keyData.ValueConverter() : valueConverter;
 
             valueConverter = valueConverter ?? Etcd.Configuration.ValueConverter;
-            var jsonConverter = valueConverter as IJsonKeyDataValueConverter;
-            if (jsonConverter != null)
-            {
-                return jsonConverter.ReadString<T>(value);
-            }
-
-            return (T) valueConverter.ReadString(value);
+            return valueConverter.Read<T>(value);
         }
 
     }

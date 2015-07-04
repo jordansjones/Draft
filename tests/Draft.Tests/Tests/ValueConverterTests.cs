@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Flurl.Http.Testing;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -24,8 +23,8 @@ namespace Draft.Tests
         public async Task Get_ShouldUseConfiguredValueConverter()
         {
             var dto = Fixtures.Dto.SimpleDataContract();
-            var converter = new XmlValueConverter<SimpleDataContractDto>();
-            var expected = converter.WriteString(dto);
+            var converter = new XmlValueConverter();
+            var expected = converter.Write(dto);
 
             using (var http = new HttpTest())
             {
@@ -65,8 +64,8 @@ namespace Draft.Tests
         public async Task Get_ShouldUsePassedValueConverter()
         {
             var dto = Fixtures.Dto.SimpleDataContract();
-            var converter = new XmlValueConverter<SimpleDataContractDto>();
-            var expected = converter.WriteString(dto);
+            var converter = new XmlValueConverter();
+            var expected = converter.Write(dto);
 
             using (var http = new HttpTest())
             {
@@ -100,25 +99,9 @@ namespace Draft.Tests
         }
 
         [Fact]
-        public void JsonConverter_ShouldDeserializeDynamicCorrectly()
-        {
-            var result = Converters.Json.ReadString(Fixtures.Dto.Json_SimpleDataContract);
-
-            result.Should().NotBeNull();
-            result.Should().BeAssignableTo<JObject>();
-
-            var jresult = (JObject) result;
-
-            jresult.HasValues.Should().BeTrue();
-
-            jresult.Property("id").Should().NotBeNullOrEmpty();
-            jresult.Property("NAME").Should().NotBeNullOrEmpty();
-        }
-
-        [Fact]
         public void JsonConverter_ShouldDeserializeTypeCorrectly()
         {
-            var result = Converters.Json.ReadString<SimpleDataContractDto>(Fixtures.Dto.Json_SimpleDataContract);
+            var result = Converters.Json.Read<SimpleDataContractDto>(Fixtures.Dto.Json_SimpleDataContract);
 
             result.Should().NotBeNull();
 
@@ -130,7 +113,7 @@ namespace Draft.Tests
         [Fact]
         public void StringConverter_ShouldDeserializeCorrectly()
         {
-            var result = Converters.String.ReadString(Fixtures.Dto.Json_SimpleDataContract_Name);
+            var result = Converters.String.Read<string>(Fixtures.Dto.Json_SimpleDataContract_Name);
 
             result.Should().NotBeNull();
             result.Should().Be(Fixtures.Dto.Json_SimpleDataContract_Name);
@@ -139,7 +122,7 @@ namespace Draft.Tests
         [Fact]
         public void StringConverter_ShouldDoNothingWithStringParameterOnWriteStringMethod()
         {
-            var result = Converters.String.WriteString(Fixtures.Dto.Json_SimpleDataContract_Name);
+            var result = Converters.String.Write(Fixtures.Dto.Json_SimpleDataContract_Name);
 
             result.Should().NotBeNull();
             result.Should().Be(Fixtures.Dto.Json_SimpleDataContract_Name);
@@ -203,8 +186,8 @@ namespace Draft.Tests
         public async Task Upsert_ShouldUsedPassedValueConverter()
         {
             var dto = Fixtures.Dto.SimpleDataContract();
-            var converter = new XmlValueConverter<SimpleDataContractDto>();
-            var expected = converter.WriteString(dto);
+            var converter = new XmlValueConverter();
+            var expected = converter.Write(dto);
 
             using (var http = new HttpTest())
             {
