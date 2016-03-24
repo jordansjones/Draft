@@ -1,3 +1,5 @@
+#tool "xunit.runner.console"
+
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
@@ -124,25 +126,18 @@ Task("Build")
 	);
 });
 
-Task("InstallUnitTestRunner")
-    .Does(() =>
-{
-    NuGetInstall("xunit.runner.console", new NuGetInstallSettings {
-        ExcludeVersion = true,
-        OutputDirectory = solutionDir.Combine("tools"),
-        Version = "2.0.0"
-    });
-});
-
 Task("UnitTests")
     .IsDependentOn("Build")
-    .IsDependentOn("InstallUnitTestRunner")
     .Does(() =>
 {
     Information("Running Tests in {0}", solution);
+    
+    var testAssemblies = GetFiles(testsDir + "/**/bin/" + configuration + "/**/*.Tests*.dll").ToList();
+    
+    testAssemblies.ForEach(x => Information("Test File: {0}", x.GetFilename()));
 
     XUnit2(
-        solutionDir + "/**/bin/" + configuration + "/**/*.Tests*.dll",
+        testAssemblies,
         new XUnit2Settings {
             OutputDirectory = testResultsDir,
             HtmlReport = true,

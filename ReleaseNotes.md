@@ -1,3 +1,10 @@
+### New in 1.0.1 (Release 2016/03/24)
+* New: `WithTimeToLive` extension methods which support taking a`TimeSpan?`
+* Fixed: `IClusterEtcdClient.CreateMember()` call will now normalize the passed `WithPeerUri` values in order to conform with etcd's expected input format (just scheme://address:port/)
+* Fixed: `IClusterEtcdClient.UpdateMemberPeerUrls()` call will now normalize the passed `WithPeerUri` values in order to conform with etcd's expected input format (just scheme://address:port/)
+* Change: Updated Flurl dependency from 1.0.8 to 1.0.10
+* Change: Updated Flurl.Http dependency from 0.6.2 to 0.7.0
+
 ### New in 1.0.0 (Release 2015/07/03)
 * New: `EndpointVerificationStrategy.ClusterMembers` - Similar verification as `EndpointVerificationStrategy.Any` but also adds verified cluster members to the `EndpointPool`.
 * New: `IEtcdClient.Statistics`

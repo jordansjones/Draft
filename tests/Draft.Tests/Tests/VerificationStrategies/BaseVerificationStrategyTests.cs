@@ -59,7 +59,7 @@ namespace Draft.Tests.VerificationStrategies
 
         protected void ResetInvalidHostHelper()
         {
-            FlurlHttp.Configuration.ResetDefaults();
+            FlurlHttp.GlobalSettings.ResetDefaults();
         }
 
     }

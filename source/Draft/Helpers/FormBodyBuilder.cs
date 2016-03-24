@@ -18,7 +18,7 @@ namespace Draft
             return this;
         }
 
-        public IDictionary Build()
+        public IDictionary<object, object> Build()
         {
             return _items;
         }

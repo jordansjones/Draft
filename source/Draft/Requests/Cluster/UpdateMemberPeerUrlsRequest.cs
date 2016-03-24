@@ -28,7 +28,7 @@ namespace Draft.Requests.Cluster
         public async Task<IClusterMember> Execute()
         {
             var values = new FormBodyBuilder()
-                .Add(Constants.Etcd.Parameter_PeerURLs, Uris.ToArray())
+                .Add(Constants.Etcd.Parameter_PeerURLs, Uris.Select(x => x.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped)).ToArray())
                 .Build();
 
             try
@@ -57,7 +57,10 @@ namespace Draft.Requests.Cluster
 
         public IUpdateMemberPeerUrlsRequest WithPeerUri(params Uri[] uris)
         {
-            Uris.AddRange(uris);
+            if (uris != null && uris.Any())
+            {
+                Uris.AddRange(uris);
+            }
             return this;
         }
 

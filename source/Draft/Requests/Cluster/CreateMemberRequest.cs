@@ -29,7 +29,7 @@ namespace Draft.Requests.Cluster
         {
             var values = new FormBodyBuilder()
                 .Add(Constants.Etcd.Parameter_Name, Name)
-                .Add(Constants.Etcd.Parameter_PeerURLs, Uris.ToArray())
+                .Add(Constants.Etcd.Parameter_PeerURLs, Uris.Select(x => x.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped)).ToArray())
                 .Build();
 
             try
@@ -57,7 +57,10 @@ namespace Draft.Requests.Cluster
 
         public ICreateMemberRequest WithPeerUri(params Uri[] uris)
         {
-            Uris.AddRange(uris);
+            if (uris != null && uris.Any())
+            {
+                Uris.AddRange(uris);
+            }
             return this;
         }
 

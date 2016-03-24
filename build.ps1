@@ -6,7 +6,7 @@ Param(
 )
 
 $SelfRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
-$Script = Join-Path $SelfRoot "build.csx"
+$Script = Join-Path $SelfRoot "build.cake"
 
 $TOOLS_DIR = Join-Path $SelfRoot "tools"
 $CAKE_DIR = Join-Path $TOOLS_DIR "Cake"

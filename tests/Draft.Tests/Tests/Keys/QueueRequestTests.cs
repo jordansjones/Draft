@@ -60,5 +60,30 @@ namespace Draft.Tests.Keys
             }
         }
 
+        [Fact]
+        public async Task ShouldCallTheCorrectUrlWithTtlOptionUsingTimeSpan()
+        {
+            var expectedTtlValue = TimeSpan.FromMinutes(3) + TimeSpan.FromSeconds(16);
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Queue.DefaultResponse);
+
+                var result = await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .Atomic
+                    .Enqueue(Fixtures.Queue.Path)
+                    .WithValue(Fixtures.Queue.DefaultValue)
+                    .WithTimeToLive(expectedTtlValue);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Queue.Path)
+                    )
+                    .WithVerb(HttpMethod.Post)
+                    .WithRequestBody(Fixtures.Key.TtlTimeSpanRequest(Fixtures.Queue.DefaultValue, expectedTtlValue))
+                    .Times(1);
+            }
+        }
+
     }
 }

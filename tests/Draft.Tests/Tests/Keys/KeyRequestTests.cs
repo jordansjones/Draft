@@ -1,14 +1,10 @@
 ﻿using System;
-
-using Flurl;
-
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Flurl;
 using Flurl.Http.Testing;
-
-using Newtonsoft.Json;
 
 using Xunit;
 
@@ -230,6 +226,30 @@ namespace Draft.Tests.Keys
                     )
                     .WithVerb(HttpMethod.Put)
                     .WithRequestBody(Fixtures.Key.TtlRequest())
+                    .Times(1);
+            }
+        }
+
+        [Fact]
+        public async Task Upsert_ShouldCallTheCorrectUrlWithTtlOptionUsingTimeSpan()
+        {
+            var expectedTtlValue = TimeSpan.FromMinutes(3) + TimeSpan.FromSeconds(16);
+            using (var http = new HttpTest())
+            {
+                http.RespondWithJson(Fixtures.Key.DefaultResponse);
+
+                await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri())
+                    .UpsertKey(Fixtures.Key.Path)
+                    .WithValue(Fixtures.Key.DefaultValue)
+                    .WithTimeToLive(expectedTtlValue);
+
+                http.Should()
+                    .HaveCalled(
+                        Fixtures.EtcdUrl
+                            .AppendPathSegments(Constants.Etcd.Path_Keys, Fixtures.Key.Path)
+                    )
+                    .WithVerb(HttpMethod.Put)
+                    .WithRequestBody(Fixtures.Key.TtlTimeSpanRequest(ttl: expectedTtlValue))
                     .Times(1);
             }
         }

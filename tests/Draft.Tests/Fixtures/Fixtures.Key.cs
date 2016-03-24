@@ -11,7 +11,7 @@ namespace Draft.Tests
         public static class Key
         {
 
-            public const int DefaultTtl = 300;
+            public const long DefaultTtl = 300;
 
             public const string DefaultValue = "{DBAEDC45-175B-4310-8387-4F02F988253F}";
 
@@ -34,11 +34,17 @@ namespace Draft.Tests
                     .AsRequestBody();
             }
 
-            public static string TtlRequest(string value = DefaultValue, int ttl = DefaultTtl)
+            public static string TtlRequest(string value = DefaultValue, long ttl = DefaultTtl)
             {
                 return WithValue(value)
                     .Add(Constants.Etcd.Parameter_Ttl, ttl)
                     .AsRequestBody();
+            }
+
+            public static string TtlTimeSpanRequest(string value = DefaultValue, TimeSpan? ttl = null)
+            {
+                var ttlValue = ttl ?? TimeSpan.FromSeconds(DefaultTtl);
+                return TtlRequest(value, Convert.ToInt64(ttlValue.TotalSeconds));
             }
 
             public static object UpsertResponse(string keyPath, string value, string previousValue = null)
