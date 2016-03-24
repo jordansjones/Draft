@@ -1,3 +1,6 @@
+### New in 1.0.1.1 (Release 2016/03/24)
+* Fixed: Updated nuspec dependency versions for Flurl and Flurl.Http
+
 ### New in 1.0.1 (Release 2016/03/24)
 * New: `WithTimeToLive` extension methods which support taking a`TimeSpan?`
 * Fixed: `IClusterEtcdClient.CreateMember()` call will now normalize the passed `WithPeerUri` values in order to conform with etcd's expected input format (just scheme://address:port/)

@@ -14,8 +14,8 @@
         <copyright>Copyright 2015 Jordan S. Jones</copyright>
         <dependencies>
             <group targetFramework="net45">
-                <dependency id="Flurl" version="1.0.8" />
-                <dependency id="Flurl.Http" version="0.6.2" />
+                <dependency id="Flurl" version="1.0.10" />
+                <dependency id="Flurl.Http" version="0.7.0" />
                 <dependency id="Newtonsoft.Json" version="(6.0.8,)" />
                 <dependency id="Rx-Core" version="2.2.5" />
                 <dependency id="Rx-Interfaces" version="2.2.5" />
