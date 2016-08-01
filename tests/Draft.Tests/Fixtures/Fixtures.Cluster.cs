@@ -18,6 +18,14 @@ namespace Draft.Tests
                 };
             }
 
+            public static object ClusterHealthResponse(bool isHealthy = true)
+            {
+                return new
+                {
+                    health = isHealthy
+                };
+            }
+
             public static object ClusterMemberResponse(Uri[] clientUris = null, Uri[] peerUris = null)
             {
                 return new

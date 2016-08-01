@@ -129,10 +129,12 @@
     <Compile Include="Json\EtcdErrorCodeConverter.cs" />
     <Compile Include="Requests\Cluster\CreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\DeleteMemberRequest.cs" />
+    <Compile Include="Requests\Cluster\GetHealthRequest.cs" />
     <Compile Include="Requests\Cluster\GetLeaderRequest.cs" />
     <Compile Include="Requests\Cluster\GetMembersRequest.cs" />
     <Compile Include="Requests\Cluster\ICreateMemberRequest.cs" />
     <Compile Include="Requests\Cluster\IDeleteMemberRequest.cs" />
+    <Compile Include="Requests\Cluster\IGetHealthRequest.cs" />
     <Compile Include="Requests\Cluster\IGetLeaderRequest.cs" />
     <Compile Include="Requests\Cluster\IGetMembersRequest.cs" />
     <Compile Include="Requests\Cluster\IUpdateMemberPeerUrlsRequest.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Responses\Cluster\ClusterMember.cs" />
     <Compile Include="Responses\Cluster\ClusterMemberCollection.cs" />
     <Compile Include="Responses\Cluster\IClusterMember.cs" />
+    <Compile Include="Responses\Cluster\IHealthInfo.cs" />
     <Compile Include="Responses\EtcdError.cs" />
     <Compile Include="Responses\EtcdVersion.cs" />
     <Compile Include="Responses\IEtcdError.cs" />
@@ -192,7 +195,7 @@
     <Compile Include="Requests\IWatchRequest.cs" />
     <Compile Include="Extensions\Flurl.ResponseMessageExtensions.cs" />
     <Compile Include="Responses\EtcdErrorCode.cs" />
-    <Compile Include="Responses\Health.cs" />
+    <Compile Include="Responses\Cluster\HealthInfo.cs" />
     <Compile Include="Responses\IEtcdResponse.cs" />
     <Compile Include="Responses\IKeyData.cs" />
     <Compile Include="Responses\IKeyEvent.cs" />

@@ -1,3 +1,6 @@
+### New in 1.0.1.1 (Release 2016/08/01)
+* New: `IEtcdClient.Cluster.GetHealth()` - Retrieve the health status of the etcd cluster.
+
 ### New in 1.0.1.1 (Release 2016/03/24)
 * Fixed: Updated nuspec dependency versions for Flurl and Flurl.Http
 

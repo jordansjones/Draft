@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Draft.Responses
+namespace Draft.Responses.Cluster
 {
     [DataContract]
-    internal class Health
+    internal class HealthInfo : IHealthInfo
     {
         [DataMember(Name = "health")]
         public bool Value { get; private set; } 
