@@ -110,6 +110,7 @@
     <Compile Include="Tests\Atomics\CompareAndSwapTests.cs" />
     <Compile Include="Tests\Cluster\CreateMemberTests.cs" />
     <Compile Include="Tests\Cluster\DeleteMemberTests.cs" />
+    <Compile Include="Tests\Cluster\GetHealthTests.cs" />
     <Compile Include="Tests\Cluster\GetLeaderTests.cs" />
     <Compile Include="Tests\Cluster\GetMembersTests.cs" />
     <Compile Include="Tests\Cluster\UpdateMemberPeerUrlsTests.cs" />

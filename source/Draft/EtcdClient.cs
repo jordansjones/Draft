@@ -152,6 +152,11 @@ namespace Draft
             return new DeleteMemberRequest(this, EndpointPool, Constants.Etcd.Path_Members);
         }
 
+        public IGetHealthRequest GetHealth()
+        {
+            return new GetHealthRequest(this, EndpointPool, Constants.Etcd.Path_Health);
+        }
+
         public IGetLeaderRequest GetLeader()
         {
             return new GetLeaderRequest(this, EndpointPool, Constants.Etcd.Path_Members_Leader);

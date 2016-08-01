@@ -136,6 +136,11 @@ namespace Draft
         IDeleteMemberRequest DeleteMember();
 
         /// <summary>
+        ///     Begins a health check request.
+        /// </summary>
+        IGetHealthRequest GetHealth();
+
+        /// <summary>
         ///     Begins a leader retrieval request.
         /// </summary>
         IGetLeaderRequest GetLeader();
