@@ -118,6 +118,7 @@
     <Compile Include="Exceptions\ValueRequiredException.cs" />
     <Compile Include="Exceptions\WatcherClearedException.cs" />
     <Compile Include="Extensions\FormBodyBuilder.Extensions.cs" />
+    <Compile Include="Extensions\SerializationInfoExtensions.cs" />
     <Compile Include="Extensions\TimeToLiveExtensions.cs" />
     <Compile Include="Extensions\ValueConverter.RequestExtensions.cs" />
     <Compile Include="Extensions\ValueConverter.ResponseExtensions.cs" />

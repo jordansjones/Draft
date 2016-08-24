@@ -3,8 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 using Draft.Responses;
+
+using Newtonsoft.Json;
 
 namespace Draft.Exceptions
 {
@@ -12,18 +16,34 @@ namespace Draft.Exceptions
     ///     Base exception that is thrown when etcd returns an error response.
     /// </summary>
     [ExcludeFromCodeCoverage]
+    [Serializable]
     public abstract class EtcdException : Exception
     {
-
         /// <summary>
         ///     Initializes a new <see cref="EtcdException" /> instance.
         /// </summary>
-        protected EtcdException() {}
+        protected EtcdException()
+        {
+        }
 
         /// <summary>
         ///     Initializes a new <see cref="EtcdException" /> instance with a specified error message.
         /// </summary>
-        protected EtcdException(string message) : base(message) {}
+        protected EtcdException(string message) : base(message)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new <see cref="EtcdException" /> instance for use in BCL deserialization
+        /// </summary>
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        protected EtcdException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            info.TryGetString(nameof(EtcdError), x => EtcdError = JsonConvert.DeserializeObject<EtcdError>(x));
+            info.TryGetString(nameof(EtcdError), x => HttpStatusCode = (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), x, true));
+            info.TryGetString(nameof(RequestMethod), x => RequestMethod = new HttpMethod(x));
+            info.TryGetString(nameof(RequestUrl), x => RequestUrl = x);
+        }
 
         /// <summary>
         ///     The parsed etcd error message if available.
@@ -334,5 +354,34 @@ namespace Draft.Exceptions
         /// </summary>
         public string RequestUrl { get; internal set; }
 
+        /// <inheritdoc />
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
+            if (EtcdError != null)
+            {
+                info.AddValue(nameof(EtcdError), JsonConvert.SerializeObject(EtcdError));
+            }
+            if (HttpStatusCode != null)
+            {
+                info.AddValue(nameof(HttpStatusCode), HttpStatusCode.Value.ToString());
+            }
+            if (RequestMethod != null)
+            {
+                info.AddValue(nameof(RequestMethod), RequestMethod.Method);
+            }
+            if (RequestUrl != null)
+            {
+                info.AddValue(nameof(RequestUrl), RequestUrl);
+            }
+
+            // Must call through to the base class to let it save it's own state
+            base.GetObjectData(info, context);
+        }
     }
 }

@@ -1,3 +1,6 @@
+### New in 1.0.3 (Release 2016/08/24)
+* Fixed: All Exceptions are now `[Serializable]`
+
 ### New in 1.0.2 (Release 2016/08/01)
 * New: `IEtcdClient.Cluster.GetHealth()` - Retrieve the health status of the etcd cluster.
 
