@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-using Newtonsoft.Json.Serialization;
-
 namespace Draft.Responses
 {
     [DataContract]
@@ -21,15 +19,6 @@ namespace Draft.Responses
 
         [DataMember(Name = "message")]
         public string Message { get; private set; }
-
-#if DEBUG
-        [OnError, System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        public void OnDeserializing(StreamingContext context, ErrorContext errorContext)
-        {
-            System.Diagnostics.Debugger.Break();
-        }
-#endif
-
 
     }
 }
