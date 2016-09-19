@@ -1,3 +1,6 @@
+### New in 1.0.4 (Release 2016/09/19)
+* Fixed: When an `Exception` is thrown during a `Watch` operation, call `OnError` on the observable instead of throwing `NotImplementedException`
+
 ### New in 1.0.3 (Release 2016/08/24)
 * Fixed: All Exceptions are now `[Serializable]`
 

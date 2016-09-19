@@ -114,7 +114,7 @@ namespace Draft.Requests
                 }
                 catch (Exception e)
                 {
-                    observer.OnError(e.ProcessException());
+                    observer.OnError(e);
                     break;
                 }
             }

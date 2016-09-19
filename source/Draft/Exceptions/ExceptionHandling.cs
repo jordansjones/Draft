@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -26,29 +25,22 @@ namespace Draft
 
         #endregion
 
-        public static EtcdException ProcessException(this Exception This)
+        public static EtcdException ProcessException(this FlurlHttpException This)
         {
-            var fhe = This as FlurlHttpException;
-            if (fhe == null)
-            {
-                Debugger.Break();
-                throw new NotImplementedException();
-            }
 
+            if (This.IsTimeoutException()) { return This.AsTimeoutException(); }
+            if (This.IsInvalidHostException()) { return This.AsInvalidHostException(); }
+            if (This.IsInvalidRequestException()) { return This.AsInvalidRequestException(); }
+            if (This.IsBadRequestException()) { return This.AsBadRequestException(); }
+            if (This.IsServiceUnavailableException()) { return This.AsServiceUnavailableException(); }
+            if (This.IsHttpConnectionException()) { return This.AsHttpConnectionException(); }
 
-            if (fhe.IsTimeoutException()) { return fhe.AsTimeoutException(); }
-            if (fhe.IsInvalidHostException()) { return fhe.AsInvalidHostException(); }
-            if (fhe.IsInvalidRequestException()) { return fhe.AsInvalidRequestException(); }
-            if (fhe.IsBadRequestException()) { return fhe.AsBadRequestException(); }
-            if (fhe.IsServiceUnavailableException()) { return fhe.AsServiceUnavailableException(); }
-            if (fhe.IsHttpConnectionException()) { return fhe.AsHttpConnectionException(); }
-
-            var etcdError = fhe.GetResponseJson<EtcdError>();
+            var etcdError = This.GetResponseJson<EtcdError>();
 
             var message = etcdError.Message;
 
             etcdError.ErrorCode = etcdError.ErrorCode
-                                  ?? (fhe.GetEtcdErrorCode() ?? EtcdErrorCode.Unknown);
+                                  ?? (This.GetEtcdErrorCode() ?? EtcdErrorCode.Unknown);
 
             EtcdException exception;
             // Ugh. The switch from hell.
@@ -147,11 +139,11 @@ namespace Draft
             }
 
             exception.EtcdError = etcdError;
-            if (fhe.Call != null)
+            if (This.Call != null)
             {
-                exception.HttpStatusCode = fhe.Call.HttpStatus;
-                exception.RequestUrl = fhe.Call.Request.RequestUri.ToString();
-                exception.RequestMethod = fhe.Call.Request.Method;
+                exception.HttpStatusCode = This.Call.HttpStatus;
+                exception.RequestUrl = This.Call.Request.RequestUri.ToString();
+                exception.RequestMethod = This.Call.Request.Method;
             }
 
             return exception;
