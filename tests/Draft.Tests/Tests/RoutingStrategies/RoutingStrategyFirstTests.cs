@@ -31,7 +31,7 @@ namespace Draft.Tests.RoutingStrategies
             result.Should().NotBeNull();
             result.ToString()
                   .Should()
-                  .BeSameAs(Endpoint1.Uri.ToString());
+                  .Be(Endpoint1.Uri.ToString());
         }
 
     }

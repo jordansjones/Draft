@@ -27,7 +27,6 @@ namespace Draft
 
         public static EtcdException ProcessException(this FlurlHttpException This)
         {
-
             if (This.IsTimeoutException()) { return This.AsTimeoutException(); }
             if (This.IsInvalidHostException()) { return This.AsInvalidHostException(); }
             if (This.IsInvalidRequestException()) { return This.AsInvalidRequestException(); }
