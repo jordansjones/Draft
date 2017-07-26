@@ -3,6 +3,7 @@
 using Flurl.Http;
 
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -94,7 +95,7 @@ namespace Draft.Requests
                 return await TargetUrl
                     .Conditionally(isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevValue, ExpectedValue))
                     .Conditionally(!isByValue, x => x.SetQueryParam(Constants.Etcd.Parameter_PrevIndex, ExpectedIndex))
-                    .PutUrlEncodedAsync(values)
+                    .SendUrlEncodedAsync(HttpMethod.Put, values)
                     .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)

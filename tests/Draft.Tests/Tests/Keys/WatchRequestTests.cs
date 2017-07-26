@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -47,7 +48,7 @@ namespace Draft.Tests.Keys
         {
             using (var http = new HttpTest())
             {
-                http.RespondWith(500, "Some error string")
+                http.RespondWith(HttpStatusCode.InternalServerError, "Some error string")
                     .RespondWithJson(Fixtures.Watch.DefaultResponse)
                     .RespondWithJson(Fixtures.Watch.DefaultResponse);
 

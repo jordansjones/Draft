@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Flurl;
 using Flurl.Http.Testing;
 
 namespace Draft.Tests
@@ -14,18 +15,9 @@ namespace Draft.Tests
 
         private readonly Func<HttpTest, HttpRequestMessage, HttpResponseMessage> _responseFactory;
 
-        public TestingHttpClientFactory(HttpTest httpTest, Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory = null)
-            : base(httpTest)
+        public TestingHttpClientFactory(Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory = null)
         {
-            HttpTest = httpTest;
             _responseFactory = responseFactory ?? DefaultResponseFactory;
-        }
-
-        public HttpTest HttpTest { get; private set; }
-
-        public override HttpMessageHandler CreateMessageHandler()
-        {
-            return new TestingMessageHandler(HttpTest, _responseFactory);
         }
 
         private HttpResponseMessage DefaultResponseFactory(HttpTest httpTest, HttpRequestMessage request)
@@ -33,6 +25,15 @@ namespace Draft.Tests
             throw new SocketException();
         }
 
+        public override HttpMessageHandler CreateMessageHandler()
+        {
+            return new TestingMessageHandler(_responseFactory);
+        }
+
+        public override HttpClient CreateClient(Url url, HttpMessageHandler handler)
+        {
+            return base.CreateClient(url, CreateMessageHandler());
+        }
     }
 
     public class TestingMessageHandler : HttpMessageHandler
@@ -40,16 +41,14 @@ namespace Draft.Tests
 
         private readonly Func<HttpTest, HttpRequestMessage, HttpResponseMessage> _responseFactory;
 
-        public TestingMessageHandler(HttpTest httpTest, Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory)
+        public TestingMessageHandler(Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory)
         {
-            HttpTest = httpTest;
             _responseFactory = responseFactory;
         }
-        public HttpTest HttpTest { get; private set; }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_responseFactory(HttpTest, request));
+            return Task.FromResult(_responseFactory(HttpTest.Current, request));
         }
 
     }

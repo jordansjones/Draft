@@ -18,13 +18,12 @@ namespace Draft.Tests.Exceptions
 {
     public class CoreExceptionTests
     {
+        private static readonly Func<Task<IEtcdVersion>> CallFixture = async () => await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri()).GetVersion();
 
-        public static readonly Func<Task<IEtcdVersion>> CallFixture = async () => await Etcd.ClientFor(Fixtures.EtcdUrl.ToUri()).GetVersion();
-
-        public static HttpTest NewErrorCodeFixture(int? etcd = null, HttpStatusCode status = HttpStatusCode.BadRequest)
+        private static HttpTest NewErrorCodeFixture(int? etcdErrorCode = null, HttpStatusCode status = HttpStatusCode.BadRequest)
         {
             return new HttpTest()
-                .RespondWithJson(status, Fixtures.CreateErrorMessage(etcd));
+                .RespondWithJson(status, Fixtures.CreateErrorMessage(etcdErrorCode));
         }
 
         [Fact]
@@ -61,12 +60,15 @@ namespace Draft.Tests.Exceptions
         [Fact]
         public void ShouldThrowInvalidHostException()
         {
-            FlurlHttp.Configure(
-                x => { x.HttpClientFactory = new TestingHttpClientFactory(new HttpTest()); });
+            using (new HttpTest())
+            {
+                FlurlHttp.Configure(
+                    x => { x.HttpClientFactory = new TestingHttpClientFactory(); });
 
-            CallFixture.ShouldThrow<InvalidHostException>()
-                .And
-                .IsInvalidHost.Should().BeTrue();
+                CallFixture.ShouldThrow<InvalidHostException>()
+                    .And
+                    .IsInvalidHost.Should().BeTrue();
+            }
         }
 
         [Fact]
@@ -131,12 +133,15 @@ namespace Draft.Tests.Exceptions
         [Fact]
         public void ShouldThrowHttpConnectionException()
         {
-            FlurlHttp.Configure(
-                x => { x.HttpClientFactory = new TestingHttpClientFactory(new HttpTest(), (ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); }); });
+            using (new HttpTest())
+            {
+                FlurlHttp.Configure(
+                    x => { x.HttpClientFactory = new TestingHttpClientFactory( /*new HttpTest(), */(ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); }); });
 
-            CallFixture.ShouldThrow<HttpConnectionException>()
-                .And
-                .IsHttpConnection.Should().BeTrue();
+                CallFixture.ShouldThrow<HttpConnectionException>()
+                    .And
+                    .IsHttpConnection.Should().BeTrue();
+            }
         }
 
         [Fact]

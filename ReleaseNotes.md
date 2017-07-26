@@ -1,3 +1,8 @@
+### new in 1.0.5 (Release 2017/07/25)
+* Change: Updated Flurl dependency from 1.0.10 to 2.4.0
+* Change: Updated Flurl.Http dependency from 0.7.0 to 1.2.0
+* Change: Updated Newtonsoft.Json dependency from 6.0.8 to 10.0.3
+
 ### New in 1.0.4 (Release 2016/09/19)
 * Fixed: When an `Exception` is thrown during a `Watch` operation, call `OnError` on the observable instead of throwing `NotImplementedException`
 

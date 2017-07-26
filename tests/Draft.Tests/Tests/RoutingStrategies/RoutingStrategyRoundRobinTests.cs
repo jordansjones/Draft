@@ -34,7 +34,7 @@ namespace Draft.Tests.RoutingStrategies
                 result.Should().NotBeNull();
                 result.ToString()
                       .Should()
-                      .BeSameAs(Endpoint1.Uri.ToString());
+                      .Be(Endpoint1.Uri.ToString());
             }
         }
 
@@ -48,7 +48,7 @@ namespace Draft.Tests.RoutingStrategies
 
             result.ToString()
                   .Should()
-                  .BeSameAs(Endpoint1.Uri.ToString());
+                  .Be(Endpoint1.Uri.ToString());
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Draft.Tests.RoutingStrategies
                 result.Should().NotBeNull();
                 result.ToString()
                       .Should()
-                      .BeSameAs(expected.Uri.ToString());
+                      .Be(expected.Uri.ToString());
             }
         }
 
@@ -83,7 +83,7 @@ namespace Draft.Tests.RoutingStrategies
                 result.Should().NotBeNull();
                 result.ToString()
                       .Should()
-                      .BeSameAs(expected.Uri.ToString());
+                      .Be(expected.Uri.ToString());
             }
         }
 
