@@ -9,7 +9,6 @@
         <projectUrl>https://github.com/jordansjones/Draft</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>An etcd client library for .Net</description>
-        <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>etcd</tags>
         <copyright>Copyright 2015 Jordan S. Jones</copyright>
         <dependencies>
