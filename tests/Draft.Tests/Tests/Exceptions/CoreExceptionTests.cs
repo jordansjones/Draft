@@ -62,7 +62,7 @@ namespace Draft.Tests.Exceptions
         {
             using (new HttpTest())
             {
-                FlurlHttp.Configure(
+                HttpTest.Current.Configure(
                     x => { x.HttpClientFactory = new TestingHttpClientFactory(); });
 
                 CallFixture.ShouldThrow<InvalidHostException>()
@@ -135,7 +135,7 @@ namespace Draft.Tests.Exceptions
         {
             using (new HttpTest())
             {
-                FlurlHttp.Configure(
+                HttpTest.Current.Configure(
                     x => { x.HttpClientFactory = new TestingHttpClientFactory( /*new HttpTest(), */(ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); }); });
 
                 CallFixture.ShouldThrow<HttpConnectionException>()

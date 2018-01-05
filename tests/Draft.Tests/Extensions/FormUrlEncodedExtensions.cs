@@ -27,7 +27,7 @@ namespace Draft.Tests
         {
             var kvItems = (collection ?? Enumerable.Empty<KeyValuePair<object, object>>())
                 .Where(x => x.Value != null)
-                .Select(kv => string.Join("=", Url.EncodeQueryParamValue(kv.Key.ToInvariantString(), true), Url.EncodeQueryParamValue(kv.Value, true)));
+                .Select(kv => string.Join("=", Url.Encode(kv.Key.ToInvariantString(), true), Url.Encode(kv.Value.ToString(), true)));
 
             return string.Join("&", kvItems);
         }
