@@ -63,6 +63,7 @@ namespace Draft.Requests
                 .Conditionally(recursive.HasValue && recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
                 // ReSharper disable once PossibleInvalidOperationException
                 .Conditionally(index.HasValue, x => x.SetQueryParam(Constants.Etcd.Parameter_WaitIndex, index.Value))
+                .WithTimeout(Timeout.InfiniteTimeSpan)
                 .GetAsync();
         }
 
@@ -89,7 +90,7 @@ namespace Draft.Requests
                             : modifiedIndex + 1;
                     }
                 }
-                catch (TaskCanceledException)
+                catch (OperationCanceledException)
                 {
                     /* Restart the connection */
                 }
