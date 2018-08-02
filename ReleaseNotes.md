@@ -1,3 +1,6 @@
+### new in 1.0.6 (Release 2018/08/02)
+* Change: `Watch` and `WatchOnce` now use an _Infinite_ timeout
+
 ### new in 1.0.5 (Release 2017/07/25)
 * Change: Updated Flurl dependency from 1.0.10 to 2.4.0
 * Change: Updated Flurl.Http dependency from 0.7.0 to 1.2.0
