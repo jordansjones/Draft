@@ -23,7 +23,10 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="lib\net45\Draft.*" target="lib\net45" />
-        <file src="*.*" exclude="lib\**\*.*" />
+        <file src="source\Draft\bin\Debug\Net45\Draft.*" target="lib\net45" />
+        <file src="LICENSE.txt" />
+        <file src="README.md" />
+        <file src="ReleaseNotes.md" />
+        <file src="source\Draft\**\*.cs" target="src" />
     </files>
 </package>
