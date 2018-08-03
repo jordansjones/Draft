@@ -151,16 +151,22 @@ Task("CreateNugetPackage")
     .WithCriteria(() => isReleaseBuild || forcePackage)
     .Does(() =>
 {
+    var settings = new NuGetPackSettings
+    {
+        Version = semVersion,
+        ReleaseNotes = releaseNotes.Notes.ToArray(),
+        BasePath = solutionDir,
+        OutputDirectory = packagingRoot,
+        Symbols = true,
+        NoPackageAnalysis = false,
+        KeepTemporaryNuSpecFile = false
+    };
+    var properties = settings.Properties != null ? settings.Properties : new Dictionary<string, string>();
+    properties["Configuration"] = configuration;
+    settings.Properties = properties;
     NuGetPack(
         nuspecFile,
-        new NuGetPackSettings {
-            Version = semVersion,
-            ReleaseNotes = releaseNotes.Notes.ToArray(),
-            BasePath = solutionDir,
-            OutputDirectory = packagingRoot,
-            Symbols = true,
-            NoPackageAnalysis = false
-        }
+        settings
     );
 });
 
