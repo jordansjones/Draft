@@ -53,23 +53,22 @@ var semVersion = isReleaseBuild ? version : (version + string.Concat("-build-", 
 Setup(context =>
 {
     // Executed BEFORE the first task.
-    Information("Running tasks...");
+    Information("Building {0} [{1}] ({2} - {3}).", solution.GetFilename(), configuration, version, semVersion);
 
     if (!DirectoryExists(testResultsDir))
     {
         CreateDirectory(testResultsDir);
     }
-
-    if (DirectoryExists(packagingRoot))
+    if (!DirectoryExists(packagingRoot))
     {
-        CleanDirectory(packagingRoot);
+        CreateDirectory(packagingRoot);
     }
 });
 
 Teardown(context =>
 {
     // Executed AFTER the last task.
-    Information("Finished running tasks.");
+    Information("Built {0} [{1}] ({2} - {3}).", solution.GetFilename(), configuration, version, semVersion);
 });
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -190,7 +189,5 @@ Task("Default")
 ///////////////////////////////////////////////////////////////////////////////
 // EXECUTION
 ///////////////////////////////////////////////////////////////////////////////
-
-Information("Building {0} [{1}] ({2} - {3}).", solution.GetFilename(), configuration, version, semVersion);
 
 RunTarget(target);
