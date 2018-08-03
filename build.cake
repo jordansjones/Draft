@@ -168,6 +168,10 @@ Task("CreateNugetPackage")
 // TASK TARGETS
 ///////////////////////////////////////////////////////////////////////////////
 
+Task("Package")
+    .IsDependentOn("Build")
+    .IsDependentOn("CreateNugetPackage");
+
 Task("Test")
     .IsDependentOn("Build")
     .IsDependentOn("UnitTests");
