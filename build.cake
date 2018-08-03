@@ -23,7 +23,6 @@ var solution = baseDir.GetFilePath(projectName + ".sln");
 var solutionDir = solution.GetDirectory();
 var packagingRoot = baseDir.Combine("publish");
 var testResultsDir = baseDir.Combine("TestResults");
-var nugetPackagingDir = packagingRoot.Combine(projectName);
 var sourcesDir = solutionDir.Combine("source");
 var testsDir = solutionDir.Combine("tests");
 var metaDir = solutionDir.Combine("meta");
@@ -31,8 +30,6 @@ var metaDir = solutionDir.Combine("meta");
 // Files
 var solutionInfoCs = metaDir.GetFilePath("SolutionInfo.cs");
 var nuspecFile = metaDir.GetFilePath(projectName + ".nuspec");
-var licenseFile = solutionDir.GetFilePath("LICENSE.txt");
-var readmeFile = solutionDir.GetFilePath("README.md");
 var releaseNotesFile = solutionDir.GetFilePath("ReleaseNotes.md");
 
 var appVeyorEnv =  Context.AppVeyor().Environment;
@@ -62,9 +59,10 @@ Setup(context =>
     {
         CreateDirectory(testResultsDir);
     }
-    if (!DirectoryExists(nugetPackagingDir))
+
+    if (DirectoryExists(packagingRoot))
     {
-        CreateDirectory(nugetPackagingDir);
+        CleanDirectory(packagingRoot);
     }
 });
 
@@ -95,7 +93,6 @@ Task("Clean")
 });
 
 Task("Restore")
-    .IsDependentOn("Clean")
 	.Does(() =>
 {
 	Information("Restoring {0}", solution);
@@ -103,7 +100,6 @@ Task("Restore")
 });
 
 Task("AssemblyInfo")
-    .IsDependentOn("Restore")
     .WithCriteria(() => !isReleaseBuild)
     .Does(() =>
 {
@@ -117,23 +113,27 @@ Task("AssemblyInfo")
 });
 
 Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
 	.IsDependentOn("AssemblyInfo")
 	.Does(() =>
 {
 	Information("Building {0}", solution);
-	MSBuild(solution, settings =>
-        settings.SetConfiguration(configuration)
+	MSBuild(solution, settings => settings
+        .SetConfiguration(configuration)
+        .SetVerbosity(Context.Log.Verbosity)
+        .SetMaxCpuCount(System.Environment.ProcessorCount)
+        .SetNodeReuse(false)
+        .WithProperty("UseSharedCompilation", "false")
 	);
 });
 
 Task("UnitTests")
-    .IsDependentOn("Build")
     .Does(() =>
 {
     Information("Running Tests in {0}", solution);
-    
+
     var testAssemblies = GetFiles(testsDir + "/**/bin/" + configuration + "/**/*.Tests*.dll").ToList();
-    
     testAssemblies.ForEach(x => Information("Test File: {0}", x.GetFilename()));
 
     XUnit2(
@@ -141,44 +141,14 @@ Task("UnitTests")
         new XUnit2Settings {
             OutputDirectory = testResultsDir,
             HtmlReport = true,
-            XmlReport = true
+            NUnitReport = true,
+            XmlReport = true,
         }
     );
 });
 
-Task("CopyNugetPackageFiles")
-    .IsDependentOn("UnitTests")
-    .Does(() =>
-{
-
-    var baseBuildDir = sourcesDir.Combine(projectName).Combine("bin").Combine(configuration);
-
-    var net45BuildDir = baseBuildDir.Combine("Net45");
-    var net45PackageDir = nugetPackagingDir.Combine("lib/net45/");
-
-    var dirMap = new Dictionary<DirectoryPath, DirectoryPath> {
-        { net45BuildDir, net45PackageDir }
-    };
-
-    CleanDirectories(dirMap.Values);
-
-    foreach (var dirPair in dirMap)
-    {
-        var files = GetFiles(dirPair.Key + "/" + projectName + "*");
-        CopyFiles(files, dirPair.Value);
-    }
-
-    var packageFiles = new FilePath[] {
-        licenseFile,
-        readmeFile,
-        releaseNotesFile
-    };
-
-    CopyFiles(packageFiles, nugetPackagingDir);
-});
-
 Task("CreateNugetPackage")
-    .IsDependentOn("CopyNugetPackageFiles")
+    .WithCriteria(() => isReleaseBuild || forcePackage)
     .Does(() =>
 {
     NuGetPack(
@@ -186,9 +156,9 @@ Task("CreateNugetPackage")
         new NuGetPackSettings {
             Version = semVersion,
             ReleaseNotes = releaseNotes.Notes.ToArray(),
-            BasePath = nugetPackagingDir,
+            BasePath = solutionDir,
             OutputDirectory = packagingRoot,
-            Symbols = false,
+            Symbols = true,
             NoPackageAnalysis = false
         }
     );
@@ -198,12 +168,14 @@ Task("CreateNugetPackage")
 // TASK TARGETS
 ///////////////////////////////////////////////////////////////////////////////
 
-Task("Package")
-    .IsDependentOn("CreateNugetPackage")
-    .WithCriteria(() => isReleaseBuild || forcePackage);
+Task("Test")
+    .IsDependentOn("Build")
+    .IsDependentOn("UnitTests");
 
 Task("Default")
-    .IsDependentOn("Package");
+    .IsDependentOn("Build")
+    .IsDependentOn("UnitTests")
+    .IsDependentOn("CreateNugetPackage");
 
 ///////////////////////////////////////////////////////////////////////////////
 // EXECUTION

@@ -1,3 +1,6 @@
+### new in 1.0.6.1 (Release 2018/08/02)
+* Change: Updated `build.cake` to support deploying symbol package
+
 ### new in 1.0.6 (Release 2018/08/02)
 * Change: `Watch` and `WatchOnce` now use an _Infinite_ timeout
 
