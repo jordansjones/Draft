@@ -23,7 +23,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="source\Draft\bin\Debug\Net45\Draft.*" target="lib\net45" />
+        <file src="source\Draft\bin\Release\Net45\Draft.*" target="lib\net45" />
         <file src="LICENSE.txt" />
         <file src="README.md" />
         <file src="ReleaseNotes.md" />
