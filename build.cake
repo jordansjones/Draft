@@ -53,7 +53,7 @@ var semVersion = isReleaseBuild ? version : (version + string.Concat("-build-", 
 Setup(context =>
 {
     // Executed BEFORE the first task.
-    Information("Building {0} [{1}] ({2} - {3}).", solution.GetFilename(), configuration, version, semVersion);
+    Information("Building {0} [{1}] v{2}).", solution.GetFilename(), configuration, semVersion);
 
     if (!DirectoryExists(testResultsDir))
     {
@@ -68,7 +68,7 @@ Setup(context =>
 Teardown(context =>
 {
     // Executed AFTER the last task.
-    Information("Built {0} [{1}] ({2} - {3}).", solution.GetFilename(), configuration, version, semVersion);
+    Information("Building {0} [{1}] v{2}).", solution.GetFilename(), configuration, semVersion);
 });
 
 ///////////////////////////////////////////////////////////////////////////////
