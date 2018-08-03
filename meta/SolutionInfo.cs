@@ -6,6 +6,7 @@
 using System.Reflection;
 
 [assembly: AssemblyProduct("Draft")]
-[assembly: AssemblyVersion("0.1.1")]
-[assembly: AssemblyFileVersion("0.1.1")]
-[assembly: AssemblyInformationalVersion("0.1.1-build-0")]
+[assembly: AssemblyVersion("1.0.6")]
+[assembly: AssemblyFileVersion("1.0.6")]
+[assembly: AssemblyInformationalVersion("1.0.6")]
+
