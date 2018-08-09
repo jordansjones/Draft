@@ -1,4 +1,4 @@
-### new in 1.0.7
+### new in 1.0.7 (Release 2018/08/09)
 * New: EndpointPool.Build()..WithHttpReadTimeout() - Set timeout for HTTP GET requests
 * Fixed: NullReferenceException thrown in certain HTTP timeout conditions is now EtcdTimeoutException
 
