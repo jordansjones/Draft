@@ -184,7 +184,7 @@
     <Compile Include="IEtcdClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\meta\SolutionInfo.cs" Condition="Exists('..\..\meta\SolutionInfo.cs')">
-      <Link>Properties\SolutionInfo.cs</Link>
+      <Link Condition="Exists('..\..\meta\SolutionInfo.cs')">Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Requests\IDeleteDirectoryRequest.cs" />
     <Compile Include="Requests\IDeleteKeyRequest.cs" />
