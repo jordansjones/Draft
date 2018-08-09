@@ -183,9 +183,6 @@
     <Compile Include="Requests\ICreateDirectoryRequest.cs" />
     <Compile Include="IEtcdClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\meta\SolutionInfo.cs" Condition="Exists('..\..\meta\SolutionInfo.cs')">
-      <Link Condition="Exists('..\..\meta\SolutionInfo.cs')">Properties\SolutionInfo.cs</Link>
-    </Compile>
     <Compile Include="Requests\IDeleteDirectoryRequest.cs" />
     <Compile Include="Requests\IDeleteKeyRequest.cs" />
     <Compile Include="Requests\IGetRequest.cs" />
@@ -216,7 +213,15 @@
   <ItemGroup>
     <None Include="packages.Draft-Net45.config" />
   </ItemGroup>
-  <ItemGroup />
+  <Choose>
+    <When Condition="Exists('$(MSBuildThisFileDirectory)\..\..\meta\SolutionInfo.cs')">
+      <ItemGroup>
+        <Compile Include="$(MSBuildThisFileDirectory)\..\..\meta\SolutionInfo.cs">
+          <Link>Properties\SolutionInfo.cs</Link>
+        </Compile>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
