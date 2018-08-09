@@ -1,3 +1,7 @@
+### new in 1.0.7
+* New: EndpointPool.Build()..WithHttpReadTimeout() - Set timeout for HTTP GET requests
+* Fixed: NullReferenceException thrown in certain HTTP timeout conditions is now EtcdTimeoutException
+
 ### new in 1.0.6.1 (Release 2018/08/02)
 * Change: Updated `build.cake` to support deploying symbol package
 
