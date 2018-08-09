@@ -36,6 +36,8 @@ namespace Draft
 
             var etcdError = This.GetResponseJson<EtcdError>();
 
+            if (etcdError == null) { return new UnknownErrorException(This.Message); }
+
             var message = etcdError.Message;
 
             etcdError.ErrorCode = etcdError.ErrorCode
@@ -254,7 +256,9 @@ namespace Draft
 
         private static bool IsTimeoutException(this FlurlHttpException This)
         {
-            return This is FlurlHttpTimeoutException;
+            if (This is FlurlHttpTimeoutException) return true;
+
+            return This.InnerException is OperationCanceledException;
         }
 
         #endregion
