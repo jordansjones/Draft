@@ -28,6 +28,7 @@ namespace Draft.Requests
                 return await TargetUrl
                     .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
                     .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
+                    .Conditionally(HttpGetTimeout != null, x=>x.WithTimeout(HttpGetTimeout.GetValueOrDefault()))
                     .GetAsync()
                     .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }

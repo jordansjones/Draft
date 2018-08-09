@@ -31,5 +31,6 @@ namespace Draft.Requests
             }
         }
 
+        protected TimeSpan? HttpGetTimeout => _endpointPool.HttpGetTimeout;
     }
 }
