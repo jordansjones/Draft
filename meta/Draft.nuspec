@@ -27,6 +27,6 @@
         <file src="LICENSE.txt" />
         <file src="README.md" />
         <file src="ReleaseNotes.md" />
-        <file src="source\Draft\**\*.cs" target="src" />
+        <file src="source\Draft\**\*.cs" exclude="source\Draft\obj\**\*.cs" target="src" />
     </files>
 </package>
