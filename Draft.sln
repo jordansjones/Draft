@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{EC663AEE-1
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
-		meta\SolutionInfo.cs = meta\SolutionInfo.cs
 	EndProjectSection
 EndProject
 Global

@@ -165,6 +165,7 @@
     <Compile Include="ValueConverters\JsonValueConverter.cs" />
     <Compile Include="ValueConverters\StringValueConverter.cs" />
     <Compile Include="Etcd.cs" />
+    <Compile Include="Constants.ErrorCode.cs" />
     <Compile Include="Constants.Etcd.cs" />
     <Compile Include="Extensions\Flurl.Extensions.cs" />
     <Compile Include="EtcdClient.cs" />
@@ -182,7 +183,7 @@
     <Compile Include="Requests\ICreateDirectoryRequest.cs" />
     <Compile Include="IEtcdClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\meta\SolutionInfo.cs">
+    <Compile Include="..\..\meta\SolutionInfo.cs" Condition="Exists('..\..\meta\SolutionInfo.cs')">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Requests\IDeleteDirectoryRequest.cs" />
@@ -213,7 +214,6 @@
     <Compile Include="Responses\Version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.ErrorCode.cs" />
     <None Include="packages.Draft-Net45.config" />
   </ItemGroup>
   <ItemGroup />

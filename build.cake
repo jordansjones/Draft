@@ -68,7 +68,7 @@ Setup(context =>
 Teardown(context =>
 {
     // Executed AFTER the last task.
-    Information("Built {0} [{1}] v{2} ({3})", solution.GetFilename(), configuration, semVersion, target);
+    Information("Built {0} [{1}] v{2} ({3}): IsReleaseBuild: {4}", solution.GetFilename(), configuration, semVersion, target, isReleaseBuild);
 });
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,6 @@ Task("Restore")
 });
 
 Task("AssemblyInfo")
-    .WithCriteria(() => !isReleaseBuild)
     .Does(() =>
 {
     Information("Creating {0} - Version: {1}", solutionInfoCs, version);
