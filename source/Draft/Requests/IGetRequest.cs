@@ -38,5 +38,10 @@ namespace Draft.Requests
         /// </summary>
         IGetRequest WithRecursive(bool recursive = true);
 
+        /// <summary>
+        ///    Override the default timeout for this request. null results in the HttpClient default timeout.
+        /// </summary>
+        IGetRequest WithTimeout(TimeSpan? timeout);
+
     }
 }
