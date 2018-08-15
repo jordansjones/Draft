@@ -55,7 +55,7 @@ namespace Draft.Requests
             return this;
         }
 
-        public IGetRequest WithTimeout(TimeSpan? timeout)
+        public IGetRequest WithTimeout(TimeSpan timeout)
         {
             _httpTimeout = timeout;
             return this;
