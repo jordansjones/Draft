@@ -55,5 +55,13 @@ namespace Draft.Requests
             return this;
         }
 
+        public IGetRequest WithTimeout(TimeSpan timeout)
+        {
+            _httpTimeout = timeout;
+            return this;
+        }
+
+        private TimeSpan? _httpTimeout;
+        protected TimeSpan? HttpGetTimeout => _httpTimeout ?? EndpointPoolHttpTimeout;
     }
 }
