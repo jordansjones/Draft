@@ -1,4 +1,4 @@
-### new in 1.0.7.2 (Release 2018/08/15)
+### new in 1.0.8 (Release 2018/08/16)
 * New: IGetRequest.WithTimeout - Set HTTP timeout on per-request basis
 
 ### new in 1.0.7.1 (Release 2018/08/09)
