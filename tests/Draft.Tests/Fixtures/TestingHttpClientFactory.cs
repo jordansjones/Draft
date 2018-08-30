@@ -30,9 +30,9 @@ namespace Draft.Tests
             return new TestingMessageHandler(_responseFactory);
         }
 
-        public override HttpClient CreateClient(Url url, HttpMessageHandler handler)
+        public override HttpClient CreateHttpClient(HttpMessageHandler handler)
         {
-            return base.CreateClient(url, CreateMessageHandler());
+            return base.CreateHttpClient(CreateMessageHandler());
         }
     }
 

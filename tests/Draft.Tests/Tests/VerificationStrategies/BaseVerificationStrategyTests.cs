@@ -52,7 +52,7 @@ namespace Draft.Tests.VerificationStrategies
         protected HttpTest InitializeInvalidHostHelper(Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory = null)
         {
             var httpTest = new HttpTest();
-            FlurlHttp.Configure(x => { x.HttpClientFactory = new TestingHttpClientFactory(responseFactory); });
+            HttpTest.Current.Configure(x => { x.HttpClientFactory = new TestingHttpClientFactory(responseFactory); });
             return httpTest;
         }
 
