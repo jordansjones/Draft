@@ -38,10 +38,5 @@ namespace Draft.Requests
         /// </summary>
         IGetRequest WithRecursive(bool recursive = true);
 
-        /// <summary>
-        ///    Override the default timeout for this request. 
-        /// </summary>
-        IGetRequest WithTimeout(TimeSpan timeout);
-
     }
 }

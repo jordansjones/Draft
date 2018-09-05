@@ -49,7 +49,7 @@ namespace Draft.Tests.VerificationStrategies
                     }
                 };
                 
-                action.ShouldThrow<InvalidHostException>();
+                action.Should().Throw<InvalidHostException>();
             }
         }
 

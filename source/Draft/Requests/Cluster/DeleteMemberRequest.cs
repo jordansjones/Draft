@@ -28,7 +28,7 @@ namespace Draft.Requests.Cluster
             }
             catch (FlurlHttpException e)
             {
-                throw e.ProcessException();
+                throw await e.ProcessException();
             }
         }
 

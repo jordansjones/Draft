@@ -38,8 +38,5 @@ namespace Draft.Endpoints
             return pathSegment.ToUrl(RoutingStrategy.Select(pathSegment.Value, OnlineEndpoints).Uri);
         }
 
-        [IgnoreDataMember]
-        internal TimeSpan? HttpGetTimeout { get; set; } = null;
-
     }
 }

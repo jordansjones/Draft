@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 using Draft.Exceptions;
 using Draft.Responses;
@@ -25,7 +26,7 @@ namespace Draft
 
         #endregion
 
-        public static EtcdException ProcessException(this FlurlHttpException This)
+        public static async Task<EtcdException> ProcessException(this FlurlHttpException This)
         {
             if (This.IsTimeoutException()) { return This.AsTimeoutException(); }
             if (This.IsInvalidHostException()) { return This.AsInvalidHostException(); }
@@ -34,9 +35,7 @@ namespace Draft
             if (This.IsServiceUnavailableException()) { return This.AsServiceUnavailableException(); }
             if (This.IsHttpConnectionException()) { return This.AsHttpConnectionException(); }
 
-            var etcdError = This.GetResponseJson<EtcdError>();
-
-            if (etcdError == null) { return new UnknownErrorException(This.Message); }
+            var etcdError = await This.GetResponseJsonAsync<EtcdError>().ConfigureAwait(false);
 
             var message = etcdError.Message;
 
@@ -256,9 +255,7 @@ namespace Draft
 
         private static bool IsTimeoutException(this FlurlHttpException This)
         {
-            if (This is FlurlHttpTimeoutException) return true;
-
-            return This.InnerException is OperationCanceledException;
+            return This is FlurlHttpTimeoutException;
         }
 
         #endregion

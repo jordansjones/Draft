@@ -3,8 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Newtonsoft.Json;
-
-using Ploeh.AutoFixture;
+using AutoFixture;
 
 namespace Draft.Tests
 {

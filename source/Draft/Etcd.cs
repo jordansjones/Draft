@@ -31,12 +31,10 @@ namespace Draft
 
         static Etcd()
         {
-
             JsonSettings = new JsonSerializerSettings();
             JsonSettings.Converters = JsonSettings.Converters ?? new List<JsonConverter>();
             JsonSettings.Converters.Add(new EtcdErrorCodeConverter());
             JsonSettings.Converters.Add(new StringEnumConverter { AllowIntegerValues = true });
-
 
             FlurlHttp.Configure(
                 c =>

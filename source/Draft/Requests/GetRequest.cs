@@ -28,13 +28,12 @@ namespace Draft.Requests
                 return await TargetUrl
                     .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
                     .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
-                    .Conditionally(HttpGetTimeout != null, x=>x.WithTimeout(HttpGetTimeout.GetValueOrDefault()))
                     .GetAsync()
                     .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
             }
             catch (FlurlHttpException e)
             {
-                throw e.ProcessException();
+                throw await e.ProcessException();
             }
         }
 
@@ -55,13 +54,5 @@ namespace Draft.Requests
             return this;
         }
 
-        public IGetRequest WithTimeout(TimeSpan timeout)
-        {
-            _httpTimeout = timeout;
-            return this;
-        }
-
-        private TimeSpan? _httpTimeout;
-        protected TimeSpan? HttpGetTimeout => _httpTimeout ?? EndpointPoolHttpTimeout;
     }
 }

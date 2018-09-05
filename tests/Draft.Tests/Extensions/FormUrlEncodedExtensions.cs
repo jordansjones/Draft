@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Flurl;
 using Flurl.Http.Content;
@@ -27,7 +25,7 @@ namespace Draft.Tests
         {
             var kvItems = (collection ?? Enumerable.Empty<KeyValuePair<object, object>>())
                 .Where(x => x.Value != null)
-                .Select(kv => string.Join("=", Url.EncodeQueryParamValue(kv.Key.ToInvariantString(), true), Url.EncodeQueryParamValue(kv.Value, true)));
+                .Select(kv => string.Join("=", Url.Encode(kv.Key.ToInvariantString(), true), Url.Encode(kv.Value.ToInvariantString(), true)));
 
             return string.Join("&", kvItems);
         }

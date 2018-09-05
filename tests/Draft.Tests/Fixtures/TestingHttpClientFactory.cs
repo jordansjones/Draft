@@ -5,7 +5,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Flurl;
 using Flurl.Http.Testing;
 
 namespace Draft.Tests
@@ -28,11 +27,6 @@ namespace Draft.Tests
         public override HttpMessageHandler CreateMessageHandler()
         {
             return new TestingMessageHandler(_responseFactory);
-        }
-
-        public override HttpClient CreateClient(Url url, HttpMessageHandler handler)
-        {
-            return base.CreateClient(url, CreateMessageHandler());
         }
     }
 

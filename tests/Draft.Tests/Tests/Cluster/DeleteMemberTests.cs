@@ -58,7 +58,7 @@ namespace Draft.Tests.Cluster
                               .WithMemberId(StaticRandom.Instance.Next().ToString());
                 };
 
-                action.ShouldThrowExactly<BadRequestException>()
+                action.Should().ThrowExactly<BadRequestException>()
                       .And
                       .IsBadRequest.Should().BeTrue();
             }
@@ -79,7 +79,7 @@ namespace Draft.Tests.Cluster
                               .WithMemberId(StaticRandom.Instance.Next().ToString());
                 };
 
-                action.ShouldThrowExactly<InvalidRequestException>()
+                action.Should().ThrowExactly<InvalidRequestException>()
                       .And
                       .IsInvalidRequest.Should().BeTrue();
             }

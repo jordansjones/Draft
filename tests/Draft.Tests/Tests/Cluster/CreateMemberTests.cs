@@ -65,7 +65,7 @@ namespace Draft.Tests.Cluster
                               .WithPeerUri(Fixtures.EtcdUrl.ToUri());
                 };
 
-                action.ShouldThrowExactly<ExistingPeerAddressException>()
+                action.Should().ThrowExactly<ExistingPeerAddressException>()
                       .And
                       .IsExistingPeerAddress.Should().BeTrue();
             }

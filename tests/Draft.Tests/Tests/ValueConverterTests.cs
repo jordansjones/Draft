@@ -51,7 +51,7 @@ namespace Draft.Tests
 
                 SimpleDataContractDto responseDto = null;
                 Action getValue = () => responseDto = response.Data.GetValue<SimpleDataContractDto>();
-                getValue.ShouldNotThrow();
+                getValue.Should().NotThrow();
 
                 responseDto.Should().NotBeNull();
 
@@ -89,7 +89,7 @@ namespace Draft.Tests
 
                 SimpleDataContractDto responseDto = null;
                 Action getValue = () => responseDto = response.Data.GetValue<SimpleDataContractDto>(converter);
-                getValue.ShouldNotThrow();
+                getValue.Should().NotThrow();
 
                 responseDto.Should().NotBeNull();
 

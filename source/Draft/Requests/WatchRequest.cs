@@ -100,7 +100,7 @@ namespace Draft.Requests
                 }
                 catch (FlurlHttpException e)
                 {
-                    var ex = e.ProcessException();
+                    var ex = await e.ProcessException().ConfigureAwait(false);
                     if (modifiedIndex != null && ex.IsEventIndexCleared)
                     {
                         var idx = TryUpdateIndex(e);

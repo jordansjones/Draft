@@ -37,7 +37,7 @@ namespace Draft.Tests.VerificationStrategies
                     .RespondWith("etcd 1.2.4")
                     .RespondWith("etcd 1.2.4");
 
-                BuildAndVerifyAction.ShouldNotThrow<Exception>();
+                BuildAndVerifyAction.Should().NotThrow<Exception>();
             }
         }
 

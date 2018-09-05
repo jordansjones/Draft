@@ -27,7 +27,7 @@ namespace Draft.Requests
             }
             catch (FlurlHttpException e)
             {
-                throw e.ProcessException();
+                throw await e.ProcessException();
             }
         }
 

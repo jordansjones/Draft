@@ -67,7 +67,7 @@ namespace Draft.Tests.Cluster
                               .GetLeader();
                 };
 
-                action.ShouldThrowExactly<ServiceUnavailableException>()
+                action.Should().ThrowExactly<ServiceUnavailableException>()
                       .And
                       .IsServiceUnavailable.Should().BeTrue();
             }

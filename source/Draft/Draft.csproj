@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <Version>2.0.0</Version>
+    <Authors>Jordan S. Jones</Authors>
+    <Description>An etcd client library for .Net</Description>
+    <Copyright>Copyright 2015 Jordan S. Jones</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/jordansjones/Draft/fb4ed8ecb79556a94195b017e3ff9fb8cfa25d01/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/jordansjones/Draft</PackageProjectUrl>
+    <PackageTags>etcd</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="2.8.0" />
+    <PackageReference Include="Flurl.Http" Version="2.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+  </ItemGroup>
+
+</Project>

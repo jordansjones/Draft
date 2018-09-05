@@ -31,7 +31,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(status : HttpStatusCode.Conflict))
             {
-                CallFixture.ShouldThrow<ExistingPeerAddressException>();
+                CallFixture.Should().Throw<ExistingPeerAddressException>();
             }
         }
 
@@ -40,7 +40,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_Unknown))
             {
-                CallFixture.ShouldThrow<UnknownErrorException>();
+                CallFixture.Should().Throw<UnknownErrorException>();
             }
         }
 
@@ -51,7 +51,7 @@ namespace Draft.Tests.Exceptions
             {
                 http.SimulateTimeout();
 
-                CallFixture.ShouldThrow<EtcdTimeoutException>()
+                CallFixture.Should().Throw<EtcdTimeoutException>()
                     .And
                     .IsTimeout.Should().BeTrue();
             }
@@ -60,12 +60,12 @@ namespace Draft.Tests.Exceptions
         [Fact]
         public void ShouldThrowInvalidHostException()
         {
-            using (new HttpTest())
+            using (new HttpTest().Configure(x =>
             {
-                FlurlHttp.Configure(
-                    x => { x.HttpClientFactory = new TestingHttpClientFactory(); });
-
-                CallFixture.ShouldThrow<InvalidHostException>()
+                x.HttpClientFactory = new TestingHttpClientFactory();
+            }))
+            {
+                CallFixture.Should().Throw<InvalidHostException>()
                     .And
                     .IsInvalidHost.Should().BeTrue();
             }
@@ -78,7 +78,7 @@ namespace Draft.Tests.Exceptions
             {
                 http.RespondWith(HttpStatusCode.NotFound, HttpStatusCode.NotFound.ToString());
 
-                CallFixture.ShouldThrow<InvalidRequestException>()
+                CallFixture.Should().Throw<InvalidRequestException>()
                     .And
                     .IsInvalidRequest.Should().BeTrue();
             }
@@ -91,7 +91,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_ClientInternal))
             {
-                CallFixture.ShouldThrow<ClientInternalException>()
+                CallFixture.Should().Throw<ClientInternalException>()
                     .And
                     .IsClientInternal.Should().BeTrue();
             }
@@ -102,7 +102,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_DirectoryNotEmpty))
             {
-                CallFixture.ShouldThrow<DirectoryNotEmptyException>()
+                CallFixture.Should().Throw<DirectoryNotEmptyException>()
                     .And
                     .IsDirectoryNotEmpty.Should().BeTrue();
             }
@@ -113,7 +113,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_EventIndexCleared))
             {
-                CallFixture.ShouldThrow<EventIndexClearedException>()
+                CallFixture.Should().Throw<EventIndexClearedException>()
                     .And
                     .IsEventIndexCleared.Should().BeTrue();
             }
@@ -124,7 +124,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_ExistingPeerAddress))
             {
-                CallFixture.ShouldThrow<ExistingPeerAddressException>()
+                CallFixture.Should().Throw<ExistingPeerAddressException>()
                     .And
                     .IsExistingPeerAddress.Should().BeTrue();
             }
@@ -133,12 +133,13 @@ namespace Draft.Tests.Exceptions
         [Fact]
         public void ShouldThrowHttpConnectionException()
         {
-            using (new HttpTest())
+            using (new HttpTest().Configure(x =>
             {
-                FlurlHttp.Configure(
-                    x => { x.HttpClientFactory = new TestingHttpClientFactory( /*new HttpTest(), */(ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); }); });
+                x.HttpClientFactory = new TestingHttpClientFactory( /*new HttpTest(), */(ht, hrm) => { throw new WebException("The Message", WebExceptionStatus.ConnectFailure); });
+            }))
+            {
 
-                CallFixture.ShouldThrow<HttpConnectionException>()
+                CallFixture.Should().Throw<HttpConnectionException>()
                     .And
                     .IsHttpConnection.Should().BeTrue();
             }
@@ -149,7 +150,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_IndexNotANumber))
             {
-                CallFixture.ShouldThrow<IndexNotANumberException>()
+                CallFixture.Should().Throw<IndexNotANumberException>()
                     .And
                     .IsIndexNotANumber.Should().BeTrue();
             }
@@ -160,7 +161,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_IndexOrValueRequired))
             {
-                CallFixture.ShouldThrow<IndexOrValueRequiredException>()
+                CallFixture.Should().Throw<IndexOrValueRequiredException>()
                     .And
                     .IsIndexOrValueRequired.Should().BeTrue();
             }
@@ -171,7 +172,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_IndexValueMutex))
             {
-                CallFixture.ShouldThrow<IndexValueMutexException>()
+                CallFixture.Should().Throw<IndexValueMutexException>()
                     .And
                     .IsIndexValueMutex.Should().BeTrue();
             }
@@ -182,7 +183,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_InvalidActiveSize))
             {
-                CallFixture.ShouldThrow<InvalidActiveSizeException>()
+                CallFixture.Should().Throw<InvalidActiveSizeException>()
                     .And
                     .IsInvalidActiveSize.Should().BeTrue();
             }
@@ -193,7 +194,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_InvalidField))
             {
-                CallFixture.ShouldThrow<InvalidFieldException>()
+                CallFixture.Should().Throw<InvalidFieldException>()
                     .And
                     .IsInvalidField.Should().BeTrue();
             }
@@ -204,7 +205,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_InvalidForm))
             {
-                CallFixture.ShouldThrow<InvalidFormException>()
+                CallFixture.Should().Throw<InvalidFormException>()
                     .And
                     .IsInvalidForm.Should().BeTrue();
             }
@@ -215,7 +216,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_InvalidRemoveDelay))
             {
-                CallFixture.ShouldThrow<InvalidRemoveDelayException>()
+                CallFixture.Should().Throw<InvalidRemoveDelayException>()
                     .And
                     .IsInvalidRemoveDelay.Should().BeTrue();
             }
@@ -226,7 +227,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_KeyIsPreserved))
             {
-                CallFixture.ShouldThrow<KeyIsPreservedException>()
+                CallFixture.Should().Throw<KeyIsPreservedException>()
                     .And
                     .IsKeyIsPreserved.Should().BeTrue();
             }
@@ -237,7 +238,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_KeyNotFound))
             {
-                CallFixture.ShouldThrow<KeyNotFoundException>()
+                CallFixture.Should().Throw<KeyNotFoundException>()
                     .And
                     .IsKeyNotFound.Should().BeTrue();
             }
@@ -248,7 +249,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_LeaderElect))
             {
-                CallFixture.ShouldThrow<LeaderElectException>()
+                CallFixture.Should().Throw<LeaderElectException>()
                     .And
                     .IsLeaderElect.Should().BeTrue();
             }
@@ -259,7 +260,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_NameRequired))
             {
-                CallFixture.ShouldThrow<NameRequiredException>()
+                CallFixture.Should().Throw<NameRequiredException>()
                     .And
                     .IsNameRequired.Should().BeTrue();
             }
@@ -270,7 +271,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_NodeExists))
             {
-                CallFixture.ShouldThrow<NodeExistsException>()
+                CallFixture.Should().Throw<NodeExistsException>()
                     .And
                     .IsNodeExists.Should().BeTrue();
             }
@@ -281,7 +282,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_NoMorePeer))
             {
-                CallFixture.ShouldThrow<NoMorePeerException>()
+                CallFixture.Should().Throw<NoMorePeerException>()
                     .And
                     .IsNoMorePeer.Should().BeTrue();
             }
@@ -292,7 +293,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_NotDirectory))
             {
-                CallFixture.ShouldThrow<NotADirectoryException>()
+                CallFixture.Should().Throw<NotADirectoryException>()
                     .And
                     .IsNotDirectory.Should().BeTrue();
             }
@@ -303,7 +304,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_NotFile))
             {
-                CallFixture.ShouldThrow<NotAFileException>()
+                CallFixture.Should().Throw<NotAFileException>()
                     .And
                     .IsNotFile.Should().BeTrue();
             }
@@ -314,7 +315,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_PreviousValueRequired))
             {
-                CallFixture.ShouldThrow<PreviousValueRequiredException>()
+                CallFixture.Should().Throw<PreviousValueRequiredException>()
                     .And
                     .IsPreviousValueRequired.Should().BeTrue();
             }
@@ -325,7 +326,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_RaftInternal))
             {
-                CallFixture.ShouldThrow<RaftInternalException>()
+                CallFixture.Should().Throw<RaftInternalException>()
                     .And
                     .IsRaftInternal.Should().BeTrue();
             }
@@ -336,7 +337,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_RootReadOnly))
             {
-                CallFixture.ShouldThrow<RootIsReadOnlyException>()
+                CallFixture.Should().Throw<RootIsReadOnlyException>()
                     .And
                     .IsRootReadOnly.Should().BeTrue();
             }
@@ -347,7 +348,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_StandbyInternal))
             {
-                CallFixture.ShouldThrow<StandbyInternalException>()
+                CallFixture.Should().Throw<StandbyInternalException>()
                     .And
                     .IsStandbyInternal.Should().BeTrue();
             }
@@ -358,7 +359,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_TestFailed))
             {
-                CallFixture.ShouldThrow<TestFailedException>()
+                CallFixture.Should().Throw<TestFailedException>()
                     .And
                     .IsTestFailed.Should().BeTrue();
             }
@@ -369,7 +370,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_TimeoutNotANumber))
             {
-                CallFixture.ShouldThrow<TimeoutNotANumberException>()
+                CallFixture.Should().Throw<TimeoutNotANumberException>()
                     .And
                     .IsTimeoutNotANumber.Should().BeTrue();
             }
@@ -380,7 +381,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_TtlNotANumber))
             {
-                CallFixture.ShouldThrow<TtlNotANumberException>()
+                CallFixture.Should().Throw<TtlNotANumberException>()
                     .And
                     .IsTtlNotANumber.Should().BeTrue();
             }
@@ -391,7 +392,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_Unknown))
             {
-                CallFixture.ShouldThrow<UnknownErrorException>()
+                CallFixture.Should().Throw<UnknownErrorException>()
                     .And
                     .IsUnknown.Should().BeTrue();
             }
@@ -402,7 +403,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_ValueOrTtlRequired))
             {
-                CallFixture.ShouldThrow<ValueOrTtlRequiredException>()
+                CallFixture.Should().Throw<ValueOrTtlRequiredException>()
                     .And
                     .IsValueOrTtlRequired.Should().BeTrue();
             }
@@ -413,7 +414,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_ValueRequired))
             {
-                CallFixture.ShouldThrow<ValueRequiredException>()
+                CallFixture.Should().Throw<ValueRequiredException>()
                     .And
                     .IsValueRequired.Should().BeTrue();
             }
@@ -424,7 +425,7 @@ namespace Draft.Tests.Exceptions
         {
             using (NewErrorCodeFixture(Constants.Etcd.ErrorCode_WatcherCleared))
             {
-                CallFixture.ShouldThrow<WatcherClearedException>()
+                CallFixture.Should().Throw<WatcherClearedException>()
                     .And
                     .IsWatcherCleared.Should().BeTrue();
             }
