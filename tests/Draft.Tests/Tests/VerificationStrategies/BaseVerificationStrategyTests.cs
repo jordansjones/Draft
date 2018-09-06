@@ -37,7 +37,7 @@ namespace Draft.Tests.VerificationStrategies
 
         public void Dispose()
         {
-            ResetInvalidHostHelper();
+
         }
 
         protected EndpointPool.Builder CreateSut(EndpointVerificationStrategy strategy = null)
@@ -50,11 +50,5 @@ namespace Draft.Tests.VerificationStrategies
         {
             return new HttpTest().Configure(x => { x.HttpClientFactory = new TestingHttpClientFactory(responseFactory); });
         }
-
-        protected void ResetInvalidHostHelper()
-        {
-            FlurlHttp.GlobalSettings.ResetDefaults();
-        }
-
     }
 }
