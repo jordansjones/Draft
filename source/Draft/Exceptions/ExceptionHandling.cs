@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -19,9 +18,7 @@ namespace Draft
 
         private static EtcdErrorCode? GetEtcdErrorCode(this FlurlHttpException This)
         {
-            if (This == null || This.Call == null || This.Call.Response == null) { return null; }
-
-            return This.Call.Response.StatusCode.Map();
+            return This?.Call?.Response?.StatusCode.Map();
         }
 
         #endregion
@@ -36,6 +33,7 @@ namespace Draft
             if (This.IsHttpConnectionException()) { return This.AsHttpConnectionException(); }
 
             var etcdError = await This.GetResponseJsonAsync<EtcdError>().ConfigureAwait(false);
+            if (etcdError == null) { return new UnknownErrorException(This.Message); }
 
             var message = etcdError.Message;
 
@@ -255,7 +253,9 @@ namespace Draft
 
         private static bool IsTimeoutException(this FlurlHttpException This)
         {
-            return This is FlurlHttpTimeoutException;
+            if (This is FlurlHttpTimeoutException) return true;
+
+            return This.InnerException is OperationCanceledException;
         }
 
         #endregion

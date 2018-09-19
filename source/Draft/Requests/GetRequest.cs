@@ -1,8 +1,6 @@
 ﻿using System;
 
 using Flurl.Http;
-
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -25,11 +23,19 @@ namespace Draft.Requests
         {
             try
             {
-                return await TargetUrl
-                    .Conditionally(Quorum.HasValue && Quorum.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
-                    .Conditionally(Recursive.HasValue && Recursive.Value, x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True))
-                    .GetAsync()
+                var url = TargetUrl
+                    .Conditionally(Quorum.HasValue && Quorum.Value,
+                        x => x.SetQueryParam(Constants.Etcd.Parameter_Quorum, Constants.Etcd.Parameter_True))
+                    .Conditionally(Recursive.HasValue && Recursive.Value,
+                        x => x.SetQueryParam(Constants.Etcd.Parameter_Recursive, Constants.Etcd.Parameter_True));
+
+                var requestTask = HttpGetTimeout == null
+                    ? url.WithTimeout(HttpGetTimeout.GetValueOrDefault()).GetAsync()
+                    : url.GetAsync();
+
+                return await requestTask
                     .ReceiveEtcdResponse<KeyEvent>(EtcdClient);
+
             }
             catch (FlurlHttpException e)
             {
@@ -54,5 +60,13 @@ namespace Draft.Requests
             return this;
         }
 
+        public IGetRequest WithTimeout(TimeSpan timeout)
+        {
+            _httpTimeout = timeout;
+            return this;
+        }
+
+        private TimeSpan? _httpTimeout;
+        protected TimeSpan? HttpGetTimeout => _httpTimeout ?? EndpointPoolHttpTimeout;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Draft.Endpoints;
 
@@ -21,15 +20,10 @@ namespace Draft.Requests
             _pathParts = pathParts;
         }
 
-        public IEtcdClient EtcdClient { get; private set; }
+        public IEtcdClient EtcdClient { get; }
 
-        public Url TargetUrl
-        {
-            get
-            {
-                return _endpointPool.GetEndpointUrl(_pathParts);
-            }
-        }
+        public Url TargetUrl => _endpointPool.GetEndpointUrl(_pathParts);
 
+        protected TimeSpan? EndpointPoolHttpTimeout => _endpointPool.HttpGetTimeout;
     }
 }

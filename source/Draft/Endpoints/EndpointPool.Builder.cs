@@ -27,15 +27,13 @@ namespace Draft.Endpoints
 
             private EndpointVerificationStrategy _verificationStrategy;
 
-            internal EndpointRoutingStrategy RoutingStrategy
-            {
-                get { return _routingStrategy ?? EndpointRoutingStrategy.Default; }
-            }
+            private TimeSpan? _httpGetTimeout;
 
-            internal EndpointVerificationStrategy VerificationStrategy
-            {
-                get { return _verificationStrategy ?? EndpointVerificationStrategy.Default; }
-            }
+            private EndpointRoutingStrategy RoutingStrategy => _routingStrategy ?? EndpointRoutingStrategy.Default;
+
+            private EndpointVerificationStrategy VerificationStrategy => _verificationStrategy ?? EndpointVerificationStrategy.Default;
+
+            internal TimeSpan? HttpGetTimeout => _httpGetTimeout;
 
             /// <summary>
             ///     Verifies the passed <paramref name="uris" /> first to ensure that they are <see cref="Uri.IsAbsoluteUri" />. Then
@@ -54,19 +52,22 @@ namespace Draft.Endpoints
             {
                 if (uris == null || !uris.Any())
                 {
-                    throw new ArgumentNullException("uris", "You must supply at least 1 Uri");
+                    throw new ArgumentNullException(nameof(uris), "You must supply at least 1 Uri");
                 }
                 var invalidUris = uris.Where(x => !x.IsAbsoluteUri).ToList();
                 if (invalidUris.Any())
                 {
                     throw new ArgumentException(
-                        string.Format("The following Uri(s) are not valid absolute Uri(s): '{0}'", string.Join(", ", invalidUris)),
-                        "uris"
+                        $"The following Uri(s) are not valid absolute Uri(s): '{string.Join(", ", invalidUris)}'",
+                        nameof(uris)
                         );
                 }
                 var endpoints = await VerificationStrategy.Verify(uris);
 
-                return new EndpointPool(endpoints, RoutingStrategy);
+                return new EndpointPool(endpoints, RoutingStrategy)
+                {
+                    HttpGetTimeout = _httpGetTimeout
+                };
             }
 
             /// <summary>
@@ -75,11 +76,7 @@ namespace Draft.Endpoints
             /// <exception cref="ArgumentNullException"><paramref name="routingStrategy" /> is <c>null</c>.</exception>
             public Builder WithRoutingStrategy(EndpointRoutingStrategy routingStrategy)
             {
-                if (routingStrategy == null)
-                {
-                    throw new ArgumentNullException("routingStrategy");
-                }
-                _routingStrategy = routingStrategy;
+                _routingStrategy = routingStrategy ?? throw new ArgumentNullException(nameof(routingStrategy));
                 return this;
             }
 
@@ -89,11 +86,22 @@ namespace Draft.Endpoints
             /// <exception cref="ArgumentNullException"><paramref name="verificationStrategy" /> is <c>null</c>.</exception>
             public Builder WithVerificationStrategy(EndpointVerificationStrategy verificationStrategy)
             {
-                if (verificationStrategy == null)
+                _verificationStrategy = verificationStrategy ?? throw new ArgumentNullException(nameof(verificationStrategy));
+                return this;
+            }
+
+            /// <summary>
+            ///     Sets the default timeout for HTTP GET requests
+            /// </summary>
+            /// <param name="httpGetTimeout"></param>
+            /// <returns></returns>
+            public Builder WithHttpReadTimeout(TimeSpan httpGetTimeout)
+            {
+                if (httpGetTimeout == null)
                 {
-                    throw new ArgumentNullException("verificationStrategy");
+                    throw new ArgumentNullException(nameof(httpGetTimeout));
                 }
-                _verificationStrategy = verificationStrategy;
+                _httpGetTimeout = httpGetTimeout;
                 return this;
             }
 
