@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -37,6 +36,11 @@ namespace Draft.Requests
         ///     When <c>true</c>, this request will also return all children of this key's node.
         /// </summary>
         IGetRequest WithRecursive(bool recursive = true);
+
+        /// <summary>
+        ///    Override the default timeout for this request. 
+        /// </summary>
+        IGetRequest WithTimeout(TimeSpan timeout);
 
     }
 }
